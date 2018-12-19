@@ -52,7 +52,7 @@
   - push, pull 모두 ''' 단추를 누르면 할 수 있음. **(push 는 commit 이후!!)**
   - develop 브랜치로 변경하려면 vscode 에서 왼쪽아래 줄기표시 누르면 바꿀 수 있음.
   - **`develop 브랜치로 변경 필수!!`** 좌측아래 줄기표시 develop로 변경한 이후 commit
-  - develop에 commit할 경우 push to -> origin -> develop 선택
+  - develop에 commit할 경우 push to -> origin -> develop 선택 (develop가 안뜬다면 화수에게 말하세요)
   - 문서를 교체한 후 commit 하기 위해서는 문서내용 바꾼 이후 저장한 이후 vscode onad폴더 들어오면  
     commit 할 수 있음
 
