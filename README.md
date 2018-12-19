@@ -50,8 +50,8 @@
   - commit은 뭔가가 바뀌면 바로바로 하는게 좋을 것 같아보임.(바뀜의 단위는 자신의 기준)
   - **`하교 전 저녁에는 push, 출첵 후 아침에는 pull 하는게 바람직할 듯`**
   - push, pull 모두 ''' 단추를 누르면 할 수 있음. **(push 는 commit 이후!!)**
+  - develop 브랜치로 변경하려면 vscode 에서 왼쪽아래 줄기표시 누르면 바꿀 수 있음.
   - develop에 commit할 경우 push to -> origin -> develop 선택
-  - document 수정은 곧바로 master에 commit 하세요
   - 문서를 교체한 후 commit 하기 위해서는 문서내용 바꾼 이후 저장한 이후 vscode onad폴더 들어오면  
     commit 할 수 있음
 
