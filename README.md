@@ -2,9 +2,16 @@
 
 ## 1. 디렉토리 설정
 
+* data : 임시 데이터(테스트용)
 * lib : 각 모듈들
 * docs : 문서작업
+* onad_run :
+  - run_get_data : 데이터 가져와 DB에 저장하는 실행파일 폴더  
+  - run_store_analized : 데이터 정제 이후 정제된 데이터(편집점데이터, 감성분석모델 등)를 저장하는 실행파일 폴더  
+  - 추가할 필요가 있으면 회의
+* ml_model : 학습된 모델을 dump 하여 저장하는 폴더
 * onad_web : 웹페이지 관련
+모든 import 는 onad_project. 으로 시작함
 각 세부 사항은 해당 디렉토리의 README.md 파일에 있음.
 
 ## 2. 사용법 및 룰
@@ -44,4 +51,7 @@
   - **`하교 전 저녁에는 push, 출첵 후 아침에는 pull 하는게 바람직할 듯`**
   - push, pull 모두 ''' 단추를 누르면 할 수 있음. **(push 는 commit 이후!!)**
   - develop에 commit할 경우 push to -> origin -> develop 선택
+  - document 수정은 곧바로 master에 commit 하세요
+  - 문서를 교체한 후 commit 하기 위해서는 문서내용 바꾼 이후 저장한 이후 vscode onad폴더 들어오면  
+    commit 할 수 있음
 
