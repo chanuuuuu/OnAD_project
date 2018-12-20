@@ -201,7 +201,7 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
-
+*.bat
 *.tmp
 
 # Word temporary
