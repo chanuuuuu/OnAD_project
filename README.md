@@ -11,7 +11,7 @@
   - 추가할 필요가 있으면 회의
 * ml_model : 학습된 모델을 dump 하여 저장하는 폴더
 * onad_web : 웹페이지 관련
-모든 import 는 onad_project. 으로 시작함
+모든 import 는 해당 디렉토리부터 시작함
 각 세부 사항은 해당 디렉토리의 README.md 파일에 있음.
 
 ## 2. 사용법 및 룰
