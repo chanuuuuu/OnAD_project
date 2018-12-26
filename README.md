@@ -5,13 +5,12 @@
 * data : 임시 데이터(테스트용)
 * lib : 각 모듈들
 * docs : 문서작업
-* onad_run :
-  - run_get_data : 데이터 가져와 DB에 저장하는 실행파일 폴더  
-  - run_store_analized : 데이터 정제 이후 정제된 데이터(편집점데이터, 감성분석모델 등)를 저장하는 실행파일 폴더  
-  - 추가할 필요가 있으면 회의
+
 * ml_model : 학습된 모델을 dump 하여 저장하는 폴더
 * onad_web : 웹페이지 관련
-모든 import 는 onad_project. 으로 시작함
+* onad_db.py 파일 : db를 관리하는 DBManager
+* onad_runner.py 파일 : 모든 기능의 시작을 관리하는 OnAd class가 존재함. 여기에서 run함수는 모두 돌아간다.
+모든 import 는 해당 디렉토리부터 시작함
 각 세부 사항은 해당 디렉토리의 README.md 파일에 있음.
 
 ## 2. 사용법 및 룰
