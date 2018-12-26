@@ -1,5 +1,5 @@
 # 채팅 로그 파일 불러오는 함수
-
+# data = 파일경로, encoding = 인코딩 (보통 utf-8)
 def open_twitch_chat(data, encoding) : 
     chat_text = open(data, encoding=encoding).readlines()
     return chat_text
@@ -9,7 +9,7 @@ def open_twitch_chat(data, encoding) :
 # group 1 시간
 # group 2 ID
 # group 3 채팅
-
+# chat_text는 open_twich_chat 함수의 리턴값
 def filter_twitch_chat(chat_text) : 
     import re
     
@@ -22,7 +22,7 @@ def filter_twitch_chat(chat_text) :
 # group 1 시간
 # group 2 ID
 # group 3 채팅
-
+# cut_chat_log = filter_twitch_chat 함수의 리턴값, num = 원하는 그룹 num
 def filter_twitch_chat(cut_chat_log, num) : 
     word_list = list()
     for line in text:
@@ -32,8 +32,10 @@ def filter_twitch_chat(cut_chat_log, num) :
     return word_list
 
 # filter_twitch_chat의 리턴값을 공백으로 조인하는 함수
+# word_list = filter_twitch_chat 함수의 리턴값
 def filter_twitch_chat_join(word_list) : 
     word_list = word_list
     joined_word_list = ' '.join(word_list)
     return joined_word_list
 
+값
