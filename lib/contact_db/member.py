@@ -1,5 +1,5 @@
 
-from sqlalchemy import Column, String, Integer, Date, Text, Float
+from sqlalchemy import Column, String, Integer, Date, Text, Float, ForeignKey, ForeignKeyConstraint
 from sqlalchemy.sql.expression import func
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -35,46 +35,55 @@ class TwitchStream(Base):
     """
     streamer_id : twitch 스트리머의 고유 ID
     stream_id : twitch 생방송의 고유 ID(this changes every stream )
-    broad_date : 해당 스트리밍의 방송날짜
+    streamer_name : 해당 스트리머 이름
+    broad_date : 해당 스트리밍의 방송시작날짜
     """
     __tablename__ = 'twitch_stream'
     code = Column(Integer, primary_key=True, autoincrement=True)
-    stream_id = Column(Integer, unique=False)
-    streamer_id = Column(Integer, unique=False)
+    stream_id = Column(String(50), unique=False)
+    streamer_id = Column(String(50), unique=False)
+    streamer_name = Column(String(50), unique=False)
     broad_date = Column(String(50), unique=False)
 
-    def __init__(self, stream_id,
-        streamer_id, broad_date):
+    def __init__(self, stream_id, streamer_id,
+        streamer_name, broad_date):
         self.stream_id = stream_id
         self.streamer_id = streamer_id
+        self.streamer_name = streamer_name
         self.broad_date = broad_date
 
     def __repr__(self,):
-        return "%s, %s, %s" % (self.stream_id,
-            self.streamer_id, self.broad_date)
+        return "%s, %s, %s, %s" % (self.stream_id,
+            self.streamer_id, self.streamer_name, self.broad_date)
 
 
-class TwitchStreamViewer(Base):
+class TwitchStreamDetail(Base):
     """
-    분당 시청자수를 담기 위한 테이블
-    stream_id : twitch 생방송의 고유 ID(this changes every stream )
+    트위치 스트리밍의 세부정보를 담기 위한 테이블
+    stream_id : twitch 생방송의 고유 ID( this changes every stream )
     viewer : 시청자수
+    title : twitch 생방송의 제목
+    game_id : 진행중인 게임의 고유 ID
     date : 시간 정보
     """
-    __tablename__ = 'twitch_stream_viewer'
-    code = Column(Integer, primary_key=True, autoincrement=True)
-    stream_id = Column(Integer, unique=False)
+    __tablename__ = 'twitch_stream_detail'
+    code = Column(Integer,  autoincrement=True)
+    stream_id = Column(String(50), primary_key=True, unique=False)
     viewer = Column(Integer, unique=False)
+    title = Column(String(150), unique=False)
+    game_id = Column(String(50), unique=False)
     time = Column(Date, default=func.curdate())
 
     def __init__(self, stream_id,
-        viewer):
+        viewer, title, game_id):
         self.stream_id = stream_id
         self.viewer = viewer
+        self.title = title
+        self.game_id = game_id
 
     def __repr__(self,):
-        return """%s, %s, %s""" % (self.stream_id,
-            self.viewer, self.time)
+        return """%s, %s, %s, %s, %s""" % (self.stream_id,
+            self.title, self.viewer, self.game_id, self.time)
 
 
 class TwitchChannel(Base):
@@ -87,7 +96,7 @@ class TwitchChannel(Base):
     """
     __tablename__ = "twitch_channel"
     code = Column(Integer, primary_key=True, autoincrement=True)
-    streamer_id = Column(Integer, unique=False)
+    streamer_id = Column(String(50), unique=False)
     streamer_name = Column(String(50), unique=False)
     logo = Column(Text, unique=False)
     homepage = Column(Text, unique=False)
@@ -114,7 +123,8 @@ class TwitchChannelDetail(Base):
     subscriber : 구독자의 수
     """
     __tablename__ = "twitch_channel_detail"
-    streamer_id = Column(Integer, primary_key=True)
+    streamer_id = Column(String(50),
+        primary_key=True, unique=False)
     date = Column(Date, default=func.curdate())
     follower = Column(Integer, unique=False)
     subscriber = Column(Integer, unique=False)
@@ -137,8 +147,8 @@ class TwitchGame(Base):
     game_name : 게임 이름
     """
     __tablename__ = "twitch_game"
-    game_id = Column(Integer, primary_key=True, unique=True)
-    game_name = Column(String(100), unique=True)
+    game_id = Column(String(50), primary_key=True, unique=False)
+    game_name = Column(String(100), unique=False)
 
     def __init__(self, game_id, game_name):
         self.game_id = game_id
@@ -158,7 +168,8 @@ class TwitchGameDetail(Base):
     stream_this_game : 이 게임을 방송중인 스트리밍의 수
     """
     __tablename__ = "twitch_game_detail"
-    game_id = Column(Integer, primary_key=True, unique=True)
+    game_id = Column(String(50), 
+        primary_key=True, unique=False)
     date = Column(Date, default=func.curdate())
     all_viewer = Column(Integer, unique=False)
     stream_this_game = Column(Integer, unique=False)
@@ -388,7 +399,8 @@ class YoutubeChannelDetail(Base):
     channel_video_cnt : 채널 영상 수
     """
     __tablename__ = 'youtube_channel_detail'
-    channel_id = Column(String(50), primary_key=True, unique=False)
+    channel_id = Column(String(50), 
+        primary_key=True, unique=False)
     subscriber = Column(Integer, unique=False)
     channel_hit = Column(Integer, unique=False)
     channel_video_cnt = Column(Integer, unique=False)
