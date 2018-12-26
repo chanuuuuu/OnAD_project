@@ -59,7 +59,7 @@ class TwitchStreamViewer(Base):
     분당 시청자수를 담기 위한 테이블
     stream_id : twitch 생방송의 고유 ID(this changes every stream )
     viewer : 시청자수
-    time : 시간정보
+    date : 시간 정보
     """
     __tablename__ = 'twitch_stream_viewer'
     code = Column(Integer, primary_key=True, autoincrement=True)
@@ -68,10 +68,9 @@ class TwitchStreamViewer(Base):
     time = Column(Date, default=func.curdate())
 
     def __init__(self, stream_id,
-        viewer, time):
+        viewer):
         self.stream_id = stream_id
         self.viewer = viewer
-        self.time = time
 
     def __repr__(self,):
         return """%s, %s, %s""" % (self.stream_id,
@@ -110,7 +109,7 @@ class TwitchChannelDetail(Base):
     트위치 채널의 세부정보를 담아놓는 테이블로
     잦은 업데이트가 필요한 테이블
     streamer_id : twitch 스트리머의 고유 ID
-    date : 날짜
+    date : 시간 정보
     follower : 팔로워의 수
     subscriber : 구독자의 수
     """
@@ -120,10 +119,9 @@ class TwitchChannelDetail(Base):
     follower = Column(Integer, unique=False)
     subscriber = Column(Integer, unique=False)
 
-    def __init__(self, streamer_id, date,
+    def __init__(self, streamer_id,
         follower, subscriber):
         self.streamer_id = streamer_id
-        self.date = date
         self.follower = follower
         self.subscriber = subscriber
     
@@ -396,10 +394,10 @@ class YoutubeChannelDetail(Base):
     channel_video_cnt = Column(Integer, unique=False)
 
     def __init__(self, channel_id, channel_name,
-        channel_keyword, channel_video_cnt):
+        channel_hit, channel_video_cnt):
         self.channel_id = channel_id
         self.channel_name = channel_name
-        self.channel_keyword = channel_keyword
+        self.channel_hit = channel_hit
         self.channel_video_cnt = channel_video_cnt
 
     def __repr__(self):
