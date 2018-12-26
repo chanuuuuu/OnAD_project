@@ -19,10 +19,10 @@ class DBManager():
             autoflush=False,
             bind=DBManager.__engine
         ))
-        global dao
-        
         dao = DBManager.__session
 
+        return dao
+        
     @staticmethod
     def init_db():
         from lib.contact_db.member import Base
