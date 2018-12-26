@@ -27,11 +27,12 @@ class OnAd():
 
     # 멤버함수 선언
     def __init__(self):
+        """db 초기화"""
         dao = DBManager.init(db_url, eval(DB_LOGFLAG))
         self.dao = dao
         DBManager.init_db()
 
-    def get_data_twitch(self):
+    def get_data_twitch_stream(self):
         # api 통해 데이터받아오기
         from lib.get_data.twitch_api import get_twitch_stream
         list_result = get_twitch_stream.start()
@@ -44,8 +45,12 @@ class OnAd():
             result = insert_information(self.dao, "twitch_stream", data_dict)
             if result : print("DB적재 완료")
             else: print("DB적재 미완료")
+    
+    def get_data_twitch_game(self):
+        from lib.get_data.twitch_api import get_twitch_game
+        get_twitch_game.start()
 
 
 if __name__ == "__main__":
     onad = OnAd()
-    onad.get_data_twitch()
+    onad.get_data_twitch_game()

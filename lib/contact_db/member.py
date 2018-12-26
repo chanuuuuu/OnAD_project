@@ -1,5 +1,5 @@
 
-from sqlalchemy import Column, String, Integer, Date, Text, Float, ForeignKey, ForeignKeyConstraint
+from sqlalchemy import Column, String, Integer, Date, Text, Float
 from sqlalchemy.sql.expression import func
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -371,22 +371,25 @@ class YoutubeChannel(Base):
     channel_id : 유튜브에서 설정한 고유 ID
     channel_name : 채널 이름
     channel_keyword : 채널 검색 키워드 a, b, c, d, 의 형식
+    thumbnail : 썸네일 주소정보
     """
     __tablename__ = 'youtube_channel'
     code = Column(Integer, primary_key=True, autoincrement=True)
     channel_id = Column(String(50), unique=False)
     channel_name = Column(String(30), unique=False)
     channel_keyword = Column(String(100), unique=False)
+    thumbnail = Column(String(100), unique=False)
 
     def __init__(self, channel_id,
-        channel_name, channel_keyword):
+        channel_name, channel_keyword, thumbnail):
         self.channel_id = channel_id
         self.channel_name = channel_name
         self.channel_keyword = channel_keyword
+        self.thumbnail = thumbnail
 
     def __repr__(self):
-        return """%s, %s, %s""" % (self.channel_id,
-            self.channel_name, self.channel_keyword)
+        return """%s, %s, %s, %s""" % (self.channel_id,
+            self.channel_name, self.channel_keyword, self.thumbnail)
 
 
 class YoutubeChannelDetail(Base):
@@ -511,27 +514,30 @@ class YoutubeReple(Base):
     reple_id : 채팅의 고유 번호
     video_id : 영상의 고유 ID
     upload_date : 댓글을 단 시간
-    author : 댓글을 단 시청자의 이름
+    author_id : 댓글을 단 시청자의 고유 id
+    author_name : 댓글을 단 시청자의 이름
     reple_contents : 댓글 내용
     """
     __tablename__ = 'youtube_reple'
     reple_id = Column(String(100), primary_key=True, unique=False)
     video_id = Column(String(100), unique=False)
     upload_date = Column(String(50), unique=False)
-    author = Column(String(50), unique=False)
+    author_id = Column(String(50), unique=False)
+    author_name = Column(String(50), unique=False)
     reple_contents = Column(Text, unique=False)
     
     def __init__(self, reple_id, video_id,
-        upload_date, author, reple_contents):
+        upload_date, author_id, author_name, reple_contents):
         self.reple_id = reple_id
         self.video_id = video_id
         self.upload_date = upload_date
-        self.author = author
+        self.author_id = author_id
+        self.author_name = author_name
         self.reple_contents = reple_contents
 
     def __repr__(self):
-        return """%s, %s, %s, %s, %s""" % (self.reple_id,
-            self.reple_id, self.upload_date,
-            self.author, self.reple_contents)
+        return """%s, %s, %s, %s, %s. %s""" % (self.reple_id,
+            self.reple_id, self.upload_date, self.author_name,
+            self.author_id, self.reple_contents)
 
 
