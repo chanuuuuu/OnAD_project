@@ -7,23 +7,23 @@ def start():
     """
     # api 요청
     import requests
-
     # stream api 파라미터 설정
-    url = 'https://api.twitch.tv/kraken/games/top'
+    url = 'https://api.twitch.tv/helix/games/top'
     headers = {'Client-ID' : 'kimne78kx3ncx6brgo4mv6wki5h1ko'}
 
     cursor = None
-
+    data = []
     while True:
-        # 파라미터 설정
-        # first : 긁어오는 개수 100이 최대
-        # after : 다음 긁어올 커서의 위치
-        params = {'limit': 100, 'after': cursor}
-
+        params = {'first': 100, 'after': cursor}
         # api 요청
         res = requests.get(url, headers=headers, params=params)
         if res:
             data_ = res.json()
-            # 게임 인기 순위
-            print(data_)
-            break
+            data.extend(data_['data'])
+            if data_['pagination']:
+                cursor = data_['pagination']['cursor']
+            else : break
+
+    total_games = [ {"game_id": i['id'], "game_name": i['name']} for i in data]
+
+    return total_games
