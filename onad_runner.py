@@ -50,37 +50,42 @@ class OnAd():
         from lib.get_data.twitch_api import get_twitch_chat
         from lib.get_data.twitch_api import get_twitch_channel
         from lib.get_data.twitch_api import get_twitch_channel_detail
+        from lib.contact_db.twitch import select_groupby
+        from lib.contact_db.twitch import select_all_information
         from lib.contact_db.twitch import insert_information
+        from lib.contact_db.member import TwitchStream
         
         # api 이용하여 데이터 받아오는 작업
-        if table_name == "twitch_stream":
+        if table_name == "TwitchStream":
             list_result = get_twitch_stream.start()
             print("데이터 준비 완료")
 
-        if table_name == "twitch_stream_detail":
+        if table_name == "TwitchStreamDetail":
             list_result = get_twitch_stream_detail.start()
             print("데이터 준비 완료")
         
-        elif table_name == "twitch_game":
+        elif table_name == "TwitchGame":
             list_result = get_twitch_game.start()
             print("데이터 준비 완료")
         
-        elif table_name == "twitch_game_detail":
+        elif table_name == "TwitchGameDetal":
             list_result = get_twitch_game_detail.start()
             print("데이터 준비 완료")
         
-        elif table_name == 'twitch_chat':
+        elif table_name == 'TwitchChat':
             list_result = get_twitch_chat.start()
             print("데이터 준비 완료")
 
-        elif table_name == 'get_twitch_channel':
-            list_result = get_twitch_channel.start()
+        elif table_name == 'TwitchChannel':
+            streamer_list = select_groupby(self.dao,
+                TwitchStream.streamer_id)
+            list_result = get_twitch_channel.start(streamer_list)
             print("데이터 준비 완료")
 
-        elif table_name == 'get_twitch_channel_detail':
+        elif table_name == 'TwitchChannelDetail':
             list_result = get_twitch_channel_detail.start()
             print("데이터 준비 완료")
-
+        
         # db 적재 작업
         print("DB에 적재중")
         for data_dict in list_result:
@@ -127,5 +132,10 @@ class OnAd():
 
 if __name__ == "__main__":
     onad = OnAd()
-    chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-09")
-    onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=80)
+    # 데이터 적재
+    onad.get_data_twitch("TwitchChannel")
+
+
+    # # 트위치 채팅편집점
+    # chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-09")
+    # onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=80)
