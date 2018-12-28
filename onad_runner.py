@@ -22,8 +22,14 @@ class OnAd():
     """
     모든 onad의 시스템을 관리하는 총괄 클래스
     """
+    # 작업 디렉토리 설정
+    data_dir = "./data/"
+    twitch_live_stream_dir = data_dir + "twitch_live_stream/"
+    twitch_chat_dir = data_dir + "twitch_live_chat/"
+    
     # 멤버변수 선언
     dao = None
+    
 
     # 멤버함수 선언
     def __init__(self):
@@ -84,7 +90,42 @@ class OnAd():
         self.dao.remove()
         print("완료")
 
+    def set_data_twitch_chat(self, target_id, target_date):
+        """
+        채팅 데이터와 스트리밍 데이터를 전처리하여 (chat_df, viewer_df)로 반환
+        * input
+          - target_id : 대상 스트리머 아이디, str
+            "yapyap30"의 형태
+          - target_date : 대상 방송 날짜, str
+            "2018-12-10"의 형태
+        * output
+          - tuple
+          - (chat_df, viewer_df) 의 형태
+        """
+        from lib.set_data.twitch_preprocessing import load_chatting
+        from lib.set_data.twitch_preprocessing import load_viewer_count
+
+        # 채팅 데이터 로드
+        chat_df = load_chatting(target_id=target_id,
+            target_date=target_date,
+            twitch_chat_dir=self.twitch_chat_dir)
+        
+        # 시간당 시청자수 데이터 로드
+        viewer_df = load_viewer_count(target_id=target_id,
+            target_date=target_date,
+            twitch_live_stream_dir=self.twitch_live_stream_dir)
+        return chat_df, viewer_df
+
+    def anal_twitch_chat(self, chat_df, viewer_df, target_percentile):
+        from lib.analysis.chat_count import start
+
+        # 1초당 채팅을 바탕으로 한 하이라이트포인트(채팅빈도 다수 지역)
+        result = start(chat_df, viewer_df, target_percentile=target_percentile)
+        return result
+
+        
 
 if __name__ == "__main__":
     onad = OnAd()
-    onad.get_data_twitch("twitch_stream_detail")
+    chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-09")
+    onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=80)
