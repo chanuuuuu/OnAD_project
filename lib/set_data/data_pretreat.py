@@ -37,5 +37,3 @@ def filter_twitch_chat_join(word_list) :
     word_list = word_list
     joined_word_list = ' '.join(word_list)
     return joined_word_list
-
-값
