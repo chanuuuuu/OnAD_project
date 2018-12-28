@@ -34,7 +34,7 @@ def get_video_id(channel_url, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY")
     channel_url : 유튜버 채널의 고유 채널 ID ("https://www.youtube.com/channel/~" 또는 "https://www.youtube.com/user/~" )
     api_key : 자신의 API키   
         
-    return => 채널 고유 ID(str), 일반 동영상 고유 ID(list), 라이브 동영상 고유 ID(list)
+    return => [일반 동영상 고유 ID(list/str), 라이브 동영상 고유 ID(list/str)](list)
     '''
     
     import requests
@@ -131,7 +131,7 @@ def get_video_id(channel_url, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY")
         video_ids = list(set(video_ids) - set(live_video_ids))
         video_ids_count = len(video_ids)
         
-        return channel_id, video_ids, live_video_ids
+        return [video_ids, live_video_ids]
     
     
     elif "user" in channel_url:
@@ -221,4 +221,4 @@ def get_video_id(channel_url, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY")
 
         video_ids = list(set(video_ids) - set(live_video_ids))
         
-        return channel_id, video_ids, live_video_ids
+        return [video_ids, live_video_ids]

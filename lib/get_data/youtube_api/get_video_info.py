@@ -1,6 +1,9 @@
+
+
+
 def get_video_info(video_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8Ak"):
     '''
-    video_id_list : 비디오 고유 ID ,api_key : api 키값
+    video_id_list : 비디오 고유 ID(str) ,api_key : api 키값(str)
     
     return =>  동영상 정보 (list)
                [동영상 제목(str), 동영상 설명(str), 동영상 게시 일자(str,YYMMDD),
@@ -22,7 +25,7 @@ def get_video_info(video_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8Ak"):
     video_info = []
 
     for part in param:    
-            target_url = '''https://www.googleapis.com/youtube/v3/videos?part={}&id={}&key={}'''.format(part, video, api_key) 
+            target_url = '''https://www.googleapis.com/youtube/v3/videos?part={}&id={}&key={}'''.format(part, video_id, api_key) 
             session = requests.Session ()
             headers ={ 'user-agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36' }
             html = requests.get (target_url)
@@ -35,9 +38,12 @@ def get_video_info(video_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8Ak"):
                 video_info.append(api_dict["items"][0]["snippet"]["title"])  # 동영상 제목
                 video_info.append(api_dict["items"][0]["snippet"]["description"].replace("\n"," "))  # 동영상 설명
                 video_info.append(api_dict["items"][0]["snippet"]['publishedAt'][2:10].replace("-","")) # 동영상 게시 일자
-                video_info.append(api_dict["items"][0]["snippet"]['tags'])  # 동영상 태그
+                if 'tags' in api_dict["items"][0]["snippet"]:
+                    video_info.append(api_dict["items"][0]["snippet"]['tags'])  # 동영상 태그
+                else:
+                    video_info.append("None")
                 video_info.append(categories[api_dict["items"][0]["snippet"]["categoryId"]] + "(" + api_dict["items"][0]["snippet"]["categoryId"] + ")")  # 동영상 카테고리
-                video_info.append(api_dict["items"][0]["snippet"]["thumbnails"]["standard"]['url'])  # 동영상 썸네일 주소
+                video_info.append(api_dict["items"][0]["snippet"]["thumbnails"]["medium"]['url'])  # 동영상 썸네일 주소
 
             else:
                 video_info.append(api_dict["items"][0]["statistics"]['viewCount'])  # 조회수
@@ -45,6 +51,5 @@ def get_video_info(video_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8Ak"):
                 video_info.append(api_dict["items"][0]["statistics"]["dislikeCount"])  # 싫어요 수
                 video_info.append(api_dict["items"][0]["statistics"]["favoriteCount"])  # 즐겨찾기 (나중에 볼 영상) 수
                 video_info.append(api_dict["items"][0]["statistics"]["commentCount"]) # 댓글 수
-            
-    return video_info
-        
+    
+    return video_info           
