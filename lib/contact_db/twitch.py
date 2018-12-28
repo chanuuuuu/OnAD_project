@@ -2,8 +2,8 @@
 * 전체 설명
 dao : scoped_session 객체
 twitch 데이터베이스 테이블들:
- - TwitchChat, TwitchStream, TwitchStreamDetail
- - TwitchChannel, TwitchChannelDetail, TwitchGame, TwitchGameDetail
+    (TwitchCaht, TwitchStream, TwitchStreamDetail,
+    TwitchChannel, TwitchChannelDetail, TwitchGame, TwitchGameDetail)
 """
 
 def select_all_information(dao, target_table):
@@ -24,6 +24,23 @@ def select_all_information(dao, target_table):
         dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
         return rows
 
+def select_groupby(dao, target_col):
+    """
+    select 구문 함수
+    * input
+      - dao : scoped_session 객체
+      - target_table : 테이블 클래스명 중 하나
+        (TwitchCaht, TwitchStream, TwitchStreamDetail,
+        TwitchChannel, TwitchChannelDetail, TwitchGame, TwitchGameDetail)
+      - target_col : 그룹으로 묶어 볼 컬럼명
+
+    * output
+      selected rows
+    """
+    rows = dao.query(target_col).group_by(target_col).all()
+    rows = [ row[0] for row in rows]
+    dao.remove()
+    return rows
 
 def delete_information(dao, target_table, target_data):
     """
@@ -39,7 +56,7 @@ def delete_information(dao, target_table, target_data):
       데이터 삭제 이후 1을 반환
       삭제가 진행되지 않았을 시 None 을 반환
     """
-    if target_table == 'twitch_chat':
+    if target_table == 'TwitchCaht':
         dao.query('TwitchChat').filter_by(
             viewer_id=target_data.get('viewer_id'),
             chat_time=target_data.get('chat_time')).first().delete(synchronize_session=False)
@@ -47,7 +64,7 @@ def delete_information(dao, target_table, target_data):
         dao.remove()
         return 1
 
-    elif target_table == 'twitch_stream':
+    elif target_table == 'TwitchStream':
         dao.query('TwitchStream').filter_by(
             stream_id=target_data.get('stream_id'),
             streamer_id=target_data.get('streamer_id'),
@@ -56,7 +73,7 @@ def delete_information(dao, target_table, target_data):
         dao.remove()
         return 1
 
-    elif target_table == 'twitch_stream_setail':
+    elif target_table == 'TwitchStream_setail':
         dao.query('TwitchStreamDetail').filter_by(
             stream_id=target_data.get('stream_id'),
             time=target_data.get('date')).first().delete(synchronize_session=False)
@@ -64,7 +81,7 @@ def delete_information(dao, target_table, target_data):
         dao.remove()
         return 1
     
-    elif target_table == 'twitch_channel':
+    elif target_table == 'TwitchChannel':
         dao.query('TwitchChannel').filter_by(
             streamer_id=target_data('streamer_id'),
             streamer_name=target_data('streamer_name')).first().delete(synchronize_session=False)
@@ -72,7 +89,7 @@ def delete_information(dao, target_table, target_data):
         dao.remove()
         return 1
 
-    elif target_table == 'twitch_channel_detail':
+    elif target_table == 'TwitchChannelDetail':
         dao.query('TwitchChannelDetail').filter_by(
             streamer_id=target_data('streamer_id'),
             date=target_data('date')).first().delete(synchronize_session=False)
@@ -80,7 +97,7 @@ def delete_information(dao, target_table, target_data):
         dao.remove()
         return 1
 
-    elif target_table == 'twitch_game':
+    elif target_table == 'TwitchGame':
         dao.query('TwitchGame').filter_by(
             game_id=target_data('game_id'),
             game_name=target_data('game_name')).first().delete(synchronize_session=False)
@@ -88,10 +105,19 @@ def delete_information(dao, target_table, target_data):
         dao.remove()
         return 1
 
-    elif target_table == 'twitchgame_detail':
+    elif target_table == 'TwitchGameDetail':
         dao.query('TwitchGameDetail').filter_by(
             game_id=target_data('game_id'),
             date=target_data('date')).first().delete(synchronize_session=False)
+        dao.commit()
+        dao.remove()
+        return 1
+
+    elif target_table == 'twitch_following':
+        dao.query('TwitchFollowing').filter_by(
+            user_id=target_data('user_id'),
+            following_streamer=target_data('following_streamer'))\
+            .first().delete(synchronize_session=False)
         dao.commit()
         dao.remove()
         return 1
@@ -106,8 +132,8 @@ def insert_information(dao, target_table, data_dict):
     db 데이터 삽입 함수
     * input
       - dao : scoped_session 객체
-      - target_table : 테이블 클래스 명 중 하나
-        (TwitchChat, TwitchStream, TwitchStreamDetail,
+      - target_table : 테이블 명 중 하나
+        (TwitchCaht, TwitchStream, TwitchStreamDetail,
         TwitchChannel, TwitchChannelDetail, TwitchGame, TwitchGameDetail)
       - data_dict : 해당 테이블의 컬럼명을 key로 하고, 데이터를 value로 하는 딕셔너리
         ex) TwitchChat 이라면,
@@ -126,21 +152,21 @@ def insert_information(dao, target_table, data_dict):
         """
         dao.add(member)
 
-    if target_table == 'twitch_chat':
+    if target_table == 'TwitchCaht':
         from lib.contact_db.member import TwitchChat  # 테이블클래스 import
         member = TwitchChat(data_dict['viewer_id'],
             data_dict['chat_time'], data_dict['chat_contents'])
         insert(member)
         return 1
     
-    elif target_table == 'twitch_stream':
+    elif target_table == 'TwitchStream':
         from lib.contact_db.member import TwitchStream
         member = TwitchStream(data_dict.get('stream_id'), data_dict.get('streamer_id'),
             data_dict.get('streamer_name'), data_dict.get('broad_date'))
         insert(member)
         return 1
 
-    elif target_table == 'twitch_stream_detail':
+    elif target_table == 'TwitchStreamDetail':
         from lib.contact_db.member import TwitchStreamDetail
         member = TwitchStreamDetail(data_dict.get('stream_id'),
             data_dict.get('viewer'), data_dict.get('title'),
@@ -148,7 +174,7 @@ def insert_information(dao, target_table, data_dict):
         insert(member)
         return 1
     
-    elif target_table == 'twitch_channel':
+    elif target_table == 'TwitchChannel':
         from lib.contact_db.member import TwitchChannel
         member = TwitchChannel(data_dict.get('streamer_id'),
             data_dict.get('streamer_name'), data_dict.get('logo'),
@@ -156,27 +182,33 @@ def insert_information(dao, target_table, data_dict):
         insert(member)
         return 1
     
-    elif target_table == 'twitch_channel_detail':
+    elif target_table == 'TwitchChannelDetail':
         from lib.contact_db.member import TwitchChannelDetail
         member = TwitchChannelDetail(data_dict.get('streamer_id'),
-            data_dict.get('follower'), data_dict.get('subscriber'))
+            data_dict.get('follower'), data_dict.get('viewer'))
         insert(member)
         return 1
 
-    elif target_table == 'twitch_game':
+    elif target_table == 'TwitchGame':
         from lib.contact_db.member import TwitchGame
         member = TwitchGame(data_dict.get('game_id'),
            data_dict.get('game_name'))
         insert(member)
         return 1
     
-    elif target_table == 'twitch_game_detail':
+    elif target_table == 'TwitchGameDetail':
         from lib.contact_db.member import TwitchGameDetail
         member = TwitchGameDetail(data_dict.get('game_id'),
             data_dict.get('all_viewer'), data_dict.get('stream_this_game'))
         insert(member)
         return 1
     
+    elif target_table == 'twitch_following':
+        from lib.contact_db.member import TwitchFollowing
+        member = TwitchFollowing(data_dict.get('user_id'),
+            data_dict.get('following_streamer'), data_dict.get('streamer_name'))
+        insert(member)
+        return 1
     
     else:
         print("잘못된 target_table 입력입니다.")
