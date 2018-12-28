@@ -15,6 +15,7 @@ def start(list_streamer_id):
             }
 
     inform = []
+    i = 1
     for streamer_id in list_streamer_id:
         url = 'https://api.twitch.tv/kraken/channels/%s' % streamer_id
         
@@ -27,4 +28,6 @@ def start(list_streamer_id):
             "viewer": data_['views'],
         }
         inform.append(data_dict)
+        print("%s/%s 로드완료" % (i, len(list_streamer_id)))
+        i += 1
     return inform

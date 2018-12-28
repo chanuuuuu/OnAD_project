@@ -123,8 +123,8 @@ class TwitchChannelDetail(Base):
     subscriber : 구독자의 수
     """
     __tablename__ = "twitch_channel_detail"
-    streamer_id = Column(String(50),
-        primary_key=True, unique=False)
+    code = Column(Integer, primary_key=True)
+    streamer_id = Column(String(50), unique=False)
     date = Column(TIMESTAMP, default=func.now())
     follower = Column(Integer, unique=False)
     viewer = Column(Integer, unique=False)

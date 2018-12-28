@@ -83,7 +83,9 @@ class OnAd():
             print("데이터 준비 완료")
 
         elif table_name == 'TwitchChannelDetail':
-            list_result = get_twitch_channel_detail.start()
+            streamer_list = select_groupby(self.dao,
+                TwitchStream.streamer_id)
+            list_result = get_twitch_channel_detail.start(streamer_list)
             print("데이터 준비 완료")
         
         # db 적재 작업
@@ -114,7 +116,7 @@ class OnAd():
         chat_df = load_chatting(target_id=target_id,
             target_date=target_date,
             twitch_chat_dir=self.twitch_chat_dir)
-        
+
         # 시간당 시청자수 데이터 로드
         viewer_df = load_viewer_count(target_id=target_id,
             target_date=target_date,
@@ -128,14 +130,18 @@ class OnAd():
         result = start(chat_df, viewer_df, target_percentile=target_percentile)
         return result
 
-        
+    def anal_twitch_stream_start(self, viewer_df):
+        from lib.analysis.stream_start_time import start
+        start(viewer_df)
+
 
 if __name__ == "__main__":
     onad = OnAd()
     # 데이터 적재
-    onad.get_data_twitch("TwitchChannel")
+    # onad.get_data_twitch("TwitchChannelDetail")
 
+    chat_df, viewer_df = onad.set_data_twitch_chat("beyou0728", "2018-12-05")
+    onad.anal_twitch_stream_start(viewer_df)
 
-    # # 트위치 채팅편집점
-    # chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-09")
-    # onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=80)
+    # 트위치 채팅편집점
+    print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=80))
