@@ -127,17 +127,17 @@ class TwitchChannelDetail(Base):
         primary_key=True, unique=False)
     date = Column(TIMESTAMP, default=func.now())
     follower = Column(Integer, unique=False)
-    subscriber = Column(Integer, unique=False)
+    viewer = Column(Integer, unique=False)
 
     def __init__(self, streamer_id,
-        follower, subscriber):
+        follower, viewer):
         self.streamer_id = streamer_id
         self.follower = follower
-        self.subscriber = subscriber
+        self.viewer = viewer
     
     def __repr__(self):
         return "%s %s %s %s" % (self.streamer_id,
-            self.date, self.follower, self.subscriber)
+            self.date, self.follower, self.viewer)
 
 
 class TwitchGame(Base):
@@ -184,6 +184,31 @@ class TwitchGameDetail(Base):
     def __repr__(self):
         return "%s %s %s" % (self.game_id,
             self.game_name, self.stream_this_game)
+
+
+class TwitchFollowing(Base):
+    """
+    twitch_following 테이블의 세부사항을 담아놓는 테이블
+    
+    user_id : 유저 고유 ID
+    following_streamer : 팔로우하는 스트리머
+    streamer_name : 스트리머 이름
+    """
+    __tablename__ = "twitch_following"
+    code = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(String(50),unique=False)
+    following_streamer = Column(String(50),unique=False)
+    streamer_name = Column(String(50),unique=False)
+
+    def __init__(self, user_id, following_streamer, streamer_name):
+        self.user_id = user_id
+        self.following_streamer = following_streamer
+        self.streamer_name = streamer_name
+
+    def __repr__(self):
+        return "%s %s %s" % (self.user_id,
+            self.following_streamer, self.streamer_name)
+
 
 # 모델 버전관리
 class ModelVersion(Base):

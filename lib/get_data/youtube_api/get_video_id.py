@@ -29,12 +29,15 @@ def user_to_channelid(user_name, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyT
     return channel_id
 
 
-def get_video_id(channel_url, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY"):
+
+def get_video_id(channel_id, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY"):
     '''
-    channel_url : 유튜버 채널의 고유 채널 ID ("https://www.youtube.com/channel/~" 또는 "https://www.youtube.com/user/~" )
+    channel_url : 유튜버 채널의 고유 채널 ID 
+    ( 도메인에서 직접 긁어올 시 "https://www.youtube.com/channel/***" 또는 "https://www.youtube.com/user/***"에서 * 부분 )
+    
     api_key : 자신의 API키   
         
-    return => [일반 동영상 고유 ID(list/str), 라이브 동영상 고유 ID(list/str)](list)
+    return => [일반 동영상 고유 ID(list), 라이브 동영상 고유 ID(list)](list)
     '''
     
     import requests
@@ -42,10 +45,9 @@ def get_video_id(channel_url, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY")
 
     
     
-    if "channel" in channel_url:  
+    if len(channel_id) == 24:  
         
         api_key = api_key
-        channel_id = channel_url.split("/")[-1]
         page_token = ""
 
         target_url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId={}&order=date&type=video&pageToken={}&maxResults=50&key={}'.format(channel_id, page_token, api_key) 
@@ -134,11 +136,10 @@ def get_video_id(channel_url, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY")
         return [video_ids, live_video_ids]
     
     
-    elif "user" in channel_url:
+    else:
+        
         api_key = api_key
-
-        channel_id = user_to_channelid(channel_url.split("/")[-1], api_key)
-
+        channel_id = user_to_channelid(channel_id, api_key)
         page_token = ""
 
         target_url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId={}&order=date&type=video&pageToken={}&maxResults=50&key={}'.format(channel_id, page_token, api_key) 
@@ -148,7 +149,6 @@ def get_video_id(channel_url, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY")
 
         html = requests.get (target_url)
         soup = BeautifulSoup (html.text, "html.parser" )
-
         api_dict = eval(soup.text.replace("false","False").replace("true","True"))
 
         total_results = api_dict['pageInfo']['totalResults']
@@ -222,3 +222,4 @@ def get_video_id(channel_url, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY")
         video_ids = list(set(video_ids) - set(live_video_ids))
         
         return [video_ids, live_video_ids]
+
