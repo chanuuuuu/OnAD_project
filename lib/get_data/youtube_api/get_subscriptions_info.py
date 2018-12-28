@@ -28,16 +28,16 @@ def get_subscriptions_info (user_id, api_key= "AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0D
         return "hidden"
 
     else:
-        subscriptions_info = []
+        subscriptions_info = ""
         
         for result_count in range(len(api_dict["items"])):
-            subscriptions_info.append(api_dict["items"][result_count]['snippet']['resourceId']['channelId'])
+            subscriptions_info = subscriptions_info + (api_dict["items"][result_count]['snippet']['resourceId']['channelId']) + ","
 
         while True:
             if "nextPageToken" in api_dict:
                 page_token = api_dict["nextPageToken"]
 
-                target_url = '''https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&channelId={}&order=alphabetical&pageToken={}&maxResults=50&key={}'''.format(viewer, page_token, api_key)  
+                target_url = '''https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&channelId={}&order=alphabetical&pageToken={}&maxResults=50&key={}'''.format(user_id, page_token, api_key)  
                 session = requests.Session ()
                 headers ={ 'user-agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36' }
                 html = requests.get (target_url)
@@ -45,9 +45,12 @@ def get_subscriptions_info (user_id, api_key= "AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0D
                 api_dict = eval(soup.text.replace("false","False").replace("true","True"))
 
                 for result_count in range(len(api_dict["items"])):
-                    subscriptions_info.append(api_dict["items"][result_count]['snippet']['resourceId']['channelId'])
+                    subscriptions_info = subscriptions_info + (api_dict["items"][result_count]['snippet']['resourceId']['channelId']) + ","
 
             else: 
                 break
-                
+
+        subscriptions_info = subscriptions_info[:-1] 
+
     return subscriptions_info
+

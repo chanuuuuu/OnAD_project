@@ -4,19 +4,18 @@ from get_video_id import get_video_id
 from get_video_info import get_video_info
 
 
-urls = ["https://www.youtube.com/channel/UCkGtJLZHSCBP6DeWCp9SuJQ"]
 
-
-video_info = []
-for url in urls:
-    
-    channel_name = url.split("/")[-1]
-    video_ids = get_video_id(url)
-
+def get_dict_video_info(channel_id):
+    '''
+    channel_id(str) : 채널 고유 ID
+    return => [{일반 동영상 정보}, {라이브 동영상 정보}]
+    '''
+    video_info = []
+    video_ids = get_video_id(channel_id)
     for video_id in video_ids[0]:
         print(video_id)
         info = {}
-        info["channel_name"] = channel_name
+        info["channel_name"] = channel_id
         tmp = get_video_info(video_id)
         info["video_id"] = tmp[0]
         info["video_title"] = tmp[1]
@@ -38,7 +37,7 @@ for url in urls:
     for video_id in video_ids[1]:
         print(video_id)
         info = {}
-        info["channel_name"] = channel_name
+        info["channel_name"] = channel_id
         tmp = get_video_info(video_id)
         info["video_id"] = tmp[0]
         info["video_title"] = tmp[1]
@@ -56,6 +55,6 @@ for url in urls:
 
         video_info.append(info)
         
+    return video_info
 
 
-print(video_info)
