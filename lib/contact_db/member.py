@@ -1,5 +1,5 @@
 
-from sqlalchemy import Column, String, Integer, Date, Text, Float
+from sqlalchemy import Column, String, Integer, TIMESTAMP, Text, Float
 from sqlalchemy.sql.expression import func
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -67,12 +67,12 @@ class TwitchStreamDetail(Base):
     date : 시간 정보
     """
     __tablename__ = 'twitch_stream_detail'
-    code = Column(Integer,  autoincrement=True)
-    stream_id = Column(String(50), primary_key=True, unique=False)
+    code = Column(Integer, primary_key=True, autoincrement=True)
+    stream_id = Column(String(50), unique=False)
     viewer = Column(Integer, unique=False)
     title = Column(String(150), unique=False)
     game_id = Column(String(50), unique=False)
-    time = Column(Date, default=func.curdate())
+    time = Column(TIMESTAMP, default=func.now())
 
     def __init__(self, stream_id,
         viewer, title, game_id):
@@ -125,7 +125,7 @@ class TwitchChannelDetail(Base):
     __tablename__ = "twitch_channel_detail"
     streamer_id = Column(String(50),
         primary_key=True, unique=False)
-    date = Column(Date, default=func.curdate())
+    date = Column(TIMESTAMP, default=func.now())
     follower = Column(Integer, unique=False)
     subscriber = Column(Integer, unique=False)
 
@@ -147,8 +147,10 @@ class TwitchGame(Base):
     game_name : 게임 이름
     """
     __tablename__ = "twitch_game"
-    game_id = Column(String(50), primary_key=True, unique=False)
+    code = Column(Integer, primary_key=True, autoincrement=True)
+    game_id = Column(String(50), unique=False)
     game_name = Column(String(100), unique=False)
+    date = Column(TIMESTAMP(100), default=func.now(), unique=False)
 
     def __init__(self, game_id, game_name):
         self.game_id = game_id
@@ -168,9 +170,9 @@ class TwitchGameDetail(Base):
     stream_this_game : 이 게임을 방송중인 스트리밍의 수
     """
     __tablename__ = "twitch_game_detail"
-    game_id = Column(String(50), 
-        primary_key=True, unique=False)
-    date = Column(Date, default=func.curdate())
+    code = Column(Integer, primary_key=True, autoincrement=True)
+    game_id = Column(String(50),unique=False)
+    date = Column(TIMESTAMP, default=func.now())
     all_viewer = Column(Integer, unique=False)
     stream_this_game = Column(Integer, unique=False)
 
@@ -196,7 +198,7 @@ class ModelVersion(Base):
     """
     __tablename__ = "model_version"
     version = Column(Integer, primary_key=True)
-    date = Column(Date, default=func.curdate())
+    date = Column(TIMESTAMP, default=func.now())
     file_name = Column(String(100), unique=False)
     f1_score = Column(Float, unique=False)
     accuracy = Column(Float, unique=False)
@@ -238,7 +240,7 @@ class Creater(Base):
     """
     __tablename__ = "creater"
     code = Column(Integer, primary_key=True, autoincrement=True)
-    reg_date = Column(Date, default=func.curdate())
+    reg_date = Column(TIMESTAMP, default=func.now())
     flatform = Column(String(50), unique=False)
     creater_id = Column(String(50), unique=False)
     user_id = Column(String(20), unique=False)
@@ -288,7 +290,7 @@ class Advertiser(Base):
     """
     __tablename__ = "advertiser"
     code = Column(Integer, primary_key=True, autoincrement=True)
-    reg_date = Column(Date, default=func.curdate())
+    reg_date = Column(TIMESTAMP, default=func.now())
     creater_id = Column(String(50), unique=False)
     user_id = Column(String(20), unique=False)
     user_pw = Column(String(15), unique=False)
