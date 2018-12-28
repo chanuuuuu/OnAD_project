@@ -125,8 +125,6 @@ def insert_information(dao, target_table, data_dict):
         insert_information 함수 안에서만 사용
         """
         dao.add(member)
-        dao.commit()
-        dao.remove()
 
     if target_table == 'twitch_chat':
         from lib.contact_db.member import TwitchChat  # 테이블클래스 import
@@ -152,32 +150,33 @@ def insert_information(dao, target_table, data_dict):
     
     elif target_table == 'twitch_channel':
         from lib.contact_db.member import TwitchChannel
-        member = TwitchChannel(data_dict('streamer_id'),
-            data_dict('streamer_name'), data_dict('logo'),
-            data_dict('homepage'))
+        member = TwitchChannel(data_dict.get('streamer_id'),
+            data_dict.get('streamer_name'), data_dict.get('logo'),
+            data_dict.get('homepage'))
         insert(member)
         return 1
     
     elif target_table == 'twitch_channel_detail':
         from lib.contact_db.member import TwitchChannelDetail
-        member = TwitchChannelDetail(data_dict('streamer_id'),
-            data_dict('follower'), data_dict('subscriber'))
+        member = TwitchChannelDetail(data_dict.get('streamer_id'),
+            data_dict.get('follower'), data_dict.get('subscriber'))
         insert(member)
         return 1
 
     elif target_table == 'twitch_game':
         from lib.contact_db.member import TwitchGame
-        member = TwitchGame(data_dict('game_id'),
-           data_dict('game_name'))
+        member = TwitchGame(data_dict.get('game_id'),
+           data_dict.get('game_name'))
         insert(member)
         return 1
     
     elif target_table == 'twitch_game_detail':
         from lib.contact_db.member import TwitchGameDetail
-        member = TwitchGameDetail(data_dict('game_id'),
-            data_dict('all_viewer'), data_dict('stream_this_game'))
+        member = TwitchGameDetail(data_dict.get('game_id'),
+            data_dict.get('all_viewer'), data_dict.get('stream_this_game'))
         insert(member)
         return 1
+    
     
     else:
         print("잘못된 target_table 입력입니다.")

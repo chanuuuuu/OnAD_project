@@ -32,25 +32,59 @@ class OnAd():
         self.dao = dao
         DBManager.init_db()
 
-    def get_data_twitch_stream(self):
-        # api 통해 데이터받아오기
+    def get_data_twitch(self, table_name):
+        """
+        * input
+         - table_name : twitch db의 테이블 명
+        """
         from lib.get_data.twitch_api import get_twitch_stream
-        list_result = get_twitch_stream.start()
-
-        # 데이터를 db에 적재
-        from lib.contact_db.twitch import insert_information
-        for data_dict in list_result:
-            print(data_dict)
-            print(type(data_dict))
-            result = insert_information(self.dao, "twitch_stream", data_dict)
-            if result : print("DB적재 완료")
-            else: print("DB적재 미완료")
-    
-    def get_data_twitch_game(self):
+        from lib.get_data.twitch_api import get_twitch_stream_detail
         from lib.get_data.twitch_api import get_twitch_game
-        get_twitch_game.start()
+        from lib.get_data.twitch_api import get_twitch_game_detail
+        from lib.get_data.twitch_api import get_twitch_chat
+        from lib.get_data.twitch_api import get_twitch_channel
+        from lib.get_data.twitch_api import get_twitch_channel_detail
+        from lib.contact_db.twitch import insert_information
+        
+        # api 이용하여 데이터 받아오는 작업
+        if table_name == "twitch_stream":
+            list_result = get_twitch_stream.start()
+            print("데이터 준비 완료")
+
+        if table_name == "twitch_stream_detail":
+            list_result = get_twitch_stream_detail.start()
+            print("데이터 준비 완료")
+        
+        elif table_name == "twitch_game":
+            list_result = get_twitch_game.start()
+            print("데이터 준비 완료")
+        
+        elif table_name == "twitch_game_detail":
+            list_result = get_twitch_game_detail.start()
+            print("데이터 준비 완료")
+        
+        elif table_name == 'twitch_chat':
+            list_result = get_twitch_chat.start()
+            print("데이터 준비 완료")
+
+        elif table_name == 'get_twitch_channel':
+            list_result = get_twitch_channel.start()
+            print("데이터 준비 완료")
+
+        elif table_name == 'get_twitch_channel_detail':
+            list_result = get_twitch_channel_detail.start()
+            print("데이터 준비 완료")
+
+        # db 적재 작업
+        print("DB에 적재중")
+        for data_dict in list_result:
+            insert_information(self.dao, table_name, data_dict)
+
+        self.dao.commit()
+        self.dao.remove()
+        print("완료")
 
 
 if __name__ == "__main__":
     onad = OnAd()
-    onad.get_data_twitch_game()
+    onad.get_data_twitch("twitch_stream_detail")
