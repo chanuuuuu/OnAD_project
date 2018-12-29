@@ -77,17 +77,14 @@ def load_viewer_count(target_id='yapyap30', target_date="2018-12-10",
         # 생성된 dict 를 바탕으로 DataFrame 생성
         view_df_list = []
         for i, v in viewer_count_dict.items():
-            df1 = pd.DataFrame([v1.split()[:3] for v1 in v])
+            df1 = pd.DataFrame([v1.split()[:3] for v1 in v],
+                columns=['name', 'id', 'viewer'])
             df1['streaming_time'] = i
             view_df_list.append(df1)
 
         # 리스트 안에 들어가있는 여러 데이터프레임들을 하나의 데이터 프레임으로
         view_df = pd.concat(view_df_list, sort=False)
 
-        # 데이터 프레임 컬럼명
-        col = ['name', 'id', 'viewer', 'streaming_time']
-        view_df.columns = col
-        
         # streaming_time 을 인덱스로 설정
         view_df = view_df.set_index('streaming_time')
 
