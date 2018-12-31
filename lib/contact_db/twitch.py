@@ -152,9 +152,9 @@ def insert_information(dao, target_table, data_dict):
         """
         dao.add(member)
 
-    if target_table == 'TwitchCaht':
+    if target_table == 'TwitchChat':
         from lib.contact_db.member import TwitchChat  # 테이블클래스 import
-        member = TwitchChat(data_dict['viewer_id'],
+        member = TwitchChat(data_dict['chatterer'],
             data_dict['chat_time'], data_dict['chat_contents'])
         insert(member)
         return 1
@@ -203,7 +203,7 @@ def insert_information(dao, target_table, data_dict):
         insert(member)
         return 1
     
-    elif target_table == 'twitch_following':
+    elif target_table == 'TwitchFollowing':
         from lib.contact_db.member import TwitchFollowing
         member = TwitchFollowing(data_dict.get('user_id'),
             data_dict.get('following_streamer'), data_dict.get('streamer_name'))
@@ -212,7 +212,7 @@ def insert_information(dao, target_table, data_dict):
     
     else:
         print("잘못된 target_table 입력입니다.")
-        raise ValueError('plz input right table class - hwasurr')
+        raise ValueError('plz input right table class')
     
 
 def update_information(dao, target_table):
