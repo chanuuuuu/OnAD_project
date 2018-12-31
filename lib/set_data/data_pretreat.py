@@ -10,20 +10,11 @@ def open_twitch_chat(data, encoding) :
 # group 2 ID
 # group 3 채팅
 # chat_text는 open_twich_chat 함수의 리턴값
-def filter_twitch_chat(chat_text) : 
+#  chat_text = open_twitch_chat의 리턴값, num = 원하는 그룹 num
+def filter_twitch_chat(chat_text, num) : 
     import re
-    
     text = chat_text
-    cut_chat_log = re.compile('\[([0-9:]*)\] <(\S*[ ]*\S*)> (\S.*)')
-    return cut_chat_log
-
-# 정규식으로 그룹화 된 채팅로그에서 특정 그룹만을 리스트에 저장하여 반환 (0,1,2,3)
-# group 0 전체
-# group 1 시간
-# group 2 ID
-# group 3 채팅
-# cut_chat_log = filter_twitch_chat 함수의 리턴값, num = 원하는 그룹 num
-def filter_twitch_chat(cut_chat_log, num) : 
+    my = re.compile('\[([0-9:]*)\] <(\S*[ ]*\S*)> (\S.*)')
     word_list = list()
     for line in text:
         mytext = my.search(line)
@@ -37,5 +28,3 @@ def filter_twitch_chat_join(word_list) :
     word_list = word_list
     joined_word_list = ' '.join(word_list)
     return joined_word_list
-
-값
