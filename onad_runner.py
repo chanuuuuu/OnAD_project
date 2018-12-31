@@ -51,7 +51,6 @@ class OnAd():
         from lib.get_data.twitch_api import get_twitch_channel
         from lib.get_data.twitch_api import get_twitch_channel_detail
         from lib.contact_db.twitch import select_groupby
-        from lib.contact_db.twitch import select_all_information
         from lib.contact_db.twitch import insert_information
         from lib.contact_db.member import TwitchStream
         
@@ -73,7 +72,7 @@ class OnAd():
             print("데이터 준비 완료")
         
         elif table_name == 'TwitchChat':
-            list_result = get_twitch_chat.start()
+            list_result = get_twitch_chat.start("looksam", "2018-12-21")
             print("데이터 준비 완료")
 
         elif table_name == 'TwitchChannel':
@@ -123,6 +122,7 @@ class OnAd():
             twitch_live_stream_dir=self.twitch_live_stream_dir)
         return chat_df, viewer_df
 
+
     def anal_twitch_chat(self, chat_df, viewer_df, target_percentile):
         from lib.analysis.chat_count import start
 
@@ -138,10 +138,10 @@ class OnAd():
 if __name__ == "__main__":
     onad = OnAd()
     # 데이터 적재
-    # onad.get_data_twitch("TwitchChannelDetail")
+    print(onad.get_data_twitch("TwitchChat"))
 
-    chat_df, viewer_df = onad.set_data_twitch_chat("beyou0728", "2018-12-05")
-    onad.anal_twitch_stream_start(viewer_df)
+    # chat_df, viewer_df = onad.set_data_twitch_chat("beyou0728", "2018-12-05")
+    # onad.anal_twitch_stream_start(viewer_df)
 
-    # 트위치 채팅편집점
-    print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=80))
+    # # 트위치 채팅편집점
+    # print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=80))

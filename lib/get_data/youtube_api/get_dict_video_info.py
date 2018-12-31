@@ -2,7 +2,8 @@ from bs4 import BeautifulSoup
 import requests
 from get_video_id import get_video_id
 from get_video_info import get_video_info
-
+from youtube_crawl.get_live_chat_log import get_youtube_chatlog
+from lib.get_data.youtube_crawl import get_live_chat_log
 
 
 def get_dict_video_info(channel_id):
@@ -54,6 +55,9 @@ def get_dict_video_info(channel_id):
         info["Is_live_streaming_video"] = "True"
 
         video_info.append(info)
+
+        get_live_chat_log(tmp[0], channel_id)
+
         
     return video_info
 
