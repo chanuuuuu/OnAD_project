@@ -51,6 +51,8 @@ class OnAd():
         from lib.get_data.twitch_api import get_twitch_chat
         from lib.get_data.twitch_api import get_twitch_channel
         from lib.get_data.twitch_api import get_twitch_channel_detail
+        from lib.get_data.twitch_api import get_twitch_following
+        from lib.get_data.twitch_api import get_twitch_clip
         from lib.contact_db.twitch import insert_information
         from lib.contact_db.member import TwitchStream
         
@@ -77,15 +79,28 @@ class OnAd():
             print("데이터 준비 완료")
 
         elif table_name == 'TwitchChannel':
-            streamer_list = select_groupby(self.dao,
+            streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
-            list_result = get_twitch_channel.start(streamer_list)
+            list_result = get_twitch_channel.start(streamer_ids)
             print("데이터 준비 완료")
 
         elif table_name == 'TwitchChannelDetail':
-            streamer_list = select_groupby(self.dao,
+            streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
-            list_result = get_twitch_channel_detail.start(streamer_list)
+            list_result = get_twitch_channel_detail.start(streamer_ids)
+            print("데이터 준비 완료")
+        
+        elif table_name == "TwitchFollowing":
+            streamer_ids = select_groupby(self.dao,
+                TwitchStream.streamer_id)
+            list_result = get_twitch_following.start(streamer_ids)
+            print("데이터 준비 완료")
+
+        elif table_name == "TwitchClip":
+            streamer_ids = select_groupby(self.dao,
+                TwitchStream.streamer_id)
+            list_result = get_twitch_clip.start(streamer_ids)
+            print("클립 수 : %s" % len(list_result))
             print("데이터 준비 완료")
         
         # db 적재 작업
@@ -147,46 +162,122 @@ if __name__ == "__main__":
     import sys
     onad = OnAd()
     # 데이터 적재
-    if sys.argv[1] == "-twitchchat":
-        # 채팅 데이터 폴더안의 모든 스트리머 폴더를 돌면서 채팅 데이터를 DB에 적재
-        for dr in os.listdir(onad.twitch_chat_dir):
-            streamer = dr.split("#")[1]  # 스트리머 이름
-            exists_days = onad.set_existdays_chat_data(streamer)  # 존재하는 파일들의 날짜데이터
-            
-            # 스트리머별 이미 적재된 날짜 모으기
-            from lib.contact_db.member import TwitchChat
-            from lib.contact_db.twitch import select_groupby
-            db_existday = select_groupby(onad.dao, TwitchChat.broad_date,
-                target_streamer=streamer)
-            # 튜플안에 있는 항목을 밖으로 빼 튜플 제거 [(1,), (2,), ..]
-            db_existday = [i[0] for i in db_existday]  
-            
-            # 예외 처리 시작
-            print("스트리머 이름: %s" % streamer)
-            print("파일이 존재하는 최신 날짜 %s" % exists_days[-1])
-            if db_existday:
-                # 채팅로그 파일이 디비에 덜 적재된 경우로
-                # 디비에 존재하는 최신날짜 다음날 부터 다시 디비에 적재
-                target_date = set(exists_days) - (set(exists_days) & set(db_existday))
-                # 파일에는 있고 디비에 없는 날짜 데이터
-                if target_date:
-                    print("디비에 존재하는 최신 날짜 %s이므로 바로 다음 날부터 적재" % db_existday[-1])
-                    for i, days in enumerate(target_date):
-                        onad.get_data_twitch("TwitchChat", streamer, days)
-                        print("%s %s/%s 완료" % (streamer, i+1, len(target_date)))
-                else:
-                    # 디비에 모든 파일 적재된 경우
-                    print("모든 파일 디비에 적재 완료되었으므로 다음으로 넘어감")
-                    continue
-            else:
-                print("디비에 파일 없으므로 처음부터 적재시작")
-                # 디비에 하나도 적재되지 않은 경우로 파일이 존재하는 첫날 부터 디비에 적재
-                for i, days in enumerate(exists_days):
-                        onad.get_data_twitch("TwitchChat", streamer, days)
-                        print("%s %s/%s 완료" % (streamer, i+1, len(exists_days)))
+    if len(sys.argv) == 1:
+        print("OnAd is the only one platform which is connect a creator with corporation")
+        print("we try to make better world.")
+    else:
+        if sys.argv[1] == "-twitchstream":
+            """
+            트위치 스트리밍 데이터 받아와 db에 적재
+            매일 매분 - 짧은시간에 가능 ( 1 ~ 2초 )
+            * twitchstreamdetail 과 함께 동작
+            ** 중복되는 스트리머 있으면 안들어가게 예외처리
+            """
+            onad.get_data_twitch("TwitchStream")
 
+        elif sys.argv[1] == "-twitchstreamdetail":
+            """
+            트위치 스트리밍 세부 데이터 받아와 db에 적재
+            매일 매분 - 짧은시간에 가능 ( 1 ~ 2초 )
+            """
+            onad.get_data_twitch("TwitchStreamDetail")
 
+        elif sys.argv[1] == "-twitchgame":
+            """
+            트위치 게임(번호, 이름) 데이터 받아와 db에 적재
+            매일 매분 - 짧은시간에 가능 (1 ~ 2초)
+            * twitchgamedetail 과 함께 동작
+            ** 중복되는 게임 있으면 안들어가게 예외처리
+            """
+            onad.get_data_twitch("TwitchGame")
         
+        elif sys.argv[1] == "-twitchgamedetail":
+            """
+            트위치 게임별 시청자수, 스트림 수 데이터 받아와 db에 적재
+            매일 매분 - 짧은 시간에 가능
+            """
+            onad.get_data_twitch("TwitchGameDetail")
+
+        elif sys.argv[1] == "-twitchchat":
+            """
+            채팅 데이터 폴더안의 모든 스트리머 폴더를 돌면서 채팅 데이터를 DB에 적재
+            매일 한번돌림
+            """
+            for dr in os.listdir(onad.twitch_chat_dir):
+                streamer = dr.split("#")[1]  # 스트리머 이름
+                exists_days = onad.set_existdays_chat_data(streamer)  # 존재하는 파일들의 날짜데이터
+                
+                # 스트리머별 이미 적재된 날짜 모으기
+                from lib.contact_db.member import TwitchChat
+                from lib.contact_db.twitch import select_groupby
+                db_existday = select_groupby(onad.dao, TwitchChat.broad_date,
+                    target_streamer=streamer)
+                # 튜플안에 있는 항목을 밖으로 빼 튜플 제거 [(1,), (2,), ..]
+                db_existday = [i[0] for i in db_existday]  
+                
+                # 예외 처리 시작
+                print("스트리머 이름: %s" % streamer)
+                print("파일이 존재하는 최신 날짜 %s" % exists_days[-1])
+                if db_existday:
+                    print("디비에 존재하는 최신 날짜 %s이므로 바로 다음 날부터 적재" % db_existday[-1])
+                    
+                    # 채팅로그 파일이 디비에 덜 적재된 경우로
+                    # 디비에 존재하는 최신날짜 다음날 부터 다시 디비에 적재
+                    target_date = set(exists_days) - (set(exists_days) & set(db_existday))
+                    # 파일에는 있고 디비에 없는 날짜 데이터
+                    if target_date:
+                        for i, days in enumerate(target_date):
+                            onad.get_data_twitch("TwitchChat", streamer, days)
+                            print("%s %s/%s 완료" % (streamer, i+1, len(target_date)))
+                    else:
+                        # 디비에 모든 파일 적재된 경우
+                        print("모든 파일 디비에 적재 완료되었으므로 다음으로 넘어감")
+                        continue
+                else:
+                    print("디비에 파일 없으므로 처음부터 적재시작")
+                    # 디비에 하나도 적재되지 않은 경우로 파일이 존재하는 첫날 부터 디비에 적재
+                    for i, days in enumerate(exists_days):
+                            onad.get_data_twitch("TwitchChat", streamer, days)
+                            print("%s %s/%s 완료" % (streamer, i+1, len(exists_days)))
+
+        elif sys.argv[1] == "-twitchchannel":
+            """
+            트위치 채널 메타데이터 (스트리머이름,로고,홈페이지) 받아와 db에 저장
+            스트리머 id가 필요하므로 twitchstream 이후에 실행
+            스트리머 하나하나를 다 돌아야 하므로 시간 소요됨
+            * 하루 또는 일주일에 한번 (자주할 필요 없다)
+            ** 있으면 넣지않음 / 바뀐다면 업데이트
+            """
+            onad.get_data_twitch("TwitchChannel")
+
+        elif sys.argv[1] == "-twitchchanneldetail":
+            """
+            트위치 채널 세부데이터(팔로워수, 채널방문자수) 받아와 db에 저장
+            스트리머 id가 필요하므로 twitchstream 이후에 실행
+            스트리머 하나하나를 다 돌아야 하므로 시간 소요됨
+            * 매일 한번
+            ** 있는 데이터 다시 안들어가게
+            """
+            onad.get_data_twitch("TwitchChannelDetail")
+
+        elif sys.argv[1] == "-twitchclip":
+            """
+            클립데이터 받아와 db에 적재
+            매일 한번, 방송 이후에가 적절한데.. 그냥 밤에 한번
+            """
+            onad.get_data_twitch("TwitchClip")
+
+        elif sys.argv[1] == "-twitchfollow":
+            """
+            스트리머에 대한 팔로우 데이터를 가져와 db에 저장
+            한 스트리머당 5분가량 소요/ 전체 스트리머를 돌리면 긴 시간이 필요
+            ** 중복되는 행은 또 다시 들어가지 않도록 예외처리
+            ** 중복되지 않는 경우만 다시 넣는다.
+            일주일에 한번 / 한달에 한번
+            """
+            onad.get_data_twitch("TwitchFollow")
+        
+      
             
     
     # # 채팅로그, 시청자수 데이터 로드
