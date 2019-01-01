@@ -5,8 +5,8 @@ def get_subscriptions_info (user_id, api_key= "AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0D
     user_ids(str) : 사용자 고유 ID
     api_key(str) : api 키값
 
-    return => subscriptions_info(dict)
-              구독한 채널의 고유 ID(str)
+    return => subscriptions_info(dict) {video_id: str, user_id : str, channel_id : str}
+              
 
     '''
     
