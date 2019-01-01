@@ -36,7 +36,8 @@ class TwitchChat(Base):
         self.chat_contents = chat_contents
 
     def __repr__(self):
-        return "%s, %s, %s" % (self.chatterer,
+        return "%s, %s, %s, %s, %s" % (self.streamer_name,
+        self.broad_date, self.chatterer,
         self.chat_time, self.chat_contents)
 
 
@@ -145,7 +146,7 @@ class TwitchChannelDetail(Base):
         self.viewer = viewer
     
     def __repr__(self):
-        return "%s %s %s %s" % (self.streamer_id,
+        return "%s, %s, %s, %s" % (self.streamer_id,
             self.date, self.follower, self.viewer)
 
 
@@ -166,7 +167,7 @@ class TwitchGame(Base):
         self.game_name = game_name
 
     def __repr__(self):
-        return "%s %s" % (self.game_id, self.game_name)
+        return "%s, %s" % (self.game_id, self.game_name)
 
 
 class TwitchGameDetail(Base):
@@ -191,7 +192,7 @@ class TwitchGameDetail(Base):
         self.stream_this_game = stream_this_game
 
     def __repr__(self):
-        return "%s %s %s" % (self.game_id,
+        return "%s, %s, %s" % (self.game_id,
             self.game_name, self.stream_this_game)
 
 
@@ -202,22 +203,67 @@ class TwitchFollowing(Base):
     user_id : 유저 고유 ID
     following_streamer : 팔로우하는 스트리머
     streamer_name : 스트리머 이름
+    followed_at : 팔로우 한 날짜
     """
     __tablename__ = "twitch_following"
     code = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(String(50),unique=False)
     following_streamer = Column(String(50),unique=False)
     streamer_name = Column(String(50),unique=False)
+    followed_at = Column(String(50),unique=False)
 
-    def __init__(self, user_id, following_streamer, streamer_name):
+    def __init__(self, user_id, following_streamer,
+        streamer_name, followed_at):
         self.user_id = user_id
         self.following_streamer = following_streamer
         self.streamer_name = streamer_name
+        self.followed_at = followed_at
 
     def __repr__(self):
-        return "%s %s %s" % (self.user_id,
-            self.following_streamer, self.streamer_name)
+        return "%s, %s, %s, %s" % (self.user_id, self.following_streamer,
+            self.streamer_name, self.followed_at)
 
+
+class TwitchClip(Base):
+    """
+    트위치 클립 데이터를 담아놓는 테이블
+    
+    streamer_id : 클립영상의 방송인의 고유 ID
+    clip_id : 클립영상의 고유 id
+    user_id : 클립 생성자의 고유 ID
+    created_at : 클립이 생성된 날짜및 시간
+    title : 클립의 제목
+    url : 클립영상의 주소
+    viewer_count : 클립 조회수
+    thumbnail : 썸네일 주소
+    """
+    __tablename__ = "twitch_clip"
+    code = Column(Integer, primary_key=True, autoincrement=True)
+    streamer_id = Column(String(50), unique=False)
+    clip_id = Column(String(150), unique=False)
+    user_id = Column(String(50), unique=False)
+    created_at = Column(String(50), unique=False)
+    title = Column(String(100), unique=False)
+    url = Column(Text, unique=False)
+    viewer_count = Column(String(50), unique=False)
+    thumbnail = Column(Text, unique=False)
+
+    def __init__(self, streamer_id, clip_id,
+        user_id, created_at, title, url,
+        viewer_count, thumbnail):
+        self.streamer_id = streamer_id
+        self.clip_id = clip_id
+        self.user_id = user_id
+        self.created_at = created_at
+        self.title = title
+        self.url = url
+        self.viewer_count = viewer_count
+        self.thumbnail = thumbnail
+
+    def __repr__(self):
+        return "%s, %s, %s, %s, %s, %s, %s" % (self.streamer_id,
+            self.clip_id, self.user_id, self.created_at, self.title,
+            self.url, self.viewer_count)
 
 # 모델 버전관리
 class ModelVersion(Base):
