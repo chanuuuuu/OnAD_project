@@ -1,5 +1,6 @@
 def start(streamer_name, broad_date):
     """
+    twitch_chat 테이블의 데이터를 반환하는 함수
     * input
     - streamer_name : 채팅내용을 db에 집어넣을 스트리머 아이디
     - broad_date : 채팅내용을 db에 집어넣을 방송 날짜
