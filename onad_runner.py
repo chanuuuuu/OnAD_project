@@ -146,9 +146,8 @@ if __name__ == "__main__":
     import os
     import sys
     onad = OnAd()
-
     # 데이터 적재
-    if sys.argv == "-twitch -chat":
+    if sys.argv[1] == "-twitchchat":
         # 채팅 데이터 폴더안의 모든 스트리머 폴더를 돌면서 채팅 데이터를 DB에 적재
         for dr in os.listdir(onad.twitch_chat_dir):
             streamer = dr.split("#")[1]  # 스트리머 이름
@@ -166,13 +165,12 @@ if __name__ == "__main__":
             print("스트리머 이름: %s" % streamer)
             print("파일이 존재하는 최신 날짜 %s" % exists_days[-1])
             if db_existday:
-                print("디비에 존재하는 최신 날짜 %s이므로 바로 다음 날부터 적재" % db_existday[-1])
-                
                 # 채팅로그 파일이 디비에 덜 적재된 경우로
                 # 디비에 존재하는 최신날짜 다음날 부터 다시 디비에 적재
                 target_date = set(exists_days) - (set(exists_days) & set(db_existday))
                 # 파일에는 있고 디비에 없는 날짜 데이터
                 if target_date:
+                    print("디비에 존재하는 최신 날짜 %s이므로 바로 다음 날부터 적재" % db_existday[-1])
                     for i, days in enumerate(target_date):
                         onad.get_data_twitch("TwitchChat", streamer, days)
                         print("%s %s/%s 완료" % (streamer, i+1, len(target_date)))
