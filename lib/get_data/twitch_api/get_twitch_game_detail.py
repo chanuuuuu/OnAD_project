@@ -14,16 +14,19 @@ def start():
     headers = {'Client-ID' : 'kimne78kx3ncx6brgo4mv6wki5h1ko'}
 
     total_games = []
-    for _ in range(100):
-        params = {'limit': 10}
+    for _ in range(10):
+        params = {'limit': 100}
         # api 요청
         res = requests.get(url, headers=headers, params=params)
         if res:
             data_ = res.json()
             total_games.extend(data_['top'])
-            if data_['_links']['next']:
-                url = data_['_links']['next']
-            
+            if not data_['_links']:
+                break
+            else:
+                if data_['_links']['next']:
+                    url = data_['_links']['next']
+
     inform = [{"game_id": data['game']['_id'],
             "all_viewer": data['viewers'],
             "stream_this_game": data['channels']} for data in total_games]
