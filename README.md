@@ -5,11 +5,12 @@
 * data : 임시 데이터(테스트용)
 * lib : 각 모듈들
 * docs : 문서작업
-
 * ml_model : 학습된 모델을 dump 하여 저장하는 폴더
 * onad_web : 웹페이지 관련
 * onad_db.py 파일 : db를 관리하는 DBManager
-* onad_runner.py 파일 : 모든 기능의 시작을 관리하는 OnAd class가 존재함. 여기에서 run함수는 모두 돌아간다.
+* onad_runner.py 파일 : 모든 기능의 시작을 관리하는 OnAd class가 존재함.
+  여기에서 run함수는 모두 돌아간다.
+
 모든 import 는 해당 디렉토리부터 시작함
 각 세부 사항은 해당 디렉토리의 README.md 파일에 있음.
 
@@ -32,19 +33,18 @@
   - **`pull`** : 가장 최신의 상태를 로컬pc로 가져오는 것
 
 * vscode 에서 git사용:
-  - git이 없다면 설치
-  - 이후 cmd 창에서
+  1. git이 없다면 설치
+  2. 이후 cmd 창에서
     > git config --global user.name "이름"<br>
     > git config --global user.email "이메일"  
-  
-  - 이후 현재 레파지토리의 clone or download 클릭
-  - url 복사
-  - vscode 열고, ctrl + shift + p
-  - 명령창에 git:clone 입력 또는 클릭
-  - 폴더 선택창이 뜰텐데, 빈 폴더 하나 생성하여 확인클릭
-  - 우측하단에 팝업창의 open repository 클릭
-  - 작업한 이후 vscode의 왼쪽 탭 3번째 가지모양 클릭
-  - 체크모양의 Commit 단추 누르면 commit이 됨 (**코멘트입력** : 고친내용 or 추가한내용_181218_강화수)
+  3. 이후 현재 레파지토리의 clone or download 클릭
+  4. url 복사
+  5. vscode 열고, ctrl + shift + p
+  6. 명령창에 git:clone 입력 또는 클릭
+  7. 폴더 선택창이 뜰텐데, 빈 폴더 하나 생성하여 확인클릭
+  8. 우측하단에 팝업창의 open repository 클릭
+  9. 작업한 이후 vscode의 왼쪽 탭 3번째 가지모양 클릭
+  10. 체크모양의 Commit 단추 누르면 commit이 됨 (**코멘트입력** : 고친내용 or 추가한내용_181218_강화수)
   
 * commit 룰
   - commit은 뭔가가 바뀌면 바로바로 하는게 좋을 것 같아보임.(바뀜의 단위는 자신의 기준)
@@ -56,3 +56,16 @@
   - 문서를 교체한 후 commit 하기 위해서는 문서내용 바꾼 이후 저장한 이후 vscode onad폴더 들어오면  
     commit 할 수 있음
 
+## 구동 방법
+  터미널(명령프롬프트)에서 python onad_runner.py -해당인자
+  - 인자 설명: 
+  1. "-twitchstream" : 트위치 스트림 데이터 받아db에
+  2. "-twitchstreamdetail" : 트위치 스트림 세부데이터 받아 db에
+  3. "-twitchgame" : 트위치 게임 데이터 받아 db에
+  4. "-twitchgamedetail" : 트위치 게임 세부데이터 받아 db에
+  5. "-twitchchat" : 로컬의 data 폴더의 채팅데이터 db에
+  6. "-twitchchannel" : 트위치 채널 데이터 받아 db에
+  7. "-twitchchanneldetail" : 트위치 채널 세부데이터 받아 db에
+  8. "-twitchclip" : 트위치 클립 데이터 받아 db에
+  9. "-twitchfollow" 트위치 팔로우 데이터 받아 db에
+  10. 이후 지속적 추가 예정임.
