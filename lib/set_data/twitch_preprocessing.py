@@ -94,3 +94,22 @@ def load_viewer_count(target_id='yapyap30', target_date="2018-12-10",
         view_df['minute'] = list(pd.Series(view_df.index).apply(lambda x : x[-2:]))
 
         return view_df
+
+def get_exists_days(target_id='yapyap30', 
+    twitch_live_stream_dir="./data/twitch_chat/"):
+    """
+    data/twitch_chat 폴더안의 날짜들만을 반환하는 함수
+    - input:
+        target_id : 타겟 스트리머 아이디  
+        twitch_live_stream_dir : 스트리머별 채팅 데이터 폴더
+
+    - output:
+        폴더안의 날짜들 list
+    """
+    import re
+    import os
+
+    target_dir = twitch_live_stream_dir + "#" + target_id
+    
+    
+    return [file.split("_")[0] for file in  os.listdir(target_dir)]

@@ -38,7 +38,8 @@ class OnAd():
         self.dao = dao
         DBManager.init_db()
 
-    def get_data_twitch(self, table_name):
+    def get_data_twitch(self, table_name,
+        target_streamer="yapyap30", broad_date="2018-12-05"):
         """
         * input
          - table_name : twitch db의 테이블 명
@@ -50,7 +51,6 @@ class OnAd():
         from lib.get_data.twitch_api import get_twitch_chat
         from lib.get_data.twitch_api import get_twitch_channel
         from lib.get_data.twitch_api import get_twitch_channel_detail
-        from lib.contact_db.twitch import select_groupby
         from lib.contact_db.twitch import insert_information
         from lib.contact_db.member import TwitchStream
         
@@ -72,7 +72,8 @@ class OnAd():
             print("데이터 준비 완료")
         
         elif table_name == 'TwitchChat':
-            list_result = get_twitch_chat.start("looksam", "2018-12-21")
+            list_result = get_twitch_chat.start(target_streamer, broad_date)
+            print("채팅 수 : %s" % len(list_result))
             print("데이터 준비 완료")
 
         elif table_name == 'TwitchChannel':
@@ -122,6 +123,12 @@ class OnAd():
             twitch_live_stream_dir=self.twitch_live_stream_dir)
         return chat_df, viewer_df
 
+    def set_existdays_chat_data(self, target_id):
+        """
+        target_id스트리머의 트위치 채팅 폴더의 파일들 중 존재하는 날짜만 반환
+        target_id : 스트리머의 아이디 ex)yapyap30"""
+        from lib.set_data.twitch_preprocessing import get_exists_days
+        return get_exists_days(target_id, self.twitch_chat_dir)
 
     def anal_twitch_chat(self, chat_df, viewer_df, target_percentile):
         from lib.analysis.chat_count import start
@@ -136,11 +143,57 @@ class OnAd():
 
 
 if __name__ == "__main__":
+    import os
+    import sys
     onad = OnAd()
-    # 데이터 적재
-    print(onad.get_data_twitch("TwitchChat"))
 
+    # 데이터 적재
+    if sys.argv == "-twitch -chat":
+        # 채팅 데이터 폴더안의 모든 스트리머 폴더를 돌면서 채팅 데이터를 DB에 적재
+        for dr in os.listdir(onad.twitch_chat_dir):
+            streamer = dr.split("#")[1]  # 스트리머 이름
+            exists_days = onad.set_existdays_chat_data(streamer)  # 존재하는 파일들의 날짜데이터
+            
+            # 스트리머별 이미 적재된 날짜 모으기
+            from lib.contact_db.member import TwitchChat
+            from lib.contact_db.twitch import select_groupby
+            db_existday = select_groupby(onad.dao, TwitchChat.broad_date,
+                target_streamer=streamer)
+            # 튜플안에 있는 항목을 밖으로 빼 튜플 제거 [(1,), (2,), ..]
+            db_existday = [i[0] for i in db_existday]  
+            
+            # 예외 처리 시작
+            print("스트리머 이름: %s" % streamer)
+            print("파일이 존재하는 최신 날짜 %s" % exists_days[-1])
+            if db_existday:
+                print("디비에 존재하는 최신 날짜 %s이므로 바로 다음 날부터 적재" % db_existday[-1])
+                
+                # 채팅로그 파일이 디비에 덜 적재된 경우로
+                # 디비에 존재하는 최신날짜 다음날 부터 다시 디비에 적재
+                target_date = set(exists_days) - (set(exists_days) & set(db_existday))
+                # 파일에는 있고 디비에 없는 날짜 데이터
+                if target_date:
+                    for i, days in enumerate(target_date):
+                        onad.get_data_twitch("TwitchChat", streamer, days)
+                        print("%s %s/%s 완료" % (streamer, i+1, len(target_date)))
+                else:
+                    # 디비에 모든 파일 적재된 경우
+                    print("모든 파일 디비에 적재 완료되었으므로 다음으로 넘어감")
+                    continue
+            else:
+                print("디비에 파일 없으므로 처음부터 적재시작")
+                # 디비에 하나도 적재되지 않은 경우로 파일이 존재하는 첫날 부터 디비에 적재
+                for i, days in enumerate(exists_days):
+                        onad.get_data_twitch("TwitchChat", streamer, days)
+                        print("%s %s/%s 완료" % (streamer, i+1, len(exists_days)))
+
+
+        
+            
+    
+    # # 채팅로그, 시청자수 데이터 로드
     # chat_df, viewer_df = onad.set_data_twitch_chat("beyou0728", "2018-12-05")
+    # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
     # onad.anal_twitch_stream_start(viewer_df)
 
     # # 트위치 채팅편집점

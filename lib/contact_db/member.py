@@ -9,25 +9,34 @@ Base = declarative_base()
 # 트위치 테이블
 class TwitchChat(Base):
     """
+    트위치 스트리밍의 채팅데이터를 적재하는 테이블
+    -> chatty 로그를 하루 단위로 저장
     chat_id : 채팅의 번호
+    streamer_name : 스트리머의 이름
+    broad_date : 해당 채팅의 방송을 한 날짜
     chatterer : 채팅을 친 시청자의 이름
     chat_time : 채팅을 친 시간정보
     chat_contents : 채팅정보
     """
     __tablename__ = 'twitch_chat'
     chat_id = Column(Integer, primary_key=True, autoincrement=True)
+    streamer_name = Column(String(50), unique=False)
+    broad_date = Column(String(50), unique=False)
     chatterer = Column(String(50), unique=False)
     chat_time = Column(String(50), unique=False)
     chat_contents = Column(Text, unique=False)
 
-    def __init__(self, viewer_id, chat_time,
+    def __init__(self, streamer_name,
+        broad_date, chatterer, chat_time, 
         chat_contents):
-        self.viewer_id = viewer_id
+        self.streamer_name = streamer_name
+        self.broad_date = broad_date
+        self.chatterer = chatterer
         self.chat_time = chat_time
         self.chat_contents = chat_contents
 
     def __repr__(self):
-        return "%s, %s, %s" % (self.viewer_id,
+        return "%s, %s, %s" % (self.chatterer,
         self.chat_time, self.chat_contents)
 
 

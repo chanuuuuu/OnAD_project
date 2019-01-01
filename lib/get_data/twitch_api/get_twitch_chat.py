@@ -7,17 +7,17 @@ def start(streamer_name, broad_date):
     import re
     import os
 
-    data_dir = "./data/"
+    data_dir = "data/"
     chat_dir = data_dir + "twitch_live_chat/"
 
     chat_file = "#%s/%s_#%s.log" % (streamer_name, broad_date, streamer_name)
 
-    if not os.path.exists("#%s" % streamer_name):
+    if not os.path.exists(chat_dir + "#%s" % streamer_name):
         print("data 폴더에 %s 폴더가 없음" % streamer_name)
     else:
         with open(chat_dir + chat_file, 'r', encoding='utf-8') as fp:
             lines = fp.read().split('\n')
-            
+
         ptn = re.compile(r'(\[\d{2}:\d{2}:\d{2}\]) <.+> .*')
         all_line = [i for i in lines if ptn.match(i)]
 
@@ -26,10 +26,11 @@ def start(streamer_name, broad_date):
         # 아이디 데이터만 re.search(r'(<.+>)', line).group(0)
         inform = [
             {
+                "streamer_name": streamer_name,
+                "broad_date": broad_date,
                 "chatterer": re.search(r'(<.+>)', line).group(0),
                 "chat_time": line.split(" ")[0].replace("[", "").replace("]", ""),
                 "chat_contents": line.split('> ')[1]
-            } for line in all_line
-                ]
+            } for line in all_line]
 
         return inform

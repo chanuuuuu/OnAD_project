@@ -34,14 +34,15 @@
 * vscode 에서 git사용:
   - git이 없다면 설치
   - 이후 cmd 창에서
-    > git config --global user.name "이름"
-    > git config --global user.email "이메일"
+    > git config --global user.name "이름"<br>
+    > git config --global user.email "이메일"  
   
   - 이후 현재 레파지토리의 clone or download 클릭
   - url 복사
   - vscode 열고, ctrl + shift + p
   - 명령창에 git:clone 입력 또는 클릭
   - 폴더 선택창이 뜰텐데, 빈 폴더 하나 생성하여 확인클릭
+  - 우측하단에 팝업창의 open repository 클릭
   - 작업한 이후 vscode의 왼쪽 탭 3번째 가지모양 클릭
   - 체크모양의 Commit 단추 누르면 commit이 됨 (**코멘트입력** : 고친내용 or 추가한내용_181218_강화수)
   
