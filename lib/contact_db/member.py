@@ -454,24 +454,34 @@ class YoutubeChannel(Base):
     channel_name : 채널 이름
     description : 채널 설명
     published_at : 채널 생성일
+    thumbnail : 채널 썸네일
     """
     __tablename__ = 'youtube_channel'
     code = Column(Integer, primary_key=True, autoincrement=True)
-    channel_id = Column(String(50), unique=False)
+    channel_id = Column(String(50), unique=True)
     channel_name = Column(String(50), unique=False)
     description = Column(Text, unique=False)
     published_at = Column(String(50), unique=False)
+    thumbnail = Column(String(50), unique=False)
+    keyword = Column(String(150), unique=False)
+    recommend_channels = Column(Text, unique=False)
 
-    def __init__(self, channel_id,
-        channel_name, description, published_at):
+    def __init__(self, channel_id, channel_name,
+        description, published_at, thumbnail,
+        keyword, recommend_channels):
         self.channel_id = channel_id
         self.channel_name = channel_name
         self.description = description
         self.published_at = published_at
+        self.thumbnail = thumbnail
+        self.keyword = keyword
+        self.recommend_channels = recommend_channels
 
     def __repr__(self):
-        return """%s, %s, %s, %s""" % (self.channel_id,
-            self.channel_name, self.description, self.published_at)
+        return """%s, %s, %s, %s, %s, %s, %s""" % (self.channel_id,
+            self.channel_name, self.description,
+            self.published_at, self.thumbnail,
+            self.keyword, self.recommend_channels)
 
 
 class YoutubeChannelDetail(Base):
@@ -479,7 +489,7 @@ class YoutubeChannelDetail(Base):
     유튜브 채널의 세부 정보를 담기위한 테이블
     자주 업데이트 되는 항목들 모음
     channel_id : 유튜브에서 설정한 고유 ID
-    subscriber : 채널 구독자 수
+    subscribe_cnt : 채널 구독자 수
     channel_hit : 채널 조회 수
     channel_video_cnt : 채널 영상 수
     """

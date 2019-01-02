@@ -132,7 +132,6 @@ def delete_information(dao, target_table, target_data):
         print("잘못된 target_table 입력입니다.")
         raise ValueError('plz input right table class - hwasurr')
 
-
 def insert_information(dao, target_table, data_dict):
     """
     db 데이터 삽입 함수
@@ -213,7 +212,8 @@ def insert_information(dao, target_table, data_dict):
     elif target_table == 'TwitchFollowing':
         from lib.contact_db.member import TwitchFollowing
         member = TwitchFollowing(data_dict.get('user_id'),
-            data_dict.get('following_streamer'), data_dict.get('streamer_name'))
+            data_dict.get('following_streamer'), data_dict.get('streamer_name'),
+            data_dict.get('followed_at'))
         insert(member)
         return 1
     
