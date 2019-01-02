@@ -1,5 +1,3 @@
-import requests
-from bs4 import BeautifulSoup 
 
 def user_to_channelid(user_name, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY"):
     import requests

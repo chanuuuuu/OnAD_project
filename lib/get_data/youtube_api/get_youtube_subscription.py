@@ -1,6 +1,6 @@
 
 
-def get_dict_subscribe_info(video_id):
+def start(video_id):
     """
     비디오 하나에, 댓글을 쓴 사람 중 구독정보를 열어 둔 사람의 구독정보를 반환하는 함수
     시간 좀 걸림
@@ -12,8 +12,8 @@ def get_dict_subscribe_info(video_id):
     """
     from bs4 import BeautifulSoup
     import requests
-    from get_video_comments import get_video_comments_info
-    from get_subscriptions_info import get_subscriptions_info
+    from lib.get_data.youtube_api.get_video_comments import get_video_comments_info
+    from lib.get_data.youtube_api.get_subscriptions_info import get_subscriptions_info
 
     tmp = get_video_comments_info(video_id)
 
