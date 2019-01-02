@@ -2,10 +2,11 @@
 def get_video_comments_info(video_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8Ak"):
     '''
     비디오 당 댓글의 정보
-    video_id = 동영상 고유 ID(str), api_key = api 키 값(str)    
-    return => 댓글 정보 comments_info (list)
-             [작성자의 채널 고유 ID(str), 작성자 이름(str), 작성 날짜(str, YYMMDD), 댓글내용(str), 댓글의 좋아요 수(int)]
-    
+    * input
+        video_id = 동영상 고유 ID(str), api_key = api 키 값(str)    
+    * output
+        댓글 정보 comments_info (list)
+        [작성자의 채널 고유 ID(str), 작성자 이름(str), 작성 날짜(str, YYMMDD), 댓글내용(str), 댓글의 좋아요 수(int)]
     '''
     import requests
     from bs4 import BeautifulSoup 
@@ -52,6 +53,5 @@ def get_video_comments_info(video_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0D
                 page_token = api_dict["nextPageToken"]
                 
             else: break
-                    
                     
     return comments_info

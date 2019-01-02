@@ -452,26 +452,26 @@ class YoutubeChannel(Base):
     유튜브 채널정보를 담기위한 테이블
     channel_id : 유튜브에서 설정한 고유 ID
     channel_name : 채널 이름
-    channel_keyword : 채널 검색 키워드 a, b, c, d, 의 형식
-    thumbnail : 썸네일 주소정보
+    description : 채널 설명
+    published_at : 채널 생성일
     """
     __tablename__ = 'youtube_channel'
     code = Column(Integer, primary_key=True, autoincrement=True)
     channel_id = Column(String(50), unique=False)
-    channel_name = Column(String(30), unique=False)
-    channel_keyword = Column(String(100), unique=False)
-    thumbnail = Column(String(100), unique=False)
+    channel_name = Column(String(50), unique=False)
+    description = Column(Text, unique=False)
+    published_at = Column(String(50), unique=False)
 
     def __init__(self, channel_id,
-        channel_name, channel_keyword, thumbnail):
+        channel_name, description, published_at):
         self.channel_id = channel_id
         self.channel_name = channel_name
-        self.channel_keyword = channel_keyword
-        self.thumbnail = thumbnail
+        self.description = description
+        self.published_at = published_at
 
     def __repr__(self):
         return """%s, %s, %s, %s""" % (self.channel_id,
-            self.channel_name, self.channel_keyword, self.thumbnail)
+            self.channel_name, self.description, self.published_at)
 
 
 class YoutubeChannelDetail(Base):
@@ -484,23 +484,23 @@ class YoutubeChannelDetail(Base):
     channel_video_cnt : 채널 영상 수
     """
     __tablename__ = 'youtube_channel_detail'
-    channel_id = Column(String(50), 
-        primary_key=True, unique=False)
-    subscriber = Column(Integer, unique=False)
-    channel_hit = Column(Integer, unique=False)
-    channel_video_cnt = Column(Integer, unique=False)
+    code = Column(Integer, primary_key=True)
+    channel_id = Column(String(50), unique=False)
+    subscribe_cnt = Column(Integer, unique=False)
+    hit_cnt = Column(Integer, unique=False)
+    total_video_cnt = Column(Integer, unique=False)
 
-    def __init__(self, channel_id, channel_name,
-        channel_hit, channel_video_cnt):
+    def __init__(self, channel_id, subscribe_cnt,
+        hit_cnt, total_video_cnt):
         self.channel_id = channel_id
-        self.channel_name = channel_name
-        self.channel_hit = channel_hit
-        self.channel_video_cnt = channel_video_cnt
+        self.subscribe_cnt = subscribe_cnt
+        self.hit_cnt = hit_cnt
+        self.total_video_cnt = total_video_cnt
 
     def __repr__(self):
         return """%s, %s, %s, %s""" % (self.channel_id,
-            self.channel_name, self.channel_keyword,
-            self.channel_video_cnt)
+            self.subscribe_cnt, self.hit_cnt,
+            self.total_video_cnt)
 
 
 class YoutubeVideo(Base):
@@ -578,7 +578,8 @@ class YoutubeChat(Base):
     broad_date : 방송 날짜
     """
     __tablename__ = 'youtube_chat'
-    chat_id = Column(Integer, autoincrement=True, primary_key=True)
+    code = Column(Integer, autoincrement=True, primary_key=True)
+    chat_id = Column(String(50), unique=False)
     video_id = Column(String(100), unique=False)
     chat_time = Column(String(50), unique=False)
     chatterer = Column(String(50), unique=False)
@@ -603,7 +604,7 @@ class YoutubeChat(Base):
 class YoutubeReple(Base):
     """
     유튜브 영상의 댓글정보를 저장하는 테이블
-    reple_id : 채팅의 고유 번호
+    reple_id : 댓글 작성자의 고유 채널 ID
     video_id : 영상의 고유 ID
     upload_date : 댓글을 단 시간
     author_name : 댓글을 단 시청자의 이름
@@ -611,7 +612,8 @@ class YoutubeReple(Base):
     like_cnt : 댓글 좋아요 수
     """
     __tablename__ = 'youtube_reple'
-    reple_id = Column(String(100), primary_key=True, unique=False)
+    code = Column(Integer, primary_key=True, unique=False)
+    reple_id = Column(String(100), unique=False)
     video_id = Column(String(100), unique=False)
     upload_date = Column(String(50), unique=False)
     author_name = Column(String(50), unique=False)
@@ -631,5 +633,31 @@ class YoutubeReple(Base):
         return """%s, %s, %s, %s, %s, %s""" % (self.reple_id,
             self.video_id, self.upload_date, self.author_name,
             self.reple_contents, self.like_cnt)
+
+
+class YoutubeSubscription(Base):
+    """
+    댓글 남긴 인원의 구독 정보를 저장하는 테이블
+    code : 구독정보의 번호
+    video_id : 영상ID
+    replier_id : 댓글 시청자의 고유 채널 ID
+    subscription : 구독채널ID
+    """
+    __tablename__ = 'youtube_subscription'
+    code = Column(Integer, primary_key=True, unique=False)
+    video_id = Column(String(100), unique=False)
+    replier_id = Column(String(50), unique=False)
+    subscription = Column(String(50), unique=False)
+    
+    def __init__(self, video_id,
+        replier_id, subscription):
+        self.video_id = video_id
+        self.replier_id = replier_id
+        self.subscription = subscription
+        
+    def __repr__(self):
+        return """%s, %s, %s""" % (self.video_id,
+            self.replier_id, self.subscription)
+
 
 
