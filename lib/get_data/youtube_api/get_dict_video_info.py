@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 from get_video_id import get_video_id
 from get_video_info import get_video_info
-from youtube_crawl.get_live_chat_log import get_youtube_chatlog
+from OnAD_project.lib.youtube_crawl.get_live_chat_log import get_youtube_chatlog
 from lib.get_data.youtube_crawl import get_live_chat_log
 
 
@@ -56,7 +56,7 @@ def get_dict_video_info(channel_id):
 
         video_info.append(info)
 
-        get_live_chat_log(tmp[0], channel_id)
+        get_youtube_chatlog(tmp[0])
 
         
     return video_info
