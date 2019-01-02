@@ -58,7 +58,7 @@ def get_youtube_chatlog(video_id):
                 tmp = samp ["replayChatItemAction" ] [ "actions" ] [ 0 ] [ "addChatItemAction" ] [ "item" ] [ "liveChatTextMessageRenderer" ]
                 info["video_id"] = video_id
                 info["timestamp"] = str(tmp [ "timestampText" ] [ "simpleText"])        
-                info["nickname"] = str(tmp['authorName']["simpleText"])
+                info["nickname"] = "<" + str(tmp['authorName']["simpleText"]) ">"
                 info["content"] = str(tmp[ "message" ] [ "simpleText" ])
                 info["video_published_at"] = times
                 
