@@ -12,15 +12,12 @@ def get_channel_info(channel_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8A
                동영상 수 (int) - 비공개 동영상이 포함됨,
                검색 키워드(list / str)  - 있을 경우에만 return,
                추천 채널 목록(list / 추천 채널 고유 ID(str) - 추천 채널 이름(str)) - 있을 경우에만 return]
-    
-    
     '''
 
     import requests
     from bs4 import BeautifulSoup 
     api_key = api_key
     channel_id = channel_id
-    page_token = ""
     channel_info = []
 
     param = ["snippet", "statistics", "brandingSettings"]
@@ -28,8 +25,6 @@ def get_channel_info(channel_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8A
     
     for part in param:
         target_url ='''https://www.googleapis.com/youtube/v3/channels?part={}&id={}&key={}'''.format(part, channel_id, api_key) 
-        session = requests.Session ()
-        headers ={'user-agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'}
         html = requests.get (target_url)
         soup = BeautifulSoup (html.text, "html.parser" )
         api_dict = eval(soup.text.replace("false","False").replace("true","True"))
@@ -54,8 +49,6 @@ def get_channel_info(channel_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8A
             
                 for i in range(len(channel_info[-1])):
                     target_url ='''https://www.googleapis.com/youtube/v3/channels?part=snippet&id={}&key={}'''.format(channel_info[-1][i], api_key) 
-                    session = requests.Session ()
-                    headers ={'user-agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'}
                     html = requests.get (target_url)
                     soup = BeautifulSoup (html.text, "html.parser" )
                     api_dict = eval(soup.text.replace("false","False").replace("true","True"))

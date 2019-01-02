@@ -510,42 +510,52 @@ class YoutubeVideo(Base):
     channel_id : 유튜브에서 설정한 채널의 고유 ID
     video_id : 영상의 고유 ID
     title : 영상 제목
+    description : 영상 설명
     upload_date : 영상 게시 날짜
+    tag : 영상 태그
+    thumbnail : 썸네일 주소
+    is_live : 업로드된 라이브방송인지, 일반 영상인지의 여부
     view_cnt : 영상 조회수
     like_cnt : 좋아요 수
     hate_cnt : 싫어요 수
     reple_cnt : 댓글 수
     category : 카테고리
-    thumbnail : 썸네일 주소
-    is_live : 업로드된 라이브방송인지, 일반 영상인지의 여부
+    is_live : 라이브방송이었는지 아닌지
     """
     __tablename__ = 'youtube_video'
+    code = Column(Integer, primary_key=True)
     channel_id = Column(String(100), unique=False)
-    video_id = Column(String(100), primary_key=True, unique=False)
+    video_id = Column(String(100), unique=False)
     title = Column(String(100), unique=False)
+    description = Column(Text, unique=False)
     upload_date = Column(String(50), unique=False)
+    tag = Column(Text, unique=False)
+    category = Column(String(50), unique=False)
+    thumbnail = Column(Text, unique=False)
     view_cnt = Column(Integer, unique=False)
     like_cnt = Column(Integer, unique=False)
     hate_cnt = Column(Integer, unique=False)
     reple_cnt = Column(Integer, unique=False)
-    category = Column(String(50), unique=False)
-    thumbnail = Column(Text, unique=False)
     is_live = Column(String(20), unique=False)
 
-    def __init__(self, channel_id, video_id,
-        title, upload_date, view_cnt, like_cnt,
-        hate_cnt, reple_cnt, category, thumbnail, is_live):
+    def __init__(self, channel_id, video_id, title, description,
+        upload_date, tag, category, thumbnail, view_cnt, like_cnt,
+        hate_cnt, reple_cnt, is_live):
         self.channel_id = channel_id
         self.video_id = video_id
         self.title = title
+        self.description = description
         self.upload_date = upload_date
+        self.tag = tag
+        self.category = category
+        self.thumbnail = thumbnail
         self.view_cnt = view_cnt
         self.like_cnt = like_cnt
         self.hate_cnt = hate_cnt
         self.reple_cnt = reple_cnt
-        self.category = category
-        self.thumbnail = thumbnail
         self.is_live = is_live
+
+        
 
     def __repr__(self):
         return """%s, %s, %s, %s,
@@ -596,30 +606,30 @@ class YoutubeReple(Base):
     reple_id : 채팅의 고유 번호
     video_id : 영상의 고유 ID
     upload_date : 댓글을 단 시간
-    author_id : 댓글을 단 시청자의 고유 id
     author_name : 댓글을 단 시청자의 이름
     reple_contents : 댓글 내용
+    like_cnt : 댓글 좋아요 수
     """
     __tablename__ = 'youtube_reple'
     reple_id = Column(String(100), primary_key=True, unique=False)
     video_id = Column(String(100), unique=False)
     upload_date = Column(String(50), unique=False)
-    author_id = Column(String(50), unique=False)
     author_name = Column(String(50), unique=False)
     reple_contents = Column(Text, unique=False)
+    like_cnt = Column(Integer, unique=False)
     
     def __init__(self, reple_id, video_id,
-        upload_date, author_id, author_name, reple_contents):
+        upload_date, author_name, reple_contents, like_cnt):
         self.reple_id = reple_id
         self.video_id = video_id
         self.upload_date = upload_date
-        self.author_id = author_id
         self.author_name = author_name
         self.reple_contents = reple_contents
+        self.like_cnt = like_cnt
 
     def __repr__(self):
-        return """%s, %s, %s, %s, %s. %s""" % (self.reple_id,
-            self.reple_id, self.upload_date, self.author_name,
-            self.author_id, self.reple_contents)
+        return """%s, %s, %s, %s, %s, %s""" % (self.reple_id,
+            self.video_id, self.upload_date, self.author_name,
+            self.reple_contents, self.like_cnt)
 
 
