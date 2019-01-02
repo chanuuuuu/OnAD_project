@@ -7,7 +7,7 @@ def get_youtube_popluar_channel_list (api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0D
     '''
     api_key : api 키 값
 
-    return => 실시간 인기 동영상 각각의 채널리스트 200개
+    return값 없음 => 'data/youtube_channels/' 경로에 youtube_channels.txt로 실시간 인기 동영상의 채널이 추가됨
 
     '''
     import requests
@@ -37,7 +37,12 @@ def get_youtube_popluar_channel_list (api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0D
 
             else: break
 
-    return popular_channel_list
+    with open('data/youtube_channels/youtube_channels.txt', 'r') as f:
+        past_list = f.read().split("\n")[:-1]
 
-print(get_youtube_popluar_channel_list())
+    popular_channel_list = past_list + [channel_id for channel_id in popular_channel_list if channel_id not in past_list ]
+
+    with open('data/youtube_channels/youtube_channels.txt', 'w') as f: 
+        for channel_id in popular_channel_list:
+            f.write(channel_id + "\n")
 
