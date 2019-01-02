@@ -29,7 +29,7 @@ class OnAd():
     
     # 멤버변수 선언
     dao = None
-    
+    youtube_api_key = "AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY"
 
     # 멤버함수 선언
     def __init__(self):

@@ -51,5 +51,3 @@ def get_dict_video_info(channel_id):
         video_info.append(info)
 
     return video_info
-
-print(get_dict_video_info("UCIYWRFi7y6fBqosN5m5xxWA")[0])
