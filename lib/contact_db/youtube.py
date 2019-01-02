@@ -110,15 +110,15 @@ def insert_information(dao, target_table, data_dict):
 
     if target_table == 'YoutubeChannel':
         from lib.contact_db.member import YoutubeChannel  # 테이블클래스 import
-        member = YoutubeChannel(data_dict.get('channel_id'),
-        data_dict.get('channel_name'), data_dict.get('channel_keyword'))
+        member = YoutubeChannel(data_dict.get('channel_id'), data_dict.get('channel_name'),
+            data_dict.get('channel_keyword'), data_dict.get('thumbnail'))
         insert(member)
         return 1
     
     elif target_table == 'YoutubeChannelDetail':
         from lib.contact_db.member import YoutubeChannelDetail
         member = YoutubeChannelDetail(data_dict.get('channel_id'),
-            data_dict.get('channel_name'), data_dict.get('channel_keyword'),
+            data_dict.get('subscriber'), data_dict.get('channel_hit'),
             data_dict.get('channel_video_cnt'))
         insert(member)
         return 1
@@ -147,7 +147,8 @@ def insert_information(dao, target_table, data_dict):
         from lib.contact_db.member import YoutubeReple
         member = YoutubeReple(data_dict.get('reple_id'),
             data_dict.get('video_id'), data_dict.get('upload_date'),
-            data_dict.get('author'), data_dict.get('reple_contents'))
+            data_dict.get('author_id'), data_dict.get('author_name'),
+            data_dict.get('reple_contents'))
         insert(member)
         return 1
 
