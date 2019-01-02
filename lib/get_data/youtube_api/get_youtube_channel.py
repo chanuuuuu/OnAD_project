@@ -1,6 +1,7 @@
 
 def get_dict_channel_info(channel_id):
     '''
+    채널정보를 딕셔너리들이 모인 리스트로 반환하는 함수
     channel_id(str) : 채널 고유 ID
     return => [{채널정보}]
     '''
@@ -12,7 +13,6 @@ def get_dict_channel_info(channel_id):
     channel_info = []
     info_dict = {}
     info = get_channel_info(channel_id)
-    print(info)
 
     info_dict["channel_id"] = channel_id
     info_dict["channel_title"] = info[0]
@@ -38,5 +38,3 @@ def get_dict_channel_info(channel_id):
     channel_info.append(info_dict)
         
     return channel_info
-
-print(get_dict_channel_info("UCIYWRFi7y6fBqosN5m5xxWA"))

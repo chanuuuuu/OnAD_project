@@ -27,5 +27,3 @@ def get_dict_comment_info(video_id):
         comments_info.append(info)
 
     return comments_info
-
-print(get_dict_comment_info("vrNBP-PHvFM")[0])

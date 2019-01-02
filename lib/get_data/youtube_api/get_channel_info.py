@@ -1,5 +1,6 @@
 def get_channel_info(channel_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8Ak"):
     '''
+    각 채널의 정보를 반환하는 함수
     channel_id : 채널 고유 ID
     api_key : API key 값
     
@@ -16,10 +17,8 @@ def get_channel_info(channel_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8A
 
     import requests
     from bs4 import BeautifulSoup 
-    api_key = api_key
-    channel_id = channel_id
-    channel_info = []
 
+    channel_info = []
     param = ["snippet", "statistics", "brandingSettings"]
     channel_info = []
     
