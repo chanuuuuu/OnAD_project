@@ -72,7 +72,7 @@ class OnAd():
             list_result = get_twitch_game.start()
             print("데이터 준비 완료")
         
-        elif table_name == "TwitchGameDetal":
+        elif table_name == "TwitchGameDetail":
             list_result = get_twitch_game_detail.start()
             print("데이터 준비 완료")
         
@@ -223,30 +223,38 @@ if __name__ == "__main__":
             * twitchstreamdetail 과 함께 동작
             ** 중복되는 스트리머 있으면 안들어가게 예외처리
             """
+            stime = time.time()
             onad.get_data_twitch("TwitchStream")
+            print("소요시간 : %.2s" % (time.time() - stime))
 
         elif sys.argv[1] == "-twitchstreamdetail":
             """
             트위치 스트리밍 세부 데이터 받아와 db에 적재
             매일 매분 - 짧은시간에 가능 ( 1 ~ 2초 )
             """
+            stime = time.time()
             onad.get_data_twitch("TwitchStreamDetail")
+            print("소요시간 : %.2s" % (time.time() - stime))
 
         elif sys.argv[1] == "-twitchgame":
             """
             트위치 게임(번호, 이름) 데이터 받아와 db에 적재
-            매일 매분 - 짧은시간에 가능 (1 ~ 2초)
+            매주 한번 최신화
             * twitchgamedetail 과 함께 동작
             ** 중복되는 게임 있으면 안들어가게 예외처리
             """
+            stime = time.time()
             onad.get_data_twitch("TwitchGame")
+            print("소요시간 : %.2s" % (time.time() - stime))
         
         elif sys.argv[1] == "-twitchgamedetail":
             """
             트위치 게임별 시청자수, 스트림 수 데이터 받아와 db에 적재
             매일 매분 - 짧은 시간에 가능
             """
+            stime = time.time()
             onad.get_data_twitch("TwitchGameDetail")
+            print("소요시간 : %.2s" % (time.time() - stime))
 
         elif sys.argv[1] == "-twitchchat":
             """
