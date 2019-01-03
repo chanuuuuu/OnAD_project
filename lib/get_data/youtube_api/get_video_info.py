@@ -1,7 +1,7 @@
 
 
 
-def get_video_info(video_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8Ak"):
+def get_video_info(api_key, video_id):
     '''
     video_id_list : 비디오 고유 ID(str) ,api_key : api 키값(str)
     

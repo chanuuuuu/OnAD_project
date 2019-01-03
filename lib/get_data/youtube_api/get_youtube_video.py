@@ -1,6 +1,6 @@
 
 
-def start(channel_id):
+def start(api_key, channel_id):
     '''
     한 채널의 비디오 목록을 반환하는 함수
     channel_id(str) : 채널 고유 ID
@@ -12,11 +12,11 @@ def start(channel_id):
     from lib.get_data.youtube_api.get_video_info import get_video_info
     
     video_info = []
-    video_ids = get_video_id(channel_id)
+    video_ids = get_video_id(api_key, channel_id)
     for video_id in video_ids[0]:
         info = {}
         info["channel_id"] = channel_id
-        tmp = get_video_info(video_id)
+        tmp = get_video_info(api_key, video_id)
         info["video_id"] = tmp[0]
         info["title"] = tmp[1]
         info["description"] = tmp[2]

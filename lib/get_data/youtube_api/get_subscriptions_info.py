@@ -1,6 +1,6 @@
 
 
-def get_subscriptions_info (user_id, api_key= "AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8Ak") :
+def get_subscriptions_info (api_key, user_id) :
     '''
     댓글 쓴 사람의 어떤 채널을 구독했는지 정보
     user_ids(str) : 사용자 고유 ID

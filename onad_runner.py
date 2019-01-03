@@ -26,6 +26,7 @@ class OnAd():
     data_dir = "./data/"
     twitch_live_stream_dir = data_dir + "twitch_live_stream/"
     twitch_chat_dir = data_dir + "twitch_live_chat/"
+    youtube_channel_id_file = data_dir + "youtube_channels/youtube_channels.txt"
     
     # 멤버변수 선언
     dao = None
@@ -117,19 +118,28 @@ class OnAd():
     def get_data_youtube(self, table_name,
         api_key=youtube_api_key):
         from lib.get_data.youtube_api import get_youtube_channel
+        from lib.get_data.youtube_api import get_youtube_channel_detail
         from lib.get_data.youtube_api import get_youtube_video
         from lib.get_data.youtube_api import get_youtube_reple
         from lib.get_data.youtube_api import get_youtube_subscription
+        from lib.get_data.youtube_api import get_youtube_channel_ids
         from lib.contact_db.youtube import insert_information
+        from lib.contact_db.youtube import select_information
+        
+        # 유튜브 채널id리스트 최신화 및 채널id리스트 로딩
+        print("유튜브 채널리스트 로딩 중")
+        get_youtube_channel_ids.start(self.youtube_api_key)
+        with open(self.youtube_channel_id_file, 'r') as fp:
+            channel_list = fp.read().split('\n')
+        print("유튜브 채널리스트 로딩 완료")
+        channel_list.append("UCIYWRFi7y6fBqosN5m5xxWA")
 
         if table_name == "YoutubeChannel":
-            channel_list = ["UCQLfdihF1WwbuVcgJq6x6Iw", "UCQLfdihF1WwbuVcgJq6x6Iw"]
-            list_result = get_youtube_channel.start(channel_list)
+            list_result = get_youtube_channel.start(self.youtube_api_key, channel_list)
             print("데이터 준비 완료")
-        
+
         elif table_name == "YoutubeChannelDetail":
-            channel_list = ["UCQLfdihF1WwbuVcgJq6x6Iw"]
-            list_result = get_youtube_channel.start(channel_list, is_detail=True)
+            list_result = get_youtube_channel_detail.start(self.youtube_api_key, channel_list, is_detail=True)
             print("데이터 준비 완료")
 
         elif table_name == "YoutubeVideo":
@@ -197,6 +207,8 @@ class OnAd():
 if __name__ == "__main__":
     import os
     import sys
+    import time
+
     onad = OnAd()
     # 데이터 적재
     if len(sys.argv) == 1:
@@ -319,22 +331,45 @@ if __name__ == "__main__":
         elif sys.argv[1] == "-youtubechannel":
             """
             유튜브 채널정보를 가져와 db에 저장
-            유튜버채널id 정보가 필요함
             ** 중복되는 행은 또 다시 들어가지 않도록 예외처리
             ** 중복되지 않는 경우만 다시 넣는다.(업데이트)
             일주일에 한번가량
             """
+            stime = time.time()
             onad.get_data_youtube("YoutubeChannel")
+            print("소요시간 : %.2s" % (time.time() - stime))
+        
+        elif sys.argv[1] == "-youtubechanneldetail":
+            """
+            유튜브 채널 세부정보 가져와 db 저장
+            하루 여러번 10분에 한번
+            """
+            stime = time.time()
+            onad.get_data_youtube("YoutubeChannelDetail")
+            print("소요시간 : %.2s" % (time.time() - stime))
+        
+        elif sys.argv[1] == "-youtubevideo":
+            pass
 
+        elif sys.argv[1] == "-youtubechat":
+            "차후 추가 예정"
+            pass
+        
+        elif sys.argv[1] == "-youtubereple":
+            pass
+        
+        elif sys.argv[1] == "-youtubesubscription":
+            pass
+        
 
         # 분석
         elif sys.argv[1] == "-analysis":
             print("분석 작업")
             
-    # 채팅로그, 시청자수 데이터 로드
-    chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-08")
-    # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
-    onad.anal_twitch_stream_start(viewer_df) 
+    # # 채팅로그, 시청자수 데이터 로드
+    # chat_df, viewer_df = onad.set_data_twitch_chat("saddummy", "2018-12-13")
+    # # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
+    # onad.anal_twitch_stream_start(viewer_df) 
 
-    # 트위치 채팅편집점
-    print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=60))
+    # # 트위치 채팅편집점
+    # print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=60))

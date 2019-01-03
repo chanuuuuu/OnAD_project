@@ -1,5 +1,5 @@
 
-def get_video_comments_info(video_id, api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8Ak"):
+def get_video_comments_info(api_key, video_id):
     '''
     비디오 당 댓글의 정보
     * input
