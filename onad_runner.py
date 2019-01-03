@@ -388,6 +388,16 @@ if __name__ == "__main__":
         elif sys.argv[1] == "-analysis":
             print("분석 작업")
             
+<<<<<<< HEAD
+    # 채팅로그, 시청자수 데이터 로드
+
+    chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-08")
+    # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
+    onad.anal_twitch_stream_start(viewer_df)
+
+    # 트위치 채팅편집점
+    print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=60))
+=======
     # # 채팅로그, 시청자수 데이터 로드
     # chat_df, viewer_df = onad.set_data_twitch_chat("saddummy", "2018-12-13")
     # # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
@@ -395,3 +405,4 @@ if __name__ == "__main__":
 
     # # 트위치 채팅편집점
     # print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=60))
+>>>>>>> 011b5dd60925b0900de00587e2a5dcbc8e2421e5
