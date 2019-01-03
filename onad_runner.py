@@ -57,6 +57,7 @@ class OnAd():
         from lib.get_data.twitch_api import get_twitch_following
         from lib.get_data.twitch_api import get_twitch_clip
         from lib.contact_db.twitch import insert_information
+        from lib.contact_db.twitch import select_groupby
         from lib.contact_db.member import TwitchStream
         
         # api 이용하여 데이터 받아오는 작업
@@ -225,7 +226,7 @@ if __name__ == "__main__":
             """
             stime = time.time()
             onad.get_data_twitch("TwitchStream")
-            print("소요시간 : %.2s" % (time.time() - stime))
+            print("소요시간 : %.4s" % (time.time() - stime))
 
         elif sys.argv[1] == "-twitchstreamdetail":
             """
@@ -234,7 +235,7 @@ if __name__ == "__main__":
             """
             stime = time.time()
             onad.get_data_twitch("TwitchStreamDetail")
-            print("소요시간 : %.2s" % (time.time() - stime))
+            print("소요시간 : %.4s" % (time.time() - stime))
 
         elif sys.argv[1] == "-twitchgame":
             """
@@ -245,7 +246,7 @@ if __name__ == "__main__":
             """
             stime = time.time()
             onad.get_data_twitch("TwitchGame")
-            print("소요시간 : %.2s" % (time.time() - stime))
+            print("소요시간 : %.4s" % (time.time() - stime))
         
         elif sys.argv[1] == "-twitchgamedetail":
             """
@@ -254,7 +255,7 @@ if __name__ == "__main__":
             """
             stime = time.time()
             onad.get_data_twitch("TwitchGameDetail")
-            print("소요시간 : %.2s" % (time.time() - stime))
+            print("소요시간 : %.4s" % (time.time() - stime))
 
         elif sys.argv[1] == "-twitchchat":
             """
@@ -306,7 +307,9 @@ if __name__ == "__main__":
             * 하루 또는 일주일에 한번 (자주할 필요 없다)
             ** 있으면 넣지않음 / 바뀐다면 업데이트
             """
+            stime = time.time()
             onad.get_data_twitch("TwitchChannel")
+            print("소요시간 : %.4s" % (time.time() - stime))
 
         elif sys.argv[1] == "-twitchchanneldetail":
             """
@@ -316,7 +319,9 @@ if __name__ == "__main__":
             * 매일 한번
             ** 있는 데이터 다시 안들어가게
             """
+            stime = time.time()
             onad.get_data_twitch("TwitchChannelDetail")
+            print("소요시간 : %.4s" % (time.time() - stime))
 
         elif sys.argv[1] == "-twitchclip":
             """
@@ -345,7 +350,7 @@ if __name__ == "__main__":
             """
             stime = time.time()
             onad.get_data_youtube("YoutubeChannel")
-            print("소요시간 : %.2s" % (time.time() - stime))
+            print("소요시간 : %.4s" % (time.time() - stime))
         
         elif sys.argv[1] == "-youtubechanneldetail":
             """
@@ -354,7 +359,7 @@ if __name__ == "__main__":
             """
             stime = time.time()
             onad.get_data_youtube("YoutubeChannelDetail")
-            print("소요시간 : %.2s" % (time.time() - stime))
+            print("소요시간 : %.4s" % (time.time() - stime))
         
         elif sys.argv[1] == "-youtubevideo":
             pass
