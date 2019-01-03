@@ -43,6 +43,8 @@ class OnAd():
         """
         * input
          - table_name : twitch db의 테이블 명
+         - target_streamer : 채팅 데이터를 가져 올 스트리머 이름
+         - broad_date : 채팅 및 시청자 수 데이터를 가져 올 방송 날짜
         """
         from lib.get_data.twitch_api import get_twitch_stream
         from lib.get_data.twitch_api import get_twitch_stream_detail
@@ -112,6 +114,41 @@ class OnAd():
         self.dao.remove()
         print("완료")
 
+    def get_data_youtube(self, table_name,
+        api_key=youtube_api_key):
+        from lib.get_data.youtube_api import get_youtube_channel
+        from lib.get_data.youtube_api import get_youtube_video
+        from lib.get_data.youtube_api import get_youtube_reple
+        from lib.get_data.youtube_api import get_youtube_subscription
+        from lib.contact_db.youtube import insert_information
+
+        if table_name == "YoutubeChannel":
+            channel_list = ["UCQLfdihF1WwbuVcgJq6x6Iw", "UCQLfdihF1WwbuVcgJq6x6Iw"]
+            list_result = get_youtube_channel.start(channel_list)
+            print("데이터 준비 완료")
+        
+        elif table_name == "YoutubeChannelDetail":
+            channel_list = ["UCQLfdihF1WwbuVcgJq6x6Iw"]
+            list_result = get_youtube_channel.start(channel_list, is_detail=True)
+            print("데이터 준비 완료")
+
+        elif table_name == "YoutubeVideo":
+            pass
+        
+        elif table_name == "YoutubeReple":
+            pass
+        
+        elif table_name == "YoutubeSubscription":
+            pass
+        
+        print("DB에 적재중")
+        for data_dict in list_result:
+            insert_information(self.dao, table_name, data_dict)
+        self.dao.commit()
+        self.dao.remove()
+        print("완료")
+
+
     def set_data_twitch_chat(self, target_id, target_date):
         """
         채팅 데이터와 스트리밍 데이터를 전처리하여 (chat_df, viewer_df)로 반환
@@ -165,7 +202,8 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         print("OnAd is the only one platform which is connect a creator with corporation")
         print("we try to make better world.")
-    else:
+    else:  # 인자가 있는 경우
+        # 트위치 데이터 가져오기
         if sys.argv[1] == "-twitchstream":
             """
             트위치 스트리밍 데이터 받아와 db에 적재
@@ -277,10 +315,27 @@ if __name__ == "__main__":
             """
             onad.get_data_twitch("TwitchFollow")
         
+        # 유튜브 데이터 가져오기
+        elif sys.argv[1] == "-youtubechannel":
+            """
+            유튜브 채널정보를 가져와 db에 저장
+            유튜버채널id 정보가 필요함
+            ** 중복되는 행은 또 다시 들어가지 않도록 예외처리
+            ** 중복되지 않는 경우만 다시 넣는다.(업데이트)
+            일주일에 한번가량
+            """
+            onad.get_data_youtube("YoutubeChannel")
+
+
+        # 분석
+        elif sys.argv[1] == "-analysis":
+            print("분석 작업")
+            
     # 채팅로그, 시청자수 데이터 로드
-    chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-27")
+
+    chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-08")
     # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
     onad.anal_twitch_stream_start(viewer_df)
 
     # 트위치 채팅편집점
-    print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=70))
+    print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=60))

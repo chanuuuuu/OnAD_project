@@ -1,14 +1,16 @@
-from bs4 import BeautifulSoup
-import requests
-from get_video_id import get_video_id
-from get_video_info import get_video_info
 
-def get_dict_video_info(channel_id):
+
+def start(channel_id):
     '''
     한 채널의 비디오 목록을 반환하는 함수
     channel_id(str) : 채널 고유 ID
     return => [{일반 동영상 정보}, {라이브 동영상 정보}]
     '''
+    from bs4 import BeautifulSoup
+    import requests
+    from lib.get_data.youtube_api.get_video_id import get_video_id
+    from lib.get_data.youtube_api.get_video_info import get_video_info
+    
     video_info = []
     video_ids = get_video_id(channel_id)
     for video_id in video_ids[0]:

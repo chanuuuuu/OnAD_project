@@ -1,40 +1,43 @@
 
-def get_dict_channel_info(channel_id):
+def start(channel_list, is_detail=None):
     '''
     채널정보를 딕셔너리들이 모인 리스트로 반환하는 함수
-    channel_id(str) : 채널 고유 ID
-    return => [{채널정보}]
+    *input
+        - channel_list(list) : 채널고유ID 목록
+    *output
+        - [{채널정보}, {}, ...]
     '''
-    from bs4 import BeautifulSoup
-    import requests
-    from get_video_id import get_video_id
-    from get_channel_info import get_channel_info
+    from lib.get_data.youtube_api.get_channel_info import get_channel_info
 
-    channel_info = []
-    info_dict = {}
-    info = get_channel_info(channel_id)
+    channel_info = []  # 최종 데이터들이 담기는 그릇
+    channel_detail_info = []  # channel_detail 최종 데이터들이 담기는 그릇
 
-    info_dict["channel_id"] = channel_id
-    info_dict["channel_title"] = info[0]
-    info_dict["channel_published_at"] = info[1]
-    info_dict["channel_description"] = info[2]
-    info_dict["channel_hits"] = info[3]
+    for channel_id in channel_list:
+        youtube_channel_dict = {}  # 채널 하나하나의 데이터들이 담기는 그릇
+        youtube_channel_detail_dict = {}  # 채널 하나하나의 세부데이터들이 담기는 그릇
+        if "/user" in channel_id:
+            # user 채널이라면
+            info = get_channel_info(channel_id.replace("/user", ""), is_user=True)
+        else:
+            info = get_channel_info(channel_id)
 
-    if not info[4]:
-        info_dict["subscribe_count"] = 'hidden'
-    else:
-        info_dict["subscribe_count"] = info[4]
-    info_dict["total_video_count"] = info[5]
-    
-    if len(channel_info) == 7:
-        info_dict["channel_keyword"] = info[6]
-    elif len(channel_info) == 8:
-        info_dict["channel_keyword"] = info[6]
-        info_dict["channel_recommendaion"] = info[7]
-    else:
-        info_dict["channel_keyword"] = "None"
-        info_dict["channel_recommendaion"] = "None"
+        youtube_channel_dict["channel_name"] = info[0]
+        youtube_channel_dict["published_at"] = info[1]
+        youtube_channel_dict["description"] = info[2]
+        youtube_channel_dict["thumbnail"] = info[3]
+        youtube_channel_dict["channel_id"] = info[4]
+        youtube_channel_dict["keyword"] = info[-2]
+        youtube_channel_dict["recommend_channels"] = info[-1]
 
-    channel_info.append(info_dict)
+        youtube_channel_detail_dict["hit_cnt"] = info[5]
+        youtube_channel_detail_dict["subscribe_cnt"] = info[6]
+        youtube_channel_detail_dict["total_video_cnt"] = info[7]
         
-    return channel_info
+
+        channel_info.append(youtube_channel_dict)
+        channel_detail_info.append(youtube_channel_detail_dict)
+
+    if is_detail: # 채널 detail 정보를 반환
+        return channel_detail_info
+    else:  # 채널 기본 정보를 반환
+        return channel_info
