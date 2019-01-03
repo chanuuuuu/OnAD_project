@@ -24,23 +24,29 @@ def select_all_information(dao, target_table):
         dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
         return rows
 
-def select_groupby(dao, target_col):
+def select_groupby(dao, target_col, target_streamer=None):
     """
     select 구문 함수
     * input
       - dao : scoped_session 객체
-      - target_table : 테이블 클래스명 중 하나
-        (TwitchCaht, TwitchStream, TwitchStreamDetail,
-        TwitchChannel, TwitchChannelDetail, TwitchGame, TwitchGameDetail)
-      - target_col : 그룹으로 묶어 볼 컬럼명
+      - target_col : 그룹으로 묶어 반환 될 클래스(테이블)의 멤버변수(컬럼)
+            ex) TwitchChat.broad_date
+      - target_streamer : 추가적 조건으로 추가할 스트리머이름
 
     * output
       selected rows
     """
-    rows = dao.query(target_col).group_by(target_col).all()
-    rows = [ row[0] for row in rows]
-    dao.remove()
-    return rows
+    if not target_streamer:
+        rows = dao.query(target_col).group_by(target_col).all()
+        rows = [ row[0] for row in rows]
+        dao.remove()
+        return rows
+    else:
+        rows = dao.query(target_col).group_by(
+            target_col).filter_by(
+                streamer_name=target_streamer).all()
+        dao.remove()
+        return rows
 
 def delete_information(dao, target_table, target_data):
     """
@@ -126,7 +132,6 @@ def delete_information(dao, target_table, target_data):
         print("잘못된 target_table 입력입니다.")
         raise ValueError('plz input right table class - hwasurr')
 
-
 def insert_information(dao, target_table, data_dict):
     """
     db 데이터 삽입 함수
@@ -154,7 +159,8 @@ def insert_information(dao, target_table, data_dict):
 
     if target_table == 'TwitchChat':
         from lib.contact_db.member import TwitchChat  # 테이블클래스 import
-        member = TwitchChat(data_dict['chatterer'],
+        member = TwitchChat(data_dict['streamer_name'],
+            data_dict['broad_date'], data_dict['chatterer'],
             data_dict['chat_time'], data_dict['chat_contents'])
         insert(member)
         return 1
@@ -206,7 +212,8 @@ def insert_information(dao, target_table, data_dict):
     elif target_table == 'TwitchFollowing':
         from lib.contact_db.member import TwitchFollowing
         member = TwitchFollowing(data_dict.get('user_id'),
-            data_dict.get('following_streamer'), data_dict.get('streamer_name'))
+            data_dict.get('following_streamer'), data_dict.get('streamer_name'),
+            data_dict.get('followed_at'))
         insert(member)
         return 1
     

@@ -5,26 +5,26 @@ from get_subscriptions_info import get_subscriptions_info
 
 
 def get_dict_subscribe_info(video_id):
-    
-        subscribe_info = []
 
-        tmp = get_video_comments_info(video_id)
+    subscribe_info = []
 
-        for user in range(len(tmp)):
-                info = {}
+    tmp = get_video_comments_info(video_id)
 
-                info["video_id"] = video_id
-                info["reply_id"] = tmp[user][0]
+    for user in range(len(tmp)):
+        info = {}
 
-                subscriptions_info = get_subscriptions_info(tmp[user][0])
+        info["video_id"] = video_id
+        info["reply_id"] = tmp[user][0]
 
-                if subscriptions_info == "hidden": 
-                    continue
-                else :
-                    info["subscriptions_info"] = subscriptions_info
+        subscriptions_info = get_subscriptions_info(tmp[user][0])
 
-                subscribe_info.append(info)
+        if subscriptions_info == "hidden": 
+            continue
+        else :
+            info["subscriptions_info"] = subscriptions_info
 
-        return subscribe_info
+        subscribe_info.append(info)
+
+    return subscribe_info
 
 print(get_dict_subscribe_info("9zsGJDzxdHo"))

@@ -23,6 +23,7 @@ def select_information(dao, target_table):
         dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
         return rows
 
+def select_inform_groupby():pass
 
 def delete_information(dao, target_table, target_data):
     """
@@ -92,7 +93,7 @@ def insert_information(dao, target_table, data_dict):
       - dao : scoped_session 객체
       - target_table : 테이블 클래스 명 중 하나
         (YoutubeChannel, YoutubeChannelDetail
-         YoutubeVideo, YoutubeChat, YoutubeReple)
+         YoutubeVideo, YoutubeChat, YoutubeReple, YoutubeSubscription)
       - data_dict : 해당 테이블의 컬럼명을 key로 하고, 데이터를 value로 하는 딕셔너리
         ex) YoutubeChannel 이라면,
         {'channel_id': DGahT12aA34aGdg5, 'channel_name': '풍월량TV', 'channel_keyword': '게임, 소통, ...'}
@@ -110,16 +111,18 @@ def insert_information(dao, target_table, data_dict):
 
     if target_table == 'YoutubeChannel':
         from lib.contact_db.member import YoutubeChannel  # 테이블클래스 import
-        member = YoutubeChannel(data_dict.get('channel_id'),
-        data_dict.get('channel_name'), data_dict.get('channel_keyword'))
+        member = YoutubeChannel(data_dict.get('channel_id'), data_dict.get('channel_name'),
+            data_dict.get('description'), data_dict.get('published_at'),
+            data_dict.get('thumbnail'), data_dict.get('keyword'),
+            data_dict.get('recommend_channels'))
         insert(member)
         return 1
     
     elif target_table == 'YoutubeChannelDetail':
         from lib.contact_db.member import YoutubeChannelDetail
         member = YoutubeChannelDetail(data_dict.get('channel_id'),
-            data_dict.get('channel_name'), data_dict.get('channel_keyword'),
-            data_dict.get('channel_video_cnt'))
+            data_dict.get('subscribe_cnt'), data_dict.get('hit_cnt'),
+            data_dict.get('total_video_cnt'))
         insert(member)
         return 1
 
@@ -127,10 +130,12 @@ def insert_information(dao, target_table, data_dict):
         from lib.contact_db.member import YoutubeVideo
         member = YoutubeVideo(data_dict.get('channel_id'),
             data_dict.get('video_id'), data_dict.get('title'),
-            data_dict.get('upload_date'), data_dict.get('view_cnt'),
+            data_dict.get('description'), data_dict.get('upload_date'),
+            data_dict.get('tag'), data_dict.get('category'),
+            data_dict.get('thumbnail'), data_dict.get('view_cnt'),
             data_dict.get('like_cnt'), data_dict.get('hate_cnt'),
-            data_dict.get('reple_cnt'), data_dict.get('category'),
-            data_dict.get('thumbnail'), data_dict.get('is_live'))
+            data_dict.get('reple_cnt'), data_dict.get('is_live'),
+            )
         insert(member)
         return 1
     
@@ -147,7 +152,15 @@ def insert_information(dao, target_table, data_dict):
         from lib.contact_db.member import YoutubeReple
         member = YoutubeReple(data_dict.get('reple_id'),
             data_dict.get('video_id'), data_dict.get('upload_date'),
-            data_dict.get('author'), data_dict.get('reple_contents'))
+            data_dict.get('author_name'), data_dict.get('reple_contents'),
+            data_dict.get('like_cnt'))
+        insert(member)
+        return 1
+    
+    elif target_table == 'YoutubeSubscription':
+        from lib.contact_db.member import YoutubeSubscription
+        member = YoutubeSubscription(data_dict.get('video_id'),
+            data_dict.get('replier_id'), data_dict.get('subscription'))
         insert(member)
         return 1
 

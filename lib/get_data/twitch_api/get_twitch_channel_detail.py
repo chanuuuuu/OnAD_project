@@ -1,7 +1,7 @@
 
 def start(list_streamer_id):
     """
-    twitch_game_detail 테이블의 데이터를 반환하는 함수
+    twitch_channel_detail 테이블의 데이터를 반환하는 함수
     * output
         - result : 리스트, data_dict들의 모음
     """

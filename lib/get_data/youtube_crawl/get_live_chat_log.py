@@ -2,16 +2,14 @@ import time
 from bs4 import BeautifulSoup
 import requests
 
-def get_youtube_chatlog(video_id, channel_name):
+def get_youtube_chatlog(video_id):
     '''
     video_id(str) : 라이브 동영상 고유 ID  <!!주의!!> video_id에 일반 동영상 ID를 넣을 경우 아무것도 저장하지 않습니다.
-    channel_name(str) : 채팅 로그를 txt로 저장할 때 스트리머 이름과 날짜가 제목에 오게 됩니다. 
-                    따라서 stramer에 유튜브 스트리머 이름이나 채널 이름을 넣어주세요.
+    return => {chat_log(dict)}
+              {video_id(str), timestamp(str), nickname(str), content(str), video_publushed_at(str)}
 
-    !!참고!! 이 함수의 retrun값은 없습니다. 다만 video_id에 따라 라이브 동영상의 채팅로그가 
-    txt 파일로 저장됩니다. (ex) 대도서관-YYYYMMDD.txt 
     '''
-    print("{}의 채팅로그를 불러옵니다.".format(channel_name))
+    print("{}의 채팅로그를 불러옵니다.".format(video_id))
     
     from bs4 import BeautifulSoup
     import requests
@@ -59,31 +57,34 @@ def get_youtube_chatlog(video_id, channel_name):
                 
                 tmp = samp ["replayChatItemAction" ] [ "actions" ] [ 0 ] [ "addChatItemAction" ] [ "item" ] [ "liveChatTextMessageRenderer" ]
                 info["video_id"] = video_id
-                info["video_pulished_at"] = times
-                info["nickname"] = str(tmp['authorName']["simpleText"])
-                info["timestamp"] = str(tmp [ "timestampText" ] [ "simpleText"])
+                info["timestamp"] = str(tmp [ "timestampText" ] [ "simpleText"])        
+                info["nickname"] = "<" + str(tmp['authorName']["simpleText"]) ">"
                 info["content"] = str(tmp[ "message" ] [ "simpleText" ])
+                info["video_published_at"] = times
                 
                 
                 chat_log.append(info)
-                
                 info = {}
+                
+                
                 
         except Exception as e:
             if len(str(e)) == 29:
                 print("채팅로그를 받고 있습니다.")
                 continue
             elif len(str(e)) == 32:
-                print("{}의 채팅로그를 모두 받았읍니다.".format(channel_name))
+                print("{}의 채팅로그를 모두 받았읍니다.".format(video_id))
                 break
             elif len(str(e)) == 62:
                 print("{} 에서 불러올 채팅로그가 없거나 해당 동영상이 비공개입니다.".format(video_id))
                 break
 
-    if len(info) == 0:
+    if len(chat_log) == 0:
         return print("저장할 채팅로그가 없습니다.")
     else:
         return chat_log
         
 
 
+
+print(get_youtube_chatlog("tOAawIXyPGw"))
