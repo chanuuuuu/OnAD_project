@@ -38,11 +38,12 @@ def get_channel_info(channel_id, is_user=None, api_key="AIzaSyDoxv6yPVLKSMJwXVF0
         soup = BeautifulSoup (html.text, "html.parser" )
         api_dict = eval(soup.text.replace("false","False").replace("true","True"))
         
-        if part == "snippet" :
+        if part == "snippet":
             channel_info.append(api_dict["items"][0][part]["title"])  # 채널제목
             channel_info.append(api_dict["items"][0][part]['publishedAt'][:10])  # 채널설립일자
             channel_info.append(api_dict["items"][0][part]["description"])  # 채널설명
-            channel_info.append(api_dict["items"][0][part]["thumbnails"]['default']['url'])  # 썸네일
+            channel_info.append(api_dict["items"][0][part]["thumbnails"]['default']['url'])  # 썸네일 주소
+            channel_info.append(channel_id)  # 채널고유ID
         
         elif part == "statistics":
             channel_info.append(api_dict["items"][0][part]['viewCount'])  # 채널조회수
@@ -50,19 +51,18 @@ def get_channel_info(channel_id, is_user=None, api_key="AIzaSyDoxv6yPVLKSMJwXVF0
             channel_info.append(api_dict["items"][0][part]['videoCount'])  # 채널에 올린 동영상 수
         
         else:
-            if "keywords" in api_dict["items"][0][part]['channel'] :
-                channel_info.append(api_dict["items"][0][part]['channel']["keywords"].split(" "))  # 검색키워드
+            if "keywords" in api_dict["items"][0][part]['channel']:
+                channel_info.append(api_dict["items"][0][part]['channel']["keywords"])  # 검색키워드
             
             if "featuredChannelsUrls" in api_dict["items"][0][part]['channel']:
                 channel_info.append(api_dict["items"][0][part]['channel']["featuredChannelsUrls"])  # 추천채널 목록
-            
                 for i in range(len(channel_info[-1])):
-                    target_url ='''https://www.googleapis.com/youtube/v3/channels?part=snippet&id={}&key={}'''.format(channel_info[-1][i], api_key) 
+                    # 추천 채널 id를 토대로 api 호출하여 채널이름 가져옴
+                    target_url = '''https://www.googleapis.com/youtube/v3/channels?part=snippet&id={}&key={}'''.format(channel_info[-1][i], api_key) 
                     html = requests.get (target_url)
                     soup = BeautifulSoup (html.text, "html.parser" )
-                    api_dict = eval(soup.text.replace("false","False").replace("true","True"))
-                    channel_info[-1][i] = (channel_info[-1][i] + "," + api_dict["items"][0]['snippet']["title"]).split(",")
+                    api_dict = eval(soup.text.replace("false", "False").replace("true", "True"))
+                    channel_info[-1][i] = channel_info[-1][i] + "/" + api_dict["items"][0]['snippet']["title"]
+                channel_info[-1] = ",".join(channel_info[-1])
         
-        channel_info.append(channel_id)  # 채널고유ID
-    
     return channel_info

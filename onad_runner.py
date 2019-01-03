@@ -123,12 +123,14 @@ class OnAd():
         from lib.contact_db.youtube import insert_information
 
         if table_name == "YoutubeChannel":
-            channel_list = ["JFlaMusic/user", "zilioner83/user", "UCnb4EuP3C0dxeika3b-bnXA"]
+            channel_list = ["UCQLfdihF1WwbuVcgJq6x6Iw", "UCQLfdihF1WwbuVcgJq6x6Iw"]
             list_result = get_youtube_channel.start(channel_list)
             print("데이터 준비 완료")
         
         elif table_name == "YoutubeChannelDetail":
-            pass
+            channel_list = ["UCQLfdihF1WwbuVcgJq6x6Iw"]
+            list_result = get_youtube_channel.start(channel_list, is_detail=True)
+            print("데이터 준비 완료")
 
         elif table_name == "YoutubeVideo":
             pass
@@ -140,8 +142,8 @@ class OnAd():
             pass
         
         print("DB에 적재중")
-        # for data_dict in list_result:
-        #     insert_information(self.dao, table_name, data_dict)
+        for data_dict in list_result:
+            insert_information(self.dao, table_name, data_dict)
         self.dao.commit()
         self.dao.remove()
         print("완료")
@@ -200,7 +202,7 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         print("OnAd is the only one platform which is connect a creator with corporation")
         print("we try to make better world.")
-    else:
+    else:  # 인자가 있는 경우
         # 트위치 데이터 가져오기
         if sys.argv[1] == "-twitchstream":
             """
@@ -326,11 +328,17 @@ if __name__ == "__main__":
 
 
         # 분석
+        elif sys.argv[1] == "-analysis":
+            print("분석 작업")
             
     # 채팅로그, 시청자수 데이터 로드
+<<<<<<< HEAD
+    chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-08")
+=======
     chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-06")
+>>>>>>> c5b73b218b34f4d01f82dc5f07127f903a1785bb
     # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
     onad.anal_twitch_stream_start(viewer_df)
 
     # 트위치 채팅편집점
-    print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=70))
+    print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=60))
