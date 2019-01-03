@@ -1,18 +1,5 @@
 
-def user_to_channelid(user_name, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY"):
-    import requests
-    from bs4 import BeautifulSoup 
-
-    target_url = '''https://www.googleapis.com/youtube/v3/channels?part=snippet&forUsername={}&key={}'''.format(user_name, api_key) 
-
-    html = requests.get (target_url)
-    soup = BeautifulSoup (html.text, "html.parser")
-    api_dict = eval(soup.text.replace("false", "False").replace("true", "True"))
-    channel_id = api_dict['items'][0]["id"]
-    
-    return channel_id
-
-def get_video_id(channel_id, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY"):
+def get_video_id(api_key, channel_id):
     '''
     채널의 동영상들의 video_id를 반환하는 함수
     *input
@@ -24,7 +11,7 @@ def get_video_id(channel_id, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY"):
         - result(list) : [일반 동영상 고유 ID(list), 라이브 동영상 고유 ID(list)](list)
     '''
     import requests
-    from bs4 import BeautifulSoup 
+    from bs4 import BeautifulSoup
 
     if len(channel_id) == 24:  # 채널 id가 24자인 경우
         """
@@ -121,6 +108,7 @@ def get_video_id(channel_id, api_key="AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY"):
         """
         channel_ids 데이터 요청
         """
+        from lib.get_data.youtube_api.user_to_channelid import user_to_channelid
         channel_id = user_to_channelid(channel_id, api_key)
         video_ids = []
         page_token = ""
