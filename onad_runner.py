@@ -68,7 +68,7 @@ class OnAd():
         if table_name == "TwitchStreamDetail":
             list_result = get_twitch_stream_detail.start()
             print("데이터 준비 완료")
-        
+
         elif table_name == "TwitchGame":
             list_result = get_twitch_game.start()
             print("데이터 준비 완료")
@@ -103,6 +103,7 @@ class OnAd():
         elif table_name == "TwitchClip":
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
+            print("스트리머 수 : %s" % len(streamer_ids))
             list_result = get_twitch_clip.start(streamer_ids)
             print("클립 수 : %s" % len(list_result))
             print("데이터 준비 완료")
@@ -144,10 +145,13 @@ class OnAd():
             print("데이터 준비 완료")
 
         elif table_name == "YoutubeVideo":
-            pass
+            list_result = get_youtube_video.start(self.youtube_api_key, channel_list)
+            print("데이터 준비 완료")
         
         elif table_name == "YoutubeReple":
-            pass
+            from lib.contact_db.member import YoutubeVideo
+            video_id_list = select_groupby(self.dao, YoutubeVideo.id)
+            list_result = get_youtube_reple.start(self.youtube_api_key, video_id_list)
         
         elif table_name == "YoutubeSubscription":
             pass
@@ -158,7 +162,6 @@ class OnAd():
         self.dao.commit()
         self.dao.remove()
         print("완료")
-
 
     def set_data_twitch_chat(self, target_id, target_date):
         """
@@ -203,7 +206,6 @@ class OnAd():
     def anal_twitch_stream_start(self, viewer_df):
         from lib.analysis.stream_start_time import start
         start(viewer_df)
-
 
 if __name__ == "__main__":
     import os
@@ -328,9 +330,11 @@ if __name__ == "__main__":
             클립데이터 받아와 db에 적재
             매일 한번, 방송 이후에가 적절한데.. 그냥 밤에 한번
             """
+            stime = time.time()
             onad.get_data_twitch("TwitchClip")
+            print("소요시간 : %.4s" % (time.time() - stime))
 
-        elif sys.argv[1] == "-twitchfollow":
+        elif sys.argv[1] == "-twitchfollowing":
             """
             스트리머에 대한 팔로우 데이터를 가져와 db에 저장
             한 스트리머당 5분가량 소요/ 전체 스트리머를 돌리면 긴 시간이 필요
@@ -338,7 +342,9 @@ if __name__ == "__main__":
             ** 중복되지 않는 경우만 다시 넣는다.
             일주일에 한번 / 한달에 한번
             """
-            onad.get_data_twitch("TwitchFollow")
+            stime = time.time()
+            onad.get_data_twitch("TwitchFollowing")
+            print("소요시간 : %.4s" % (time.time() - stime))
         
         # 유튜브 데이터 가져오기
         elif sys.argv[1] == "-youtubechannel":
@@ -362,14 +368,17 @@ if __name__ == "__main__":
             print("소요시간 : %.4s" % (time.time() - stime))
         
         elif sys.argv[1] == "-youtubevideo":
-            pass
+            stime = time.time()
+            onad.get_data_youtube("YoutubeVideo")
+            print("소요시간 : %.4s" % (time.time() - stime))
 
         elif sys.argv[1] == "-youtubechat":
             "차후 추가 예정"
-            pass
         
         elif sys.argv[1] == "-youtubereple":
-            pass
+            stime = time.time()
+            onad.get_data_youtube("YoutubeReple")
+            print("소요시간 : %.4s" % (time.time() - stime))
         
         elif sys.argv[1] == "-youtubesubscription":
             pass
