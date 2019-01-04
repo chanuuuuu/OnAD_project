@@ -332,11 +332,7 @@ if __name__ == "__main__":
             print("분석 작업")
             
     # 채팅로그, 시청자수 데이터 로드
-<<<<<<< HEAD
     chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-08")
-=======
-    chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-06")
->>>>>>> c5b73b218b34f4d01f82dc5f07127f903a1785bb
     # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
     onad.anal_twitch_stream_start(viewer_df)
 
