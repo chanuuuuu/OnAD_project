@@ -10,6 +10,7 @@
 * onad_db.py 파일 : db를 관리하는 DBManager
 * onad_runner.py 파일 : 모든 기능의 시작을 관리하는 OnAd class가 존재함.
   여기에서 run함수는 모두 돌아간다.
+* batch : 데이터 수집 배치파일 모음
 
 모든 import 는 해당 디렉토리부터 시작함
 각 세부 사항은 해당 디렉토리의 README.md 파일에 있음.
@@ -59,13 +60,19 @@
 ## 구동 방법
   터미널(명령프롬프트)에서 python onad_runner.py -해당인자
   - 인자 설명: 
-  1. "-twitchstream" : 트위치 스트림 데이터 받아db에
-  2. "-twitchstreamdetail" : 트위치 스트림 세부데이터 받아 db에
-  3. "-twitchgame" : 트위치 게임 데이터 받아 db에
-  4. "-twitchgamedetail" : 트위치 게임 세부데이터 받아 db에
-  5. "-twitchchat" : 로컬의 data 폴더의 채팅데이터 db에
-  6. "-twitchchannel" : 트위치 채널 데이터 받아 db에
-  7. "-twitchchanneldetail" : 트위치 채널 세부데이터 받아 db에
-  8. "-twitchclip" : 트위치 클립 데이터 받아 db에
-  9. "-twitchfollow" 트위치 팔로우 데이터 받아 db에
-  10. 이후 지속적 추가 예정임.
+  1. -twitchstream: 트위치 스트림 데이터 받아db에
+  2. -twitchstreamdetail: 트위치 스트림 세부데이터 받아 db에
+  3. -twitchgame: 트위치 게임 데이터 받아 db에
+  4. -twitchgamedetail: 트위치 게임 세부데이터 받아 db에
+  5. -twitchchat: 로컬의 data 폴더의 채팅데이터 db에
+  6. -twitchchannel: 트위치 채널 데이터, 채널 세부데이터 받아 db에
+  7. -twitchclip: 트위치 클립 데이터 받아 db에
+  8. -twitchfollow: 트위치 팔로우 데이터 받아 db에
+  9. -youtubechannel: 유튜브 채널 데이터 받아 db에
+  10. -youtubechanneldetail: 유튜브 채널 세부 데이터 받아 db에
+  11. -youtubevideo: 유튜브 영상 데이터 받아 db에
+  12. -youtubechat: 유튜브 라이브채팅 데이터 받아 db에
+  13. -youtubereple: 유튜브 댓글 데이터 받아 db에
+  14. -youtubesubscription: 유튜브 구독 데이터 받아 db에
+  15. -analysis 스트리머id 타겟날짜: 채팅빈도 토대 편집점 print
+  >  ex) python onad_runner.py -analysis yapyap30 2018-12-23
