@@ -56,8 +56,8 @@ def start(api_key, channel_list, is_detail=None):
             if api_dict['items']:
                 if part == "snippet":
                     channel_info['channel_name'] = api_dict["items"][0][part]["title"]  # 채널제목
-                    channel_info['published_at'] = api_dict["items"][0][part]['publishedAt'][:10]  # 채널설립일자
                     channel_info['description'] = api_dict["items"][0][part]["description"]  # 채널설명
+                    channel_info['published_at'] = api_dict["items"][0][part]['publishedAt'][:10]  # 채널설립일자
                     channel_info['thumbnail'] = api_dict["items"][0][part]["thumbnails"]['default']['url']  # 썸네일 주소
                     if api_dict['items'][0]:
                         channel_info['channel_id'] = api_dict['items'][0]['id']  # 채널고유ID
@@ -71,7 +71,7 @@ def start(api_key, channel_list, is_detail=None):
                     
                     if "featuredChannelsUrls" in api_dict["items"][0][part]['channel']:
                         # 추천채널 목록
-                        channel_info['recommend_channels'] = api_dict["items"][0][part]['channel']["featuredChannelsUrls"]
+                        channel_info['recommend_channels'] = ",".join(api_dict["items"][0][part]['channel']["featuredChannelsUrls"])
                     else:
                         channel_info['recommend_channels'] = ""
                     

@@ -12,7 +12,8 @@ def get_video_info(api_key, video_id):
     '''
     
     import requests
-    from bs4 import BeautifulSoup 
+    from bs4 import BeautifulSoup
+    import time
 
     categories = {'1': '영화/애니메이션', '2': '자동차', '10': '음악', '15': '동물', '17': '스포츠', '18': '단편 영화', '19': '여행/이벤트',
      '20': '게임', '21': '동영상 블로그', '22': '인물/블로그', '23': '코미디', '24': '엔터테인먼트', '25': '뉴스/정치', '26': '노하우/스타일',
@@ -24,7 +25,8 @@ def get_video_info(api_key, video_id):
     param = ["snippet", "statistics"]
     video_info = []
 
-    for part in param:    
+    for part in param:
+        time.sleep(0.5)
         target_url = '''https://www.googleapis.com/youtube/v3/videos?part={}&id={}&key={}'''.format(part, video_id, api_key) 
         headers ={ 'user-agent' : 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36' }
         html = requests.get (target_url, headers=headers)
