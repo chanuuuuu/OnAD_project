@@ -1,8 +1,5 @@
 
 
-
-
-
 def get_youtube_popluar_channel_list (api_key="AIzaSyDoxv6yPVLKSMJwXVF0-HKnkdl0DcgE8Ak"):
     '''
     api_key : api 키 값
