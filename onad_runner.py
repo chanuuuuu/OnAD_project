@@ -30,7 +30,7 @@ class OnAd():
     
     # 멤버변수 선언
     dao = None
-    
+    youtube_api_key = "AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY"
 
     # 멤버함수 선언
     def __init__(self):
@@ -39,86 +39,98 @@ class OnAd():
         self.dao = dao
         DBManager.init_db()
 
-    def get_data_twitch(self, table_name):
+    def get_data_twitch(self, table_name,
+        target_streamer="yapyap30", broad_date="2018-12-05"):
         """
         * input
          - table_name : twitch db의 테이블 명
+         - target_streamer : 채팅 데이터를 가져 올 스트리머 이름
+         - broad_date : 채팅 및 시청자 수 데이터를 가져 올 방송 날짜
         """
         from lib.get_data.twitch_api import get_twitch_stream
-        from lib.get_data.twitch_api import get_twitch_stream_detail
         from lib.get_data.twitch_api import get_twitch_game
         from lib.get_data.twitch_api import get_twitch_game_detail
         from lib.get_data.twitch_api import get_twitch_chat
         from lib.get_data.twitch_api import get_twitch_channel
-        from lib.get_data.twitch_api import get_twitch_channel_detail
-        from lib.contact_db.twitch import select_groupby
-        from lib.contact_db.twitch import select_all_information
+        from lib.get_data.twitch_api import get_twitch_following
+        from lib.get_data.twitch_api import get_twitch_clip
         from lib.contact_db.twitch import insert_information
         from lib.contact_db.twitch import select_groupby
         from lib.contact_db.member import TwitchStream
-        
+
+        list_result = None
+
         # api 이용하여 데이터 받아오는 작업
         if table_name == "TwitchStream":
-            list_result = get_twitch_stream.start()
+            print("api 요청 시도")
+            list_result = get_twitch_stream.start()[0]  # (메타데이터, 세부데이터) 를 반환함
+            print(list_result)
             print("데이터 준비 완료")
 
         if table_name == "TwitchStreamDetail":
-            list_result = get_twitch_stream_detail.start()
+            print("api 요청 시도")
+            list_result = get_twitch_stream.start()[1]  # (메타데이터, 세부데이터) 를 반환함
             print("데이터 준비 완료")
 
         elif table_name == "TwitchGame":
+            print("api 요청 시도")
             list_result = get_twitch_game.start()
             print("데이터 준비 완료")
         
         elif table_name == "TwitchGameDetail":
+            print("api 요청 시도")
             list_result = get_twitch_game_detail.start()
             print("데이터 준비 완료")
         
         elif table_name == 'TwitchChat':
-            list_result = get_twitch_chat.start()
+            print("api 요청 시도")
+            list_result = get_twitch_chat.start(target_streamer, broad_date)
+            print("채팅 수 : %s" % len(list_result))
             print("데이터 준비 완료")
 
         elif table_name == 'TwitchChannel':
-            streamer_list = select_groupby(self.dao,
-                TwitchStream.streamer_id)
-            list_result = get_twitch_channel.start(streamer_list)
-            print("데이터 준비 완료")
-
-        elif table_name == 'TwitchChannelDetail':
-<<<<<<< HEAD
-            list_result = get_twitch_channel_detail.start()
-=======
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
-            list_result = get_twitch_channel_detail.start(streamer_ids)
-            print("데이터 준비 완료")
+            print("api 요청 시도")
+            channel_result = get_twitch_channel.start(streamer_ids)
+            print("채널 데이터 준비 완료")
+
+            print("채널 메타 데이터 DB에 적재중")
+            for i, data_dict in enumerate(channel_result[0]):
+                insert_information(self.dao, table_name, data_dict)
+            
+            print("채널 세부 데이터 DB에 적재중")
+            table_name = "TwitchChannelDetail"
+            for i, data_dict in enumerate(channel_result[1]):
+                insert_information(self.dao, table_name, data_dict)
         
         elif table_name == "TwitchFollowing":
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
+            print("api 요청 시도")
             list_result = get_twitch_following.start(streamer_ids)
             print("데이터 준비 완료")
 
         elif table_name == "TwitchClip":
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
+            print("api 요청 시도")
             print("스트리머 수 : %s" % len(streamer_ids))
             list_result = get_twitch_clip.start(streamer_ids)
             print("클립 수 : %s" % len(list_result))
->>>>>>> 6564e1c839c1c4893c2b449037e94e00079833a8
             print("데이터 준비 완료")
         
         # db 적재 작업
-        print("DB에 적재중")
-        for data_dict in list_result:
-            insert_information(self.dao, table_name, data_dict)
+        if list_result:
+            print("%s DB에 적재중" % table_name)
+            for i, data_dict in enumerate(list_result):
+                insert_information(self.dao, table_name, data_dict)
+                print("%s/%s" % (i + 1, len(list_result)))
 
         self.dao.commit()
         self.dao.remove()
         print("완료")
 
-<<<<<<< HEAD
-=======
     def get_data_youtube(self, table_name,
         api_key=youtube_api_key):
         from lib.get_data.youtube_api import get_youtube_channel
@@ -129,6 +141,7 @@ class OnAd():
         from lib.get_data.youtube_api import get_youtube_channel_ids
         from lib.contact_db.youtube import insert_information
         from lib.contact_db.youtube import select_information
+        from lib.contact_db.youtube import select_groupby
         
         # 유튜브 채널id리스트 최신화 및 채널id리스트 로딩
         print("유튜브 채널리스트 로딩 중")
@@ -152,20 +165,22 @@ class OnAd():
         
         elif table_name == "YoutubeReple":
             from lib.contact_db.member import YoutubeVideo
-            video_id_list = select_groupby(self.dao, YoutubeVideo.id)
+            video_id_list = select_groupby(self.dao, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
             list_result = get_youtube_reple.start(self.youtube_api_key, video_id_list)
         
         elif table_name == "YoutubeSubscription":
-            pass
+            from lib.contact_db.member import YoutubeVideo
+            video_id_list = select_groupby(self.dao, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
+            list_result = get_youtube_subscription.start(self.youtube_api_key, video_id_list)
         
         print("DB에 적재중")
-        for data_dict in list_result:
+        for i, data_dict in enumerate(list_result):
             insert_information(self.dao, table_name, data_dict)
+            print("%s/%s" % (i + 1, len(list_result)))
         self.dao.commit()
         self.dao.remove()
         print("완료")
 
->>>>>>> 6564e1c839c1c4893c2b449037e94e00079833a8
     def set_data_twitch_chat(self, target_id, target_date):
         """
         채팅 데이터와 스트리밍 데이터를 전처리하여 (chat_df, viewer_df)로 반환
@@ -185,12 +200,19 @@ class OnAd():
         chat_df = load_chatting(target_id=target_id,
             target_date=target_date,
             twitch_chat_dir=self.twitch_chat_dir)
-        
+
         # 시간당 시청자수 데이터 로드
         viewer_df = load_viewer_count(target_id=target_id,
             target_date=target_date,
             twitch_live_stream_dir=self.twitch_live_stream_dir)
         return chat_df, viewer_df
+
+    def set_existdays_chat_data(self, target_id):
+        """
+        target_id스트리머의 트위치 채팅 폴더의 파일들 중 존재하는 날짜만 반환
+        target_id : 스트리머의 아이디 ex)yapyap30"""
+        from lib.set_data.twitch_preprocessing import get_exists_days
+        return get_exists_days(target_id, self.twitch_chat_dir)
 
     def anal_twitch_chat(self, chat_df, viewer_df, target_percentile):
         from lib.analysis.chat_count import start
@@ -199,19 +221,6 @@ class OnAd():
         result = start(chat_df, viewer_df, target_percentile=target_percentile)
         return result
 
-<<<<<<< HEAD
-        
-
-if __name__ == "__main__":
-    onad = OnAd()
-    # 데이터 적재
-    onad.get_data_twitch("TwitchChannel")
-
-
-    # # 트위치 채팅편집점
-    chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-07")
-    onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=70)
-=======
     def anal_twitch_stream_start(self, viewer_df):
         from lib.analysis.stream_start_time import start
         start(viewer_df)
@@ -385,34 +394,37 @@ if __name__ == "__main__":
             "차후 추가 예정"
         
         elif sys.argv[1] == "-youtubereple":
+            """
+            유튜브 영상리스트를 돌며 리플을 가져와 적재함
+            오랜 시간동안 돌아가며, 과다한 요청
+            """
             stime = time.time()
             onad.get_data_youtube("YoutubeReple")
             print("소요시간 : %.4s" % (time.time() - stime))
         
         elif sys.argv[1] == "-youtubesubscription":
-            pass
-        
+            """
+            유튜브 영상리스트를 돌며 리플 가져오고,
+            그 리플아이디를 통해 그 사용자의 구독정보를 가져옴
+            오랜 시간동안 돌아가며, 과다한 요청
+            """
+            stime = time.time()
+            onad.get_data_youtube("YoutubeSubscription")
+            print("소요시간 : %.4s" % (time.time() - stime))
 
         # 분석
         elif sys.argv[1] == "-analysis":
-            print("분석 작업")
-            
-<<<<<<< HEAD
-    # 채팅로그, 시청자수 데이터 로드
-
-    chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-08")
-    # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
-    onad.anal_twitch_stream_start(viewer_df)
-
-    # 트위치 채팅편집점
-    print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=60))
-=======
-    # # 채팅로그, 시청자수 데이터 로드
-    # chat_df, viewer_df = onad.set_data_twitch_chat("saddummy", "2018-12-13")
-    # # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
-    # onad.anal_twitch_stream_start(viewer_df) 
-
-    # # 트위치 채팅편집점
-    # print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=60))
->>>>>>> 011b5dd60925b0900de00587e2a5dcbc8e2421e5
->>>>>>> 6564e1c839c1c4893c2b449037e94e00079833a8
+            # python onad_runner.py -analysis yapyap30 2018-12-13
+            if sys.argv[2]:
+                streamer = sys.argv[2]
+                if sys.argv[3]:
+                    target_date = sys.argv[3]
+                    print("분석 작업")
+                    # 채팅로그, 시청자수 데이터 로드
+                    chat_df, viewer_df = onad.set_data_twitch_chat(streamer, target_date)
+                    # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
+                    onad.anal_twitch_stream_start(viewer_df)
+                    # 트위치 채팅편집점
+                    print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=60))
+                else: print("타겟 날짜를 입력하세요")
+            else: print("스트리머 이름 입력하세요")
