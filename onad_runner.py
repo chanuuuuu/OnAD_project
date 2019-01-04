@@ -48,36 +48,42 @@ class OnAd():
          - broad_date : 채팅 및 시청자 수 데이터를 가져 올 방송 날짜
         """
         from lib.get_data.twitch_api import get_twitch_stream
-        from lib.get_data.twitch_api import get_twitch_stream_detail
         from lib.get_data.twitch_api import get_twitch_game
         from lib.get_data.twitch_api import get_twitch_game_detail
         from lib.get_data.twitch_api import get_twitch_chat
         from lib.get_data.twitch_api import get_twitch_channel
-        from lib.get_data.twitch_api import get_twitch_channel_detail
         from lib.get_data.twitch_api import get_twitch_following
         from lib.get_data.twitch_api import get_twitch_clip
         from lib.contact_db.twitch import insert_information
         from lib.contact_db.twitch import select_groupby
         from lib.contact_db.member import TwitchStream
-        
+
+        list_result = None
+
         # api 이용하여 데이터 받아오는 작업
         if table_name == "TwitchStream":
-            list_result = get_twitch_stream.start()
+            print("api 요청 시도")
+            list_result = get_twitch_stream.start()[0]  # (메타데이터, 세부데이터) 를 반환함
+            print(list_result)
             print("데이터 준비 완료")
 
         if table_name == "TwitchStreamDetail":
-            list_result = get_twitch_stream_detail.start()
+            print("api 요청 시도")
+            list_result = get_twitch_stream.start()[1]  # (메타데이터, 세부데이터) 를 반환함
             print("데이터 준비 완료")
 
         elif table_name == "TwitchGame":
+            print("api 요청 시도")
             list_result = get_twitch_game.start()
             print("데이터 준비 완료")
         
         elif table_name == "TwitchGameDetail":
+            print("api 요청 시도")
             list_result = get_twitch_game_detail.start()
             print("데이터 준비 완료")
         
         elif table_name == 'TwitchChat':
+            print("api 요청 시도")
             list_result = get_twitch_chat.start(target_streamer, broad_date)
             print("채팅 수 : %s" % len(list_result))
             print("데이터 준비 완료")
@@ -85,33 +91,41 @@ class OnAd():
         elif table_name == 'TwitchChannel':
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
-            list_result = get_twitch_channel.start(streamer_ids)
-            print("데이터 준비 완료")
+            print("api 요청 시도")
+            channel_result = get_twitch_channel.start(streamer_ids)
+            print("채널 데이터 준비 완료")
 
-        elif table_name == 'TwitchChannelDetail':
-            streamer_ids = select_groupby(self.dao,
-                TwitchStream.streamer_id)
-            list_result = get_twitch_channel_detail.start(streamer_ids)
-            print("데이터 준비 완료")
+            print("채널 메타 데이터 DB에 적재중")
+            for i, data_dict in enumerate(channel_result[0]):
+                insert_information(self.dao, table_name, data_dict)
+            
+            print("채널 세부 데이터 DB에 적재중")
+            table_name = "TwitchChannelDetail"
+            for i, data_dict in enumerate(channel_result[1]):
+                insert_information(self.dao, table_name, data_dict)
         
         elif table_name == "TwitchFollowing":
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
+            print("api 요청 시도")
             list_result = get_twitch_following.start(streamer_ids)
             print("데이터 준비 완료")
 
         elif table_name == "TwitchClip":
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
+            print("api 요청 시도")
             print("스트리머 수 : %s" % len(streamer_ids))
             list_result = get_twitch_clip.start(streamer_ids)
             print("클립 수 : %s" % len(list_result))
             print("데이터 준비 완료")
         
         # db 적재 작업
-        print("DB에 적재중")
-        for data_dict in list_result:
-            insert_information(self.dao, table_name, data_dict)
+        if list_result:
+            print("%s DB에 적재중" % table_name)
+            for i, data_dict in enumerate(list_result):
+                insert_information(self.dao, table_name, data_dict)
+                print("%s/%s" % (i + 1, len(list_result)))
 
         self.dao.commit()
         self.dao.remove()
@@ -160,8 +174,9 @@ class OnAd():
             list_result = get_youtube_subscription.start(self.youtube_api_key, video_id_list)
         
         print("DB에 적재중")
-        for data_dict in list_result:
+        for i, data_dict in enumerate(list_result):
             insert_information(self.dao, table_name, data_dict)
+            print("%s/%s" % (i + 1, len(list_result)))
         self.dao.commit()
         self.dao.remove()
         print("완료")

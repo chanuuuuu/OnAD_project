@@ -2,8 +2,12 @@
 def start():
     """
     twitch_stream 테이블의 데이터를 반환하는 함수
+    twitch_stream_detail 테이블의 데이터를 반환하는 함수
+
     * output
-     - result : 리스트, data_dict들의 모음
+       (twitch_stream_data, twitch_stream_detail_data)
+     - twitch_stream_data : 리스트, data_dict들의 모음
+     - twitch_stream_detail_data : 리스트, data_dict들의 모음
     """
     # api 요청
     import requests
@@ -36,12 +40,17 @@ def start():
 
 
     # 개별 data_dict 를 리스트안에 넣어 반환하기 위해
-    result = []
+    twitch_stream_data = []
+    twitch_stream_detail_data = []
+
     for streaming in streamings:
         stream_id = streaming['id']
         streamer_id = streaming['user_id']
         streamer_name = streaming['user_name']
         broad_date = streaming['started_at']
+        title = streaming['title']
+        viewer = streaming['viewer_count']
+        game_id = streaming['game_id']
 
         twitch_stream_data_dict = {
             'stream_id': stream_id,
@@ -49,6 +58,14 @@ def start():
             'streamer_name': streamer_name,
             'broad_date': broad_date,
         }
-        result.append(twitch_stream_data_dict)
+        twitch_stream_data.append(twitch_stream_data_dict)
+
+        twitch_stream_detail_data_dict = {
+            'stream_id': stream_id,
+            'viewer': viewer,
+            'title': title,
+            'game_id': game_id,
+        }
+        twitch_stream_detail_data.append(twitch_stream_detail_data_dict)
     
-    return result
+    return twitch_stream_data, twitch_stream_detail_data

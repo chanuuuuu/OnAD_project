@@ -23,7 +23,7 @@ def start(streamer_list):
                 'after': cursor,
                 }
 
-            time.sleep(1)
+            time.sleep(0.5)
             # api 요청
             res = requests.get(url, headers=headers, params=params)
             if res:
@@ -42,6 +42,6 @@ def start(streamer_list):
                 'followed_at': follower['followed_at']
             } for follower in total_followers ]
             
-        print("%s/%s 완료" % (i + 1, streamer_id))
+        print("%s/%s 완료" % (i + 1, len(streamer_list)))
                 
     return inform
