@@ -71,7 +71,7 @@ def start(api_key, channel_list, is_detail=None):
                     
                     if "featuredChannelsUrls" in api_dict["items"][0][part]['channel']:
                         # 추천채널 목록
-                        channel_info['recommend_channels'] = api_dict["items"][0][part]['channel']["featuredChannelsUrls"]
+                        channel_info['recommend_channels'] = ",".join(api_dict["items"][0][part]['channel']["featuredChannelsUrls"])
                     else:
                         channel_info['recommend_channels'] = ""
                     

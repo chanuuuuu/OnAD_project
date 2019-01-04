@@ -22,7 +22,6 @@ def start(list_streamer_id):
         url = 'https://api.twitch.tv/kraken/channels/%s' % streamer_id
         time.sleep(0.5)
         res = requests.get(url, headers=headers)
-        print(res)
         if res:
             data_ = res.json()
 
@@ -40,7 +39,6 @@ def start(list_streamer_id):
                 "follower": data_['followers'],
                 "viewer": data_['views'],
             }
-            print(detail_data_dict)
             detail_inform.append(detail_data_dict)
 
             print("채널 데이터 %s/%s 로드완료" % (i + 1, len(list_streamer_id)))
