@@ -56,7 +56,6 @@ class OnAd():
         from lib.get_data.twitch_api import get_twitch_clip
         from lib.contact_db.twitch import insert_information
         from lib.contact_db.twitch import select_groupby
-        from lib.contact_db.member import TwitchStream
 
         list_result = None
 
@@ -89,6 +88,7 @@ class OnAd():
             print("데이터 준비 완료")
 
         elif table_name == 'TwitchChannel':
+            from lib.contact_db.member import TwitchStream
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
             print("api 요청 시도")
