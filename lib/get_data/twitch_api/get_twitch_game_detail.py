@@ -21,10 +21,10 @@ def start():
         if res:
             data_ = res.json()
             total_games.extend(data_['top'])
-            if not data_['_links']:
+            if '_links' not in data_:
                 break
             else:
-                if data_['_links']['next']:
+                if 'next' in data_['_links']:
                     url = data_['_links']['next']
 
     inform = [{"game_id": data['game']['_id'],
