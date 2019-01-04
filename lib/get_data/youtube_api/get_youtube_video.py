@@ -29,7 +29,7 @@ def start(api_key, channel_list):
             info["like_cnt"] = tmp[8]
             info["hate_cnt"] = tmp[9]
             info["reple_cnt"] = tmp[11]
-            info["Is_live_streaming_video"] = "False"
+            info["is_live"] = "False"
 
             video_info.extend(info)
             
@@ -48,7 +48,7 @@ def start(api_key, channel_list):
             info["like_cnt"] = tmp[8]
             info["hate_cnt"] = tmp[9]
             info["reple_cnt"] = tmp[11]
-            info["Is_live_streaming_video"] = "True"
+            info["is_live"] = "True"
 
             video_info.extend(info)
 

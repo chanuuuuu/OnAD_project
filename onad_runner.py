@@ -127,6 +127,7 @@ class OnAd():
         from lib.get_data.youtube_api import get_youtube_channel_ids
         from lib.contact_db.youtube import insert_information
         from lib.contact_db.youtube import select_information
+        from lib.contact_db.youtube import select_groupby
         
         # 유튜브 채널id리스트 최신화 및 채널id리스트 로딩
         print("유튜브 채널리스트 로딩 중")
@@ -150,11 +151,13 @@ class OnAd():
         
         elif table_name == "YoutubeReple":
             from lib.contact_db.member import YoutubeVideo
-            video_id_list = select_groupby(self.dao, YoutubeVideo.id)
+            video_id_list = select_groupby(self.dao, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
             list_result = get_youtube_reple.start(self.youtube_api_key, video_id_list)
         
         elif table_name == "YoutubeSubscription":
-            pass
+            from lib.contact_db.member import YoutubeVideo
+            video_id_list = select_groupby(self.dao, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
+            list_result = get_youtube_subscription.start(self.youtube_api_key, video_id_list)
         
         print("DB에 적재중")
         for data_dict in list_result:
@@ -376,33 +379,38 @@ if __name__ == "__main__":
             "차후 추가 예정"
         
         elif sys.argv[1] == "-youtubereple":
+            """
+            유튜브 영상리스트를 돌며 리플을 가져와 적재함
+            오랜 시간동안 돌아가며, 과다한 요청
+            """
             stime = time.time()
             onad.get_data_youtube("YoutubeReple")
             print("소요시간 : %.4s" % (time.time() - stime))
         
         elif sys.argv[1] == "-youtubesubscription":
-            pass
-        
+            """
+            유튜브 영상리스트를 돌며 리플 가져오고,
+            그 리플아이디를 통해 그 사용자의 구독정보를 가져옴
+            오랜 시간동안 돌아가며, 과다한 요청
+            """
+            stime = time.time()
+            onad.get_data_youtube("YoutubeSubscription")
+            print("소요시간 : %.4s" % (time.time() - stime))
 
         # 분석
         elif sys.argv[1] == "-analysis":
-            print("분석 작업")
-            
-<<<<<<< HEAD
-    # 채팅로그, 시청자수 데이터 로드
+            # python onad_runner.py -analysis yapyap30 2018-12-13
+            if sys.argv[2]:
+                streamer = sys.argv[2]
+                if sys.argv[3]:
+                    target_date = sys.argv[3]
+                    print("분석 작업")
+                    # 채팅로그, 시청자수 데이터 로드
+                    chat_df, viewer_df = onad.set_data_twitch_chat(streamer, target_date)
+                    # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
+                    onad.anal_twitch_stream_start(viewer_df)
+                    # 트위치 채팅편집점
+                    print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=60))
+                else: print("타겟 날짜를 입력하세요")
+            else: print("스트리머 이름 입력하세요")
 
-    chat_df, viewer_df = onad.set_data_twitch_chat("yapyap30", "2018-12-08")
-    # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
-    onad.anal_twitch_stream_start(viewer_df)
-
-    # 트위치 채팅편집점
-    print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=60))
-=======
-    # # 채팅로그, 시청자수 데이터 로드
-    # chat_df, viewer_df = onad.set_data_twitch_chat("saddummy", "2018-12-13")
-    # # 트위치 스트리밍 시작시간을 찾아 보여주는 함수
-    # onad.anal_twitch_stream_start(viewer_df) 
-
-    # # 트위치 채팅편집점
-    # print(onad.anal_twitch_chat(chat_df, viewer_df, target_percentile=60))
->>>>>>> 011b5dd60925b0900de00587e2a5dcbc8e2421e5

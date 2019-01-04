@@ -38,7 +38,7 @@ def select_groupby(dao, target_col, target_streamer=None):
     """
     if not target_streamer:
         rows = dao.query(target_col).group_by(target_col).all()
-        rows = [ row[0] for row in rows]
+        rows = [ row[0] for row in rows]  # [(1,), (2,), ...] 의 형식이기에
         dao.remove()
         return rows
     else:
