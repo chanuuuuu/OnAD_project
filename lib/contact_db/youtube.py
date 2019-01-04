@@ -23,6 +23,18 @@ def select_information(dao, target_table):
         dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
         return rows
 
+def select_groupby(dao, target_col, is_live=None):
+    if not is_live:
+        rows = dao.query(target_col).group_by(target_col).filter_by(is_live="True").all()
+        rows = [ row[0] for row in rows]
+        dao.remove()
+        return rows
+    else:
+        rows = dao.query(target_col).group_by(
+            target_col).filter_by(
+                is_live="False").all()
+        dao.remove()
+        return rows
 
 def delete_information(dao, target_table, target_data):
     """

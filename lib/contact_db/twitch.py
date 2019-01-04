@@ -38,14 +38,12 @@ def select_groupby(dao, target_col, target_streamer=None):
     """
     if not target_streamer:
         rows = dao.query(target_col).group_by(target_col).all()
-        rows = [ row[0] for row in rows]
-        dao.remove()
+        rows = [ row[0] for row in rows]  # [(1,), (2,), ...] 의 형식이기에
         return rows
     else:
         rows = dao.query(target_col).group_by(
             target_col).filter_by(
                 streamer_name=target_streamer).all()
-        dao.remove()
         return rows
 
 def delete_information(dao, target_table, target_data):
@@ -151,6 +149,8 @@ def insert_information(dao, target_table, data_dict):
       데이터 삽입 이후 1을 반환
       삽입이 진행되지 않았을 시 None 을 반환
     """
+    from sqlalchemy import update
+    
     def insert(member):
         """데이터 insert 후 커넥션 remove하는 함수
         insert_information 함수 안에서만 사용
@@ -167,10 +167,14 @@ def insert_information(dao, target_table, data_dict):
     
     elif target_table == 'TwitchStream':
         from lib.contact_db.member import TwitchStream
-        member = TwitchStream(data_dict.get('stream_id'), data_dict.get('streamer_id'),
-            data_dict.get('streamer_name'), data_dict.get('broad_date'))
-        insert(member)
-        return 1
+        stream_list = select_groupby(dao, TwitchStream.stream_id)
+        if data_dict.get('stream_id') in stream_list:  # 기존 목록에 같은것이 있으면 넣지 않음
+            return 
+        else:  # 없으면 테이블 객체로 만들어 넣음
+            member = TwitchStream(data_dict.get('stream_id'), data_dict.get('streamer_id'),
+                data_dict.get('streamer_name'), data_dict.get('broad_date'))
+            insert(member)
+            return 1
 
     elif target_table == 'TwitchStreamDetail':
         from lib.contact_db.member import TwitchStreamDetail
@@ -182,11 +186,27 @@ def insert_information(dao, target_table, data_dict):
     
     elif target_table == 'TwitchChannel':
         from lib.contact_db.member import TwitchChannel
-        member = TwitchChannel(data_dict.get('streamer_id'),
-            data_dict.get('streamer_name'), data_dict.get('logo'),
-            data_dict.get('homepage'))
-        insert(member)
-        return 1
+        # 기존 목록 불러오기
+        streamer_list = select_groupby(dao, TwitchChannel.streamer_id)
+
+        # 기존 목록에 있는 경우 업데이트
+        if data_dict.get('streamer_id') in streamer_list:
+            update(TwitchChannel).where( # 업데이트
+                TwitchChannel.streamer_id == data_dict.get('streamer_id')).values(
+                    streamer_id=data_dict.get('streamer_id'),
+                    streamer_name=data_dict.get('streamer_name'),
+                    logo=data_dict.get('logo'),
+                    homepage=data_dict.get('homepage'),
+                )
+            return 1
+        
+        # 기존 목록에 없는 경우 삽입
+        else:
+            member = TwitchChannel(data_dict.get('streamer_id'),
+                data_dict.get('streamer_name'), data_dict.get('logo'),
+                data_dict.get('homepage'))
+            insert(member)
+            return 1
     
     elif target_table == 'TwitchChannelDetail':
         from lib.contact_db.member import TwitchChannelDetail
@@ -206,6 +226,16 @@ def insert_information(dao, target_table, data_dict):
         from lib.contact_db.member import TwitchGameDetail
         member = TwitchGameDetail(data_dict.get('game_id'),
             data_dict.get('all_viewer'), data_dict.get('stream_this_game'))
+        insert(member)
+        return 1
+
+    elif target_table == 'TwitchClip':
+        from lib.contact_db.member import TwitchClip
+        member = TwitchClip(data_dict.get('user_id'),
+            data_dict.get('clip_id'), data_dict.get('user_id'),
+            data_dict.get('created_at'), data_dict.get('title'),
+            data_dict.get('url'), data_dict.get('viewer_count'),
+            data_dict.get('thumbnail'))
         insert(member)
         return 1
     
