@@ -106,10 +106,11 @@ class TwitchChannel(Base):
     """
     __tablename__ = "twitch_channel"
     code = Column(Integer, primary_key=True, autoincrement=True)
-    streamer_id = Column(String(50), unique=False)
+    streamer_id = Column(String(50), unique=True)
     streamer_name = Column(String(50), unique=False)
     logo = Column(Text, unique=False)
     homepage = Column(Text, unique=False)
+    update_date = Column(TIMESTAMP, default=func.now())
 
     def __init__(self, streamer_id ,streamer_name,
         logo, homepage):

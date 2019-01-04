@@ -208,6 +208,16 @@ def insert_information(dao, target_table, data_dict):
             data_dict.get('all_viewer'), data_dict.get('stream_this_game'))
         insert(member)
         return 1
+
+    elif target_table == 'TwitchClip':
+        from lib.contact_db.member import TwitchClip
+        member = TwitchClip(data_dict.get('user_id'),
+            data_dict.get('clip_id'), data_dict.get('user_id'),
+            data_dict.get('created_at'), data_dict.get('title'),
+            data_dict.get('url'), data_dict.get('viewer_count'),
+            data_dict.get('thumbnail'))
+        insert(member)
+        return 1
     
     elif target_table == 'TwitchFollowing':
         from lib.contact_db.member import TwitchFollowing
