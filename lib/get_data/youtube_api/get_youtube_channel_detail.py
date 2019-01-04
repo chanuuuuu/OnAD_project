@@ -47,8 +47,8 @@ def start(api_key, channel_list, is_detail=None):
         if api_dict['items']:
             if api_dict['items'][0]:
                 channel_detail_info['channel_id'] = api_dict['items'][0]['id']  # 채널 고유ID
-                channel_detail_info['hit_cnt'] = api_dict["items"][0][param]['viewCount']  # 채널조회수
                 channel_detail_info['subscribe_cnt'] = api_dict["items"][0][param]['subscriberCount']  # 채널구독자수
+                channel_detail_info['hit_cnt'] = api_dict["items"][0][param]['viewCount']  # 채널조회수
                 channel_detail_info['total_video_cnt'] = api_dict["items"][0][param]['videoCount']  # 채널에 올린 동영상 수
         
         return channel_detail_info

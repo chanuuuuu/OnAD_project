@@ -23,7 +23,18 @@ def select_information(dao, target_table):
         dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
         return rows
 
-def select_inform_groupby():pass
+def select_groupby(dao, target_col, is_live=None):
+    if not is_live:
+        rows = dao.query(target_col).group_by(target_col).filter_by(is_live="True").all()
+        rows = [ row[0] for row in rows]
+        dao.remove()
+        return rows
+    else:
+        rows = dao.query(target_col).group_by(
+            target_col).filter_by(
+                is_live="False").all()
+        dao.remove()
+        return rows
 
 def delete_information(dao, target_table, target_data):
     """
@@ -101,6 +112,7 @@ def insert_information(dao, target_table, data_dict):
       데이터 삽입 이후 1을 반환
       삽입이 진행되지 않았을 시 None 을 반환
     """
+    from sqlalchemy import update
     def insert(member):
         """데이터 insert 후 커넥션 remove하는 함수
         insert_information 함수 안에서만 사용
@@ -111,11 +123,27 @@ def insert_information(dao, target_table, data_dict):
 
     if target_table == 'YoutubeChannel':
         from lib.contact_db.member import YoutubeChannel  # 테이블클래스 import
-        member = YoutubeChannel(data_dict.get('channel_id'), data_dict.get('channel_name'),
-            data_dict.get('description'), data_dict.get('published_at'),
-            data_dict.get('thumbnail'), data_dict.get('keyword'),
-            data_dict.get('recommend_channels'))
-        insert(member)
+        channel_list = select_groupby(dao, YoutubeChannel.channel_id)
+        if not data_dict.get("channel_id") in channel_list:
+            # 기존 데이터베이스에 없는 경우 만들어서 넣음
+            member = YoutubeChannel(data_dict.get('channel_id'), data_dict.get('channel_name'),
+                data_dict.get('description'), data_dict.get('published_at'),
+                data_dict.get('thumbnail'), data_dict.get('keyword'),
+                data_dict.get('recommend_channels'))
+            insert(member)
+        else:
+            # 기존 데이터 베이스에 있는 경우 업데이트
+            update(YoutubeChannel).where(
+                YoutubeChannel.channel_id == data_dict.get('channel_id')).values(
+                    channel_id=data_dict.get('channel_id'),
+                    channel_name=data_dict.get('channel_name'),
+                    description=data_dict.get('description'),
+                    published_at=data_dict.get('published_at'),
+                    thumbnail=data_dict.get('thumbnail'),
+                    keyword=data_dict.get('keyword'),
+                    recommend_channels=data_dict.get('recommend_channels'),
+                )
+            return 1
         return 1
     
     elif target_table == 'YoutubeChannelDetail':
@@ -128,16 +156,36 @@ def insert_information(dao, target_table, data_dict):
 
     elif target_table == 'YoutubeVideo':
         from lib.contact_db.member import YoutubeVideo
-        member = YoutubeVideo(data_dict.get('channel_id'),
-            data_dict.get('video_id'), data_dict.get('title'),
-            data_dict.get('description'), data_dict.get('upload_date'),
-            data_dict.get('tag'), data_dict.get('category'),
-            data_dict.get('thumbnail'), data_dict.get('view_cnt'),
-            data_dict.get('like_cnt'), data_dict.get('hate_cnt'),
-            data_dict.get('reple_cnt'), data_dict.get('is_live'),
-            )
-        insert(member)
-        return 1
+        video_list = select_groupby(dao, YoutubeVideo.video_id)
+        if not data_dict.get("video_id") in video_list:
+            # 기존 데이터베이스에 없는 경우 만들어서 넣음
+            member = YoutubeVideo(data_dict.get('channel_id'),
+                data_dict.get('video_id'), data_dict.get('title'),
+                data_dict.get('description'), data_dict.get('upload_date'),
+                data_dict.get('tag'), data_dict.get('category'),
+                data_dict.get('thumbnail'), data_dict.get('view_cnt'),
+                data_dict.get('like_cnt'), data_dict.get('hate_cnt'),
+                data_dict.get('reple_cnt'), data_dict.get('is_live'),
+                )
+            insert(member)
+            return 1
+        else:  # 기존 데이터베이스에 같은 영상정보가 있는 경우 업데이트
+            update(YoutubeVideo).where(
+                YoutubeVideo.video_id == data_dict.get('video_id')).values(
+                    channel_id=data_dict.get('channel_id'),
+                    video_id=data_dict.get('video_id'),
+                    title=data_dict.get('title'),
+                    description=data_dict.get('description'),
+                    tag=data_dict.get('tag'),
+                    category=data_dict.get('category'),
+                    thumbnail=data_dict.get('thumbnail'),
+                    view_cnt=data_dict.get('view_cnt'),
+                    like_cnt=data_dict.get('like_cnt'),
+                    hate_cnt=data_dict.get('hate_cnt'),
+                    reple_cnt=data_dict.get('reple_cnt'),
+                    is_live=data_dict.get('is_live'),
+                )
+            return 1
     
     elif target_table == 'YoutubeChat':
         from lib.contact_db.member import YoutubeChat
@@ -150,12 +198,25 @@ def insert_information(dao, target_table, data_dict):
     
     elif target_table == 'YoutubeReple':
         from lib.contact_db.member import YoutubeReple
-        member = YoutubeReple(data_dict.get('reple_id'),
-            data_dict.get('video_id'), data_dict.get('upload_date'),
-            data_dict.get('author_name'), data_dict.get('reple_contents'),
-            data_dict.get('like_cnt'))
-        insert(member)
-        return 1
+        video_list = select_groupby(dao, YoutubeVideo.video_id)
+        if not data_dict.get("video_id") in video_list:
+            member = YoutubeReple(data_dict.get('reple_id'),
+                data_dict.get('video_id'), data_dict.get('upload_date'),
+                data_dict.get('author_name'), data_dict.get('reple_contents'),
+                data_dict.get('like_cnt'))
+            insert(member)
+            return 1
+        else:
+            update(YoutubeReple).where(
+                YoutubeReple.video_id == data_dict.get('video_id')).values(
+                    reple_id=data_dict.get('reple_id'),
+                    video_id=data_dict.get('video_id'),
+                    upload_date=data_dict.get('upload_date'),
+                    author_name=data_dict.get('author_name'),
+                    reple_contents=data_dict.get('reple_contents'),
+                    like_cnt=data_dict.get('like_cnt'),
+                )
+            return 1
     
     elif target_table == 'YoutubeSubscription':
         from lib.contact_db.member import YoutubeSubscription

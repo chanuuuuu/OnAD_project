@@ -89,10 +89,11 @@ class OnAd():
             print("데이터 준비 완료")
 
         elif table_name == 'TwitchChannel':
+            from lib.contact_db.member import TwitchStream
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
             print("api 요청 시도")
-            channel_result = get_twitch_channel.start(streamer_ids)
+            channel_result = get_twitch_channel.start(streamer_ids) # 데이터 요청
             print("채널 데이터 준비 완료")
 
             print("채널 메타 데이터 DB에 적재중")
@@ -152,26 +153,33 @@ class OnAd():
         channel_list.append("UCIYWRFi7y6fBqosN5m5xxWA")
 
         if table_name == "YoutubeChannel":
+            print("api 요청시작")
             list_result = get_youtube_channel.start(self.youtube_api_key, channel_list)
             print("데이터 준비 완료")
 
         elif table_name == "YoutubeChannelDetail":
+            print("api 요청시작")
             list_result = get_youtube_channel_detail.start(self.youtube_api_key, channel_list, is_detail=True)
             print("데이터 준비 완료")
 
         elif table_name == "YoutubeVideo":
+            print("api 요청시작")
             list_result = get_youtube_video.start(self.youtube_api_key, channel_list)
             print("데이터 준비 완료")
         
         elif table_name == "YoutubeReple":
             from lib.contact_db.member import YoutubeVideo
             video_id_list = select_groupby(self.dao, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
+            print("api 요청시작")
             list_result = get_youtube_reple.start(self.youtube_api_key, video_id_list)
+            print("데이터 준비 완료")
         
         elif table_name == "YoutubeSubscription":
             from lib.contact_db.member import YoutubeVideo
             video_id_list = select_groupby(self.dao, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
+            print("api 요청시작")
             list_result = get_youtube_subscription.start(self.youtube_api_key, video_id_list)
+            print("데이터 준비 완료")
         
         print("DB에 적재중")
         for i, data_dict in enumerate(list_result):
