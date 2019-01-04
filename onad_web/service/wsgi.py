@@ -4,4 +4,6 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("index.html")
+    return render_template("test.html")
+
+app.run(debug=True)
