@@ -12,6 +12,7 @@ def get_video_id(api_key, channel_id):
     '''
     import requests
     from bs4 import BeautifulSoup
+    import time
 
     if len(channel_id) == 24:  # 채널 id가 24자인 경우
         """
@@ -129,6 +130,7 @@ def get_video_id(api_key, channel_id):
 
         else:
             for _ in range(exe_set):  # 총 요청건수 만큼
+                time.sleep(0.5)
                 # api 요청
                 target_url = '''https://www.googleapis.com/youtube/v3/search?part=snippet&channelId={}&order=date&type=video&pageToken={}&maxResults=50&key={}'''.format(channel_id, page_token, api_key)
                 html = requests.get (target_url)
