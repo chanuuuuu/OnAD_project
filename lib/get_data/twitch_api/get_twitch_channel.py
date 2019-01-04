@@ -31,6 +31,7 @@ def start(list_streamer_id):
                 "homepage": data_['url'],
             }
             inform.append(data_dict)
-            print("%s/%s 로드완료" % (i, len(list_streamer_id)))
+            print("채널 데이터 %s/%s 로드완료" % (i, len(list_streamer_id)))
             i += 1
+
     return inform
