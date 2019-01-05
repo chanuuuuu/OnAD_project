@@ -14,7 +14,7 @@ def start():
     headers = {'Client-ID' : 'kimne78kx3ncx6brgo4mv6wki5h1ko'}
 
     total_games = []
-    for _ in range(10):
+    for _ in range(100):
         params = {'limit': 100}
         # api 요청
         res = requests.get(url, headers=headers, params=params)

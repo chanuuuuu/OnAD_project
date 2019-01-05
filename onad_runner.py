@@ -56,7 +56,6 @@ class OnAd():
         from lib.get_data.twitch_api import get_twitch_clip
         from lib.contact_db.twitch import insert_information
         from lib.contact_db.twitch import select_groupby
-        from lib.contact_db.member import TwitchStream
 
         list_result = None
 
