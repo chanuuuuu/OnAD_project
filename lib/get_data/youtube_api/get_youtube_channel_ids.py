@@ -1,8 +1,9 @@
 
-def start(api_key):
+def start(api_key, target_file):
     '''
     * input:
         api_key : api 키 값
+        target_file : 파일이 있는 경로
 
     * output:
         return값 없음 => 'data/youtube_channels/' 경로에 youtube_channels.txt로 실시간 인기 동영상의 채널이 추가됨
@@ -32,12 +33,13 @@ def start(api_key):
 
         else: break
 
-    with open('data/youtube_channels/youtube_channels.txt', 'r') as f:
+    with open(target_file, 'r') as f:
         past_list = f.read().split("\n")[:-1]
 
     popular_channel_list = past_list + [channel_id for channel_id in popular_channel_list if channel_id not in past_list ]
 
-    with open('data/youtube_channels/youtube_channels.txt', 'w') as f: 
+    with open(target_file, 'w') as f: 
         for channel_id in popular_channel_list:
             f.write(channel_id + "\n")
+        f.wirte('\b')
 

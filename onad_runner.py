@@ -27,7 +27,13 @@ class OnAd():
     twitch_live_stream_dir = data_dir + "twitch_live_stream/"
     twitch_chat_dir = data_dir + "twitch_live_chat/"
     youtube_channel_id_file = data_dir + "youtube_channels/youtube_channels.txt"
-    collector_log_dir = "./batch/logs/"
+
+    # 수집 작업 디렉토리 설정
+    # batch폴더 안에서 작동하기 떄문에 다른 설정
+    collector_data_dir = "../data/"
+    collector_twitch_chat_dir = collector_data_dir + "twitch_live_chat/"
+    collector_youtube_channel_id_file = collector_data_dir + "youtube_channels/youtube_channels.txt"
+    collector_log_dir = "./logs/"  
     
     # 멤버변수 선언
     dao = None
@@ -64,7 +70,6 @@ class OnAd():
         if table_name == "TwitchStream":
             print("api 요청 시도")
             list_result = get_twitch_stream.start()[0]  # (메타데이터, 세부데이터) 를 반환함
-            print(list_result)
             print("데이터 준비 완료")
 
         if table_name == "TwitchStreamDetail":
@@ -126,7 +131,8 @@ class OnAd():
             print("%s DB에 적재중" % table_name)
             for i, data_dict in enumerate(list_result):
                 insert_information(self.dao, table_name, data_dict)
-                print("%s/%s" % (i + 1, len(list_result)))
+                if (i+1) % 50 == 0:
+                    print("%s/%s" % (i + 1, len(list_result)))
 
         self.dao.commit()
         self.dao.remove()
@@ -146,11 +152,11 @@ class OnAd():
         
         # 유튜브 채널id리스트 최신화 및 채널id리스트 로딩
         print("유튜브 채널리스트 로딩 중")
-        get_youtube_channel_ids.start(self.youtube_api_key)
-        with open(self.youtube_channel_id_file, 'r') as fp:
+        get_youtube_channel_ids.start(self.youtube_api_key,
+            self.collector_youtube_channel_id_file)
+        with open(self.collector_youtube_channel_id_file, 'r') as fp:
             channel_list = fp.read().split('\n')
         print("유튜브 채널리스트 로딩 완료")
-        channel_list.append("UCIYWRFi7y6fBqosN5m5xxWA")
 
         if table_name == "YoutubeChannel":
             print("api 요청시작")
@@ -159,7 +165,7 @@ class OnAd():
 
         elif table_name == "YoutubeChannelDetail":
             print("api 요청시작")
-            list_result = get_youtube_channel_detail.start(self.youtube_api_key, channel_list, is_detail=True)
+            list_result = get_youtube_channel_detail.start(self.youtube_api_key, channel_list)
             print("데이터 준비 완료")
 
         elif table_name == "YoutubeVideo":
@@ -366,15 +372,15 @@ if __name__ == "__main__":
                 print("파일이 존재하는 최신 날짜 %s" % exists_days[-1])
                 if db_existday:
                     print("디비에 존재하는 최신 날짜 %s이므로 바로 다음 날부터 적재" % db_existday[-1])
-                    
                     # 채팅로그 파일이 디비에 덜 적재된 경우로
                     # 디비에 존재하는 최신날짜 다음날 부터 다시 디비에 적재
-                    target_date = set(exists_days) - (set(exists_days) & set(db_existday))
+                    target_date = sorted(list(set(exists_days) - (set(exists_days) & set(db_existday))))
                     # 파일에는 있고 디비에 없는 날짜 데이터
                     if target_date:
-                        for i, days in enumerate(target_date):
-                            onad.get_data_twitch("TwitchChat", streamer, days)
-                            print("%s %s/%s 완료" % (streamer, i+1, len(target_date)))
+                        for i, day in enumerate(target_date[:-1]):
+                            # 제일 최신의 날은 오늘 날짜로, 채팅로그를 쌓고 있기 떄문에 넣지 않음
+                            onad.get_data_twitch("TwitchChat", streamer, day)
+                            print("%s %s/%s %s작업 완료" % (streamer, i+1, len(target_date), day))
                     else:
                         # 디비에 모든 파일 적재된 경우
                         print("모든 파일 디비에 적재 완료되었으므로 다음으로 넘어감")
@@ -508,10 +514,10 @@ if __name__ == "__main__":
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
                 onad.get_data_youtube("YoutubeChannel")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "YoutubeChannel" + date + ".txt", 'a') as fp:
@@ -548,7 +554,7 @@ if __name__ == "__main__":
         elif sys.argv[1] == "-youtubevideo":
             """
             유튜브 영상 데이터 받아와 디비에 적재
-            오랜시간 걸림""""
+            오랜시간 걸림"""
             log_dir = onad.collector_log_dir + "YoutubeVideo/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)

@@ -24,15 +24,17 @@ def select_information(dao, target_table):
         return rows
 
 def select_groupby(dao, target_col, is_live=None):
-    if not is_live:
-        rows = dao.query(target_col).group_by(target_col).filter_by(is_live="True").all()
-        rows = [ row[0] for row in rows]
-        dao.remove()
-        return rows
+    if is_live:
+        if is_live.upper() == "YES" or is_live.upper() == "Y":
+            rows = dao.query(target_col).group_by(target_col).filter_by(is_live="True").all()
+            rows = [ row[0] for row in rows]
+            dao.remove()
+            return rows
+        elif is_live.upper() == "NO" or is_live.upper() == "N":
+            rows = dao.query(target_col).group_by(target_col).filter_by(is_live="False").all()
     else:
         rows = dao.query(target_col).group_by(
-            target_col).filter_by(
-                is_live="False").all()
+            target_col).all()
         dao.remove()
         return rows
 

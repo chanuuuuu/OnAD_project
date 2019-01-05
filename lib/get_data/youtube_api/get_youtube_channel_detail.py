@@ -1,5 +1,5 @@
 
-def start(api_key, channel_list, is_detail=None):
+def start(api_key, channel_list):
     '''
     채널세부정보 딕셔너리들이 모인 리스트로 반환하는 함수
     *input
