@@ -200,6 +200,7 @@ def insert_information(dao, target_table, data_dict):
             from lib.contact_db.member import YoutubeReple
             video_list = select_groupby(dao, YoutubeVideo.video_id)
             if not data_dict.get("video_id") in video_list:
+                # DB의 영상 리스트에 없는 경우만 삽입
                 member = YoutubeReple(data_dict.get('reple_id'),
                     data_dict.get('video_id'), data_dict.get('upload_date'),
                     data_dict.get('author_name'), data_dict.get('reple_contents'),
@@ -220,10 +221,11 @@ def insert_information(dao, target_table, data_dict):
         
         elif target_table == 'YoutubeSubscription':
             from lib.contact_db.member import YoutubeSubscription
-            member = YoutubeSubscription(data_dict.get('video_id'),
-                data_dict.get('replier_id'), data_dict.get('subscription'))
-            insert(member)
-            return 1
+            if not data_dict.get("video_id") in video_list:
+                member = YoutubeSubscription(data_dict.get('video_id'),
+                    data_dict.get('replier_id'), data_dict.get('subscription'))
+                insert(member)
+                return 1
 
         else:
             print("잘못된 target_table 입력입니다.")

@@ -46,6 +46,7 @@ def get_video_id(api_key, channel_id):
             for _ in range(exe_set):
                 # api 요청
                 target_url = '''https://www.googleapis.com/youtube/v3/search?part=snippet&channelId={}&order=date&type=video&pageToken={}&maxResults=50&key={}'''.format(channel_id, page_token, api_key)
+                time.sleep(0.5)
                 html = requests.get (target_url)
                 soup = BeautifulSoup(html.text, "html.parser" )
                 api_dict = eval(soup.text.replace("false","False").replace("true","True"))
@@ -72,20 +73,21 @@ def get_video_id(api_key, channel_id):
 
         total_results = api_dict['pageInfo']['totalResults']
         results_per_page = api_dict['pageInfo']['resultsPerPage']
+        live_video_ids = []  # 라이브 비디오 데이터를 담을 그릇
 
         # 총 요청할 건수
         exe_set = round(total_results / results_per_page +0.5)
 
         if exe_set == 0:
             print("라이브 동영상 없음")
-
+        
         else:
-            live_video_ids = []  # 데이터를 담을 그릇
             page_token = ""  # 다음 페이지 토큰을 담을 그릇
             # 총 요청 건수 만큼 요청
             for _ in range(exe_set):
                 # api 요청
                 target_url = '''https://www.googleapis.com/youtube/v3/search?part=snippet&channelId={}&order=date&type=video&pageToken={}&maxResults=50&key={}'''.format(channel_id, page_token, api_key)
+                time.sleep(0.5)
                 html = requests.get (target_url)
                 soup = BeautifulSoup (html.text, "html.parser" )
                 api_dict = eval(soup.text.replace("false","False").replace("true","True"))
@@ -99,7 +101,7 @@ def get_video_id(api_key, channel_id):
                     # 다음 페이지가 있다면 다음페이지를 요청하기 위해
                     page_token = api_dict["nextPageToken"]
 
-        video_ids = list(set(video_ids) - set(live_video_ids))
+            video_ids = list(set(video_ids) - set(live_video_ids))
         
         # video_ids : 라이브 영상이 아닌 영상들의 video_id 리스트
         # live_video_ids : 라이브 영상인 영상들의 video_id 리스트
@@ -168,6 +170,7 @@ def get_video_id(api_key, channel_id):
         else:
             for _ in range(exe_set):  # 총 요청 건수 만큼
                 # api 요청
+                time.sleep(0.5)
                 target_url = '''https://www.googleapis.com/youtube/v3/search?part=snippet&channelId={}&order=date&type=video&eventType=completed&pageToken={}&maxResults=50&key={}'''.format(channel_id, page_token, api_key)
                 html = requests.get (target_url)
                 soup = BeautifulSoup (html.text, "html.parser" )
