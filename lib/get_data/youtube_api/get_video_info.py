@@ -46,10 +46,25 @@ def get_video_info(api_key, video_id):
             video_info.append(api_dict["items"][0]["snippet"]["thumbnails"]["medium"]['url'])  # 동영상 썸네일 주소
 
         else:
-            video_info.append(api_dict["items"][0]["statistics"]['viewCount'])  # 조회수
-            video_info.append(api_dict["items"][0]["statistics"]["likeCount"])  # 좋아요 수
-            video_info.append(api_dict["items"][0]["statistics"]["dislikeCount"])  # 싫어요 수
-            video_info.append(api_dict["items"][0]["statistics"]["favoriteCount"])  # 즐겨찾기 (나중에 볼 영상) 수
-            video_info.append(api_dict["items"][0]["statistics"]["commentCount"]) # 댓글 수
+            if 'viewCount' in api_dict["items"][0]["statistics"]:
+                video_info.append(api_dict["items"][0]["statistics"]['viewCount'])  # 조회수
+            else:
+                video_info.append('0')
+            if 'likeCount' in api_dict["items"][0]["statistics"]:
+                video_info.append(api_dict["items"][0]["statistics"]["likeCount"])  # 좋아요 수
+            else:
+                video_info.append('0')
+            if 'dislikeCount' in api_dict["items"][0]["statistics"]:
+                video_info.append(api_dict["items"][0]["statistics"]["dislikeCount"])  # 싫어요 수
+            else:
+                video_info.append('0')
+            if 'favoriteCount' in api_dict["items"][0]["statistics"]:
+                video_info.append(api_dict["items"][0]["statistics"]["favoriteCount"])  # 즐겨찾기 (나중에 볼 영상) 수
+            else:
+                video_info.append('0')
+            if 'commentCount' in api_dict["items"][0]["statistics"]:
+                video_info.append(api_dict["items"][0]["statistics"]["commentCount"]) # 댓글 수
+            else:
+                video_info.append('0')
     
     return video_info
