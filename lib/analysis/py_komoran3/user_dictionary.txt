@@ -587,3 +587,7 @@ MC무현	NNP
 펄소리	NNP
 침소리	NNP
 침앤펄	NNP
+타이밍	NNP
+가불기	NNP
+ㅈ망	NNP
+머하냐	NNP
