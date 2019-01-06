@@ -6,9 +6,11 @@
 
 # vscode setting files
 ./.vscode
-.vscode/*
+.vscode/
 /.vscode
-setting.json
+*/settings.json
+*/*/settings.json
+\.vscode
 
 # setting files
 *.cfg

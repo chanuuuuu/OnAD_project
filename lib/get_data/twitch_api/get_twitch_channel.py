@@ -41,6 +41,4 @@ def start(list_streamer_id):
             }
             detail_inform.append(detail_data_dict)
 
-            print("채널 데이터 %s/%s 로드완료" % (i + 1, len(list_streamer_id)))
-
     return inform, detail_inform

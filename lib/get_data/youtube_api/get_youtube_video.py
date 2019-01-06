@@ -12,7 +12,7 @@ def start(api_key, channel_list):
     from lib.get_data.youtube_api.get_video_info import get_video_info
     
     video_info = []
-    for channel_id in channel_list:
+    for i, channel_id in enumerate(channel_list):
         video_ids = get_video_id(api_key, channel_id)
         for video_id in video_ids[0]:
             info = {}
@@ -51,5 +51,7 @@ def start(api_key, channel_list):
             info["is_live"] = "True"
 
             video_info.extend(info)
+        
+        print("채널로드 %s/%s" % (i+1, len(channel_list)))
 
     return video_info
