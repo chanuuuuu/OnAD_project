@@ -28,6 +28,7 @@ def start():
         # api 요청
         res = requests.get(url, headers=headers, params=params)
         if res:
+            print("로드함")
             data_ = res.json()
             streamers.extend(data_['data'])
             
@@ -37,7 +38,6 @@ def start():
 
     # 10 명이하의 시청자를 가진 스트리머는 제외 (필요치 않을 듯)
     streamings = [stream for stream in streamers if stream['viewer_count'] > 10]
-
 
     # 개별 data_dict 를 리스트안에 넣어 반환하기 위해
     twitch_stream_data = []

@@ -40,5 +40,6 @@ def start(list_streamer_id):
                 "viewer": data_['views'],
             }
             detail_inform.append(detail_data_dict)
+        print("twitch channel %s/%s 로드" % (i, len(list_streamer_id)))
 
     return inform, detail_inform
