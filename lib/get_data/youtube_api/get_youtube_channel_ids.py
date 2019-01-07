@@ -11,7 +11,7 @@ def start(api_key, target_file):
     import requests
     from bs4 import BeautifulSoup 
     import json
-
+    import os
 
     # api요청
     page_token = ""
@@ -35,11 +35,10 @@ def start(api_key, target_file):
 
     with open(target_file, 'r') as f:
         past_list = f.read().split("\n")[:-1]
+    
 
     popular_channel_list = past_list + [channel_id for channel_id in popular_channel_list if channel_id not in past_list ]
-
     with open(target_file, 'w') as f: 
         for channel_id in popular_channel_list:
             f.write(channel_id + "\n")
-        f.wirte('\b')
-
+    

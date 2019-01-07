@@ -27,14 +27,9 @@ class OnAd():
     twitch_live_stream_dir = data_dir + "twitch_live_stream/"
     twitch_chat_dir = data_dir + "twitch_live_chat/"
     youtube_channel_id_file = data_dir + "youtube_channels/youtube_channels.txt"
+    log_dir = "batch/logs/"
 
-    # 수집 작업 디렉토리 설정
-    # batch폴더 안에서 작동하기 떄문에 다른 설정
-    collector_data_dir = "../data/"
-    collector_twitch_chat_dir = collector_data_dir + "twitch_live_chat/"
-    collector_youtube_channel_id_file = collector_data_dir + "youtube_channels/youtube_channels.txt"
-    collector_log_dir = "./logs/"  
-    
+   
     # 멤버변수 선언
     dao = None
     youtube_api_key = "AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY"
@@ -153,8 +148,8 @@ class OnAd():
         # 유튜브 채널id리스트 최신화 및 채널id리스트 로딩
         print("유튜브 채널리스트 로딩 중")
         get_youtube_channel_ids.start(self.youtube_api_key,
-            self.collector_youtube_channel_id_file)
-        with open(self.collector_youtube_channel_id_file, 'r') as fp:
+            self.youtube_channel_id_file)
+        with open(self.youtube_channel_id_file, 'r') as fp:
             channel_list = fp.read().split('\n')
         print("유튜브 채널리스트 로딩 완료")
 
@@ -259,14 +254,14 @@ if __name__ == "__main__":
             * twitchstreamdetail 과 함께 동작
             ** 중복되는 스트리머 있으면 안들어가게 예외처리
             """
-            log_dir = onad.collector_log_dir + "TwitchStream/"
+            log_dir = onad.log_dir + "TwitchStream/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
                 onad.get_data_twitch("TwitchStream")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "TwitchStream" + date + ".txt", 'a') as fp:
@@ -282,14 +277,14 @@ if __name__ == "__main__":
             트위치 스트리밍 세부 데이터 받아와 db에 적재
             매일 매분 - 짧은시간에 가능 ( 1 ~ 2초 )
             """
-            log_dir = onad.collector_log_dir + "TwitchStreamDetail/"
+            log_dir = onad.log_dir + "TwitchStreamDetail/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
                 onad.get_data_twitch("TwitchStreamDetail")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "TwitchStreamDetail" + date + ".txt", 'a') as fp:
@@ -307,15 +302,14 @@ if __name__ == "__main__":
             * twitchgamedetail 과 함께 동작
             ** 중복되는 게임 있으면 안들어가게 예외처리
             """
-            log_dir = onad.collector_log_dir + "TwitchGame/"
+            log_dir = onad.log_dir + "TwitchGame/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
-                
                 onad.get_data_twitch("TwitchGame")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "TwitchGame" + date + ".txt", 'a') as fp:
@@ -331,14 +325,15 @@ if __name__ == "__main__":
             트위치 게임별 시청자수, 스트림 수 데이터 받아와 db에 적재
             매일 매분 - 짧은 시간에 가능
             """
-            log_dir = onad.collector_log_dir + "TwitchGameDetail/"
+            log_dir = onad.log_dir + "TwitchGameDetail/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
                 onad.get_data_twitch("TwitchGameDetail")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
+                
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "TwitchGameDetail" + date + ".txt", 'a') as fp:
@@ -355,6 +350,8 @@ if __name__ == "__main__":
             매일 한번돌림
             """
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             for dr in os.listdir(onad.twitch_chat_dir):
                 streamer = dr.split("#")[1]  # 스트리머 이름
                 exists_days = onad.set_existdays_chat_data(streamer)  # 존재하는 파일들의 날짜데이터
@@ -391,11 +388,10 @@ if __name__ == "__main__":
                     for i, days in enumerate(exists_days):
                             onad.get_data_twitch("TwitchChat", streamer, days)
                             print("%s %s/%s 완료" % (streamer, i+1, len(exists_days)))
-                log_dir = onad.collector_log_dir + "TwitchChat/"
+                log_dir = onad.log_dir + "TwitchChat/"
                 if not os.path.exists(log_dir):
                     os.mkdir(log_dir)
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
+                
                 runtime = time.time() - stime
                 with open(log_dir + "TwitchChat" + date + ".txt", 'a') as fp:
                     fp.write("datetime:%s runtime:%s result:%s" % (nowtime, runtime, "success"))
@@ -409,14 +405,15 @@ if __name__ == "__main__":
             * 하루 또는 일주일에 한번 (자주할 필요 없다)
             ** 있으면 넣지않음 / 바뀐다면 업데이트
             """
-            log_dir = onad.collector_log_dir + "TwitchChannel/"
+            log_dir = onad.log_dir + "TwitchChannel/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
                 onad.get_data_twitch("TwitchChannel")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
+                
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "TwitchChannel" + date + ".txt", 'a') as fp:
@@ -435,14 +432,15 @@ if __name__ == "__main__":
             * 매일 한번
             ** 있는 데이터 다시 안들어가게
             """
-            log_dir = onad.collector_log_dir + "TwitchChannelDetail/"
+            log_dir = onad.log_dir + "TwitchChannelDetail/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
                 onad.get_data_twitch("TwitchChannelDetail")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
+                
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "TwitchChannelDetail" + date + ".txt", 'a') as fp:
@@ -458,14 +456,15 @@ if __name__ == "__main__":
             클립데이터 받아와 db에 적재
             매일 한번, 방송 이후에가 적절한데.. 그냥 밤에 한번
             """
-            log_dir = onad.collector_log_dir + "TwitchClip/"
+            log_dir = onad.log_dir + "TwitchClip/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
                 onad.get_data_twitch("TwitchClip")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
+                
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "TwitchClip" + date + ".txt", 'a') as fp:
@@ -484,14 +483,15 @@ if __name__ == "__main__":
             ** 중복되지 않는 경우만 다시 넣는다.
             일주일에 한번 / 한달에 한번
             """
-            log_dir = onad.collector_log_dir + "TwitchFollowing/"
+            log_dir = onad.log_dir + "TwitchFollowing/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
                 onad.get_data_twitch("TwitchFollowing")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
+                
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "TwitchFollowing" + date + ".txt", 'a') as fp:
@@ -510,7 +510,7 @@ if __name__ == "__main__":
             ** 중복되지 않는 경우만 다시 넣는다.(업데이트)
             일주일에 한번가량
             """
-            log_dir = onad.collector_log_dir + "YoutubeChannel/"
+            log_dir = onad.log_dir + "YoutubeChannel/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
@@ -533,14 +533,14 @@ if __name__ == "__main__":
             유튜브 채널 세부정보 가져와 db 저장
             하루 여러번 10분에 한번
             """
-            log_dir = onad.collector_log_dir + "YoutubeChannelDetail/"
+            log_dir = onad.log_dir + "YoutubeChannelDetail/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
                 onad.get_data_youtube("YoutubeChannelDetail")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "YoutubeChannelDetail" + date + ".txt", 'a') as fp:
@@ -555,14 +555,14 @@ if __name__ == "__main__":
             """
             유튜브 영상 데이터 받아와 디비에 적재
             오랜시간 걸림"""
-            log_dir = onad.collector_log_dir + "YoutubeVideo/"
+            log_dir = onad.log_dir + "YoutubeVideo/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
                 onad.get_data_youtube("YoutubeVideo")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "YoutubeVideo" + date + ".txt", 'a') as fp:
@@ -581,14 +581,14 @@ if __name__ == "__main__":
             유튜브 영상리스트를 돌며 리플을 가져와 적재함
             오랜 시간동안 돌아가며, 과다한 요청
             """
-            log_dir = onad.collector_log_dir + "YoutubeChat/"
+            log_dir = onad.log_dir + "YoutubeChat/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
                 onad.get_data_youtube("YoutubeChat")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "YoutubeChat" + date + ".txt", 'a') as fp:
@@ -605,14 +605,14 @@ if __name__ == "__main__":
             그 리플아이디를 통해 그 사용자의 구독정보를 가져옴
             오랜 시간동안 돌아가며, 과다한 요청
             """
-            log_dir = onad.collector_log_dir + "YoutubeSubscription/"
+            log_dir = onad.log_dir + "YoutubeSubscription/"
             if not os.path.exists(log_dir):
                 os.mkdir(log_dir)
             stime = time.time()
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
                 onad.get_data_youtube("YoutubeSubscription")
-                date = datetime.datetime.now().strftime("%Y-%m-%d")
-                nowtime = datetime.datetime.now().strftime("%H:%M:%S")
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
                 with open(log_dir + "YoutubeSubscription" + date + ".txt", 'a') as fp:

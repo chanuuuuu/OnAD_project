@@ -1,1 +1,0 @@
-python ../onad_runner.py -youtubechannel
