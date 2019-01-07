@@ -28,6 +28,7 @@ def start(list_streamer_id):
             data_dict = {
                 "streamer_id": data_['_id'],
                 "streamer_name": data_['display_name'],
+                "streamer_twitch_id": data_['name'],
                 "logo": data_['logo'],
                 "homepage": data_['url'],
             }

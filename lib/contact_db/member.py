@@ -108,14 +108,16 @@ class TwitchChannel(Base):
     code = Column(Integer, primary_key=True, autoincrement=True)
     streamer_id = Column(String(50), unique=True)
     streamer_name = Column(String(50), unique=False)
+    streamer_twitch_id = Column(String(50), unique=False)
     logo = Column(Text, unique=False)
     homepage = Column(Text, unique=False)
     update_date = Column(TIMESTAMP, default=func.now())
 
     def __init__(self, streamer_id ,streamer_name,
-        logo, homepage):
+        streamer_twitch_id, logo, homepage):
         self.streamer_id = streamer_id
         self.streamer_name = streamer_name
+        self.streamer_twitch_id = streamer_twitch_id
         self.logo = logo
         self.homepage = homepage
 
