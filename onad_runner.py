@@ -93,17 +93,16 @@ class OnAd():
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
             print("api 요청 시도")
-            channel_result = get_twitch_channel.start(streamer_ids) # 데이터 요청
+            list_result = get_twitch_channel.start(streamer_ids)[0] # 데이터 요청
             print("채널 데이터 준비 완료")
 
-            print("채널 메타 데이터 DB에 적재중")
-            for i, data_dict in enumerate(channel_result[0]):
-                insert_information(self.dao, table_name, data_dict)
-            
-            print("채널 세부 데이터 DB에 적재중")
-            table_name = "TwitchChannelDetail"
-            for i, data_dict in enumerate(channel_result[1]):
-                insert_information(self.dao, table_name, data_dict)
+        elif table_name == 'TwitchChannelDetail':
+            from lib.contact_db.member import TwitchStream
+            streamer_ids = select_groupby(self.dao,
+                TwitchStream.streamer_id)
+            print("api 요청 시도")
+            list_result = get_twitch_channel.start(streamer_ids)[1] # 데이터 요청
+            print("채널 데이터 준비 완료")
         
         elif table_name == "TwitchFollowing":
             streamer_ids = select_groupby(self.dao,
