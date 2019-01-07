@@ -42,6 +42,4 @@ def start(streamer_list):
                 'followed_at': follower['followed_at']
             } for follower in total_followers ]
             
-        print("%s/%s 완료" % (i + 1, len(streamer_list)))
-                
     return inform
