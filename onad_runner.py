@@ -112,17 +112,28 @@ class OnAd():
             print("데이터 준비 완료")
 
         elif table_name == "TwitchClip":
-            streamer_ids = select_groupby(self.dao,
-                TwitchStream.streamer_id)
+            from lib.contact_db.member import TwitchChat
+            from lib.contact_db.member import TwitchStream
+            # 채팅로그를 모으는 스트리머만 가져오기
+            streamer_names = select_groupby(self.dao,
+                TwitchChat.streamer_name)
+            # 스트리머 고유 id 가져오기
+            streamer_ids = [ select_groupby(self.dao,
+                    TwitchStream.streamer_id,
+                    target_streamer=streamer)
+                    for streamer in streamer_names]
             print("api 요청 시도")
             print("스트리머 수 : %s" % len(streamer_ids))
-            list_result = get_twitch_clip.start(streamer_ids)
+            list_result = get_twitch_clip.start(streamer_ids, \
+                started_at=None, ended_at=None)
             print("클립 수 : %s" % len(list_result))
             print("데이터 준비 완료")
         
         # db 적재 작업
         if list_result:
             print("%s DB에 적재중" % table_name)
+                # 스트리머 리스트를 group by 하여 가져오는 것을
+                # 여기서 수행하여야 적게 함. 
             for i, data_dict in enumerate(list_result):
                 insert_information(self.dao, table_name, data_dict)
                 if (i+1) % 50 == 0:
