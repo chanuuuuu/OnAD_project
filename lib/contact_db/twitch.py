@@ -195,6 +195,7 @@ def insert_information(dao, target_table, data_dict):
                     TwitchChannel.streamer_id == data_dict.get('streamer_id')).values(
                         streamer_id=data_dict.get('streamer_id'),
                         streamer_name=data_dict.get('streamer_name'),
+                        streamer_twitch_id=data_dict.get('streamer_twitch_id'),
                         logo=data_dict.get('logo'),
                         homepage=data_dict.get('homepage'),
                     )
@@ -203,8 +204,8 @@ def insert_information(dao, target_table, data_dict):
             # 기존 목록에 없는 경우 삽입
             else:
                 member = TwitchChannel(data_dict.get('streamer_id'),
-                    data_dict.get('streamer_name'), data_dict.get('logo'),
-                    data_dict.get('homepage'))
+                    data_dict.get('streamer_name'), data_dict.get('streamer_tiwtch_id'),
+                    data_dict.get('logo'), data_dict.get('homepage'))
                 insert(member)
                 return 1
         
