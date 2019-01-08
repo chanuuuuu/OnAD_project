@@ -1,4 +1,4 @@
-def startt (date, streamer_id, period=7, visit=5):
+def start (date, streamer_id, period=7, visit=5):
     '''
     date(str) : 'YYYY-MM-DD' 형태로 입력
     streamer(str) : 스트리머 ID를 정확하게 입력 (닉네임X)
