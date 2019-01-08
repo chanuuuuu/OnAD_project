@@ -17,20 +17,24 @@ def start(streamer_ids):
     time.sleep(1)
     for i, streamer_id in enumerate(streamer_ids):
         cursor = None  # 커서 초기화
-        while True:
+        for _ in range(10):
+            # 클립 조회수 50 이상인 것들만 가져올 것이기 때문에 더 많은 요청은 낭비임
+            # top100 을 넘어서기도 전에 조회수는 50이하로 내려감.
             time.sleep(0.2)
             params = {
                 'broadcaster_id': streamer_id,
+                'started_at': '2018-12-05T00:00:01Z', # 최초 한번 이후 수정
+                'ended_at': '2019-01-08T23:59:59Z',
+                'first': 100,
                 'after': cursor
                 }
             # api 요청
             res = requests.get(url, headers=headers, params=params)
             if res:
-                data_ = res.json()
-                total_clips.extend(data_['data'])
-
-                if data_['pagination']:
-                    cursor = data_['pagination']['cursor']
+                data = res.json()['data']
+                total_clips.extend(data)
+                if 'cursor' in res.json()['pagination']:
+                    cursor = res.json()['pagination']['cursor']
                 else: break
 
         # 받아온 데이터 [{...}, {...}]형태로 만들기
