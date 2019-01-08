@@ -19,7 +19,7 @@ def start(streamer_name, broad_date):
         with open(chat_dir + chat_file, 'r', encoding='utf-8') as fp:
             lines = fp.read().split('\n')
 
-        ptn = re.compile(r'(\[\d{2}:\d{2}:\d{2}\]) <.+> .*')
+        ptn = re.compile(r'(\[.+\d{2}:\d{2}:\d{2}\]) <.+> .*')
         all_line = [i for i in lines if ptn.match(i)]
 
         # 시간 데이터만  line.split(" ")[0].replace("[", "").replace("]", "")

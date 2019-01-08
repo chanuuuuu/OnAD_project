@@ -21,7 +21,7 @@ def select_all_information(dao, target_table):
     """
     if target_table:
         rows = dao.query(target_table).all()
-        dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
+        # dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
         return rows
 
 def select_groupby(dao, target_col, target_streamer=None):

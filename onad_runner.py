@@ -83,7 +83,7 @@ class OnAd():
             print("데이터 준비 완료")
         
         elif table_name == 'TwitchChat':
-            print("api 요청 시도")
+            print("폴더읽어오는 중")
             list_result = get_twitch_chat.start(target_streamer, broad_date)
             print("채팅 수 : %s" % len(list_result))
             print("데이터 준비 완료")
@@ -126,9 +126,11 @@ class OnAd():
             for i, data_dict in enumerate(list_result):
                 insert_information(self.dao, table_name, data_dict)
                 if (i+1) % 50 == 0:
-                    print("%s/%s" % (i + 1, len(list_result)))
+                    print("%s/%s 인서트 완료" % (i + 1, len(list_result)))
 
+        print("디비에 커밋 중")
         self.dao.commit()
+        print("디비에 커밋 완료")
         self.dao.remove()
         print("완료")
 
@@ -184,8 +186,10 @@ class OnAd():
         print("DB에 적재중")
         for i, data_dict in enumerate(list_result):
             insert_information(self.dao, table_name, data_dict)
-            print("%s/%s" % (i + 1, len(list_result)))
+            print("%s/%s 인서트 완료" % (i + 1, len(list_result)))
+        print("디비에 커밋 중")
         self.dao.commit()
+        print("디비에 커밋 완료")
         self.dao.remove()
         print("완료")
 
@@ -371,6 +375,7 @@ if __name__ == "__main__":
                     # 채팅로그 파일이 디비에 덜 적재된 경우로
                     # 디비에 존재하는 최신날짜 다음날 부터 다시 디비에 적재
                     target_date = sorted(list(set(exists_days) - (set(exists_days) & set(db_existday))))
+                    print("DB에 넣는 날짜: %s" % target_date[:-1])
                     # 파일에는 있고 디비에 없는 날짜 데이터
                     if target_date:
                         for i, day in enumerate(target_date[:-1]):
