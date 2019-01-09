@@ -19,7 +19,7 @@ def start():
     cursor = None
     streamers = list()
 
-    for _ in range(3):
+    for _ in range(2):
         # 파라미터 설정
         # first : 긁어오는 개수 100이 최대
         # after : 다음 긁어올 커서의 위치

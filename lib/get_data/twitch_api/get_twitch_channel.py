@@ -20,7 +20,7 @@ def start(list_streamer_id):
     detail_inform = []  # 채널 세부 데이터
     for i, streamer_id in enumerate(list_streamer_id):
         url = 'https://api.twitch.tv/kraken/channels/%s' % streamer_id
-        time.sleep(0.5)
+        time.sleep(0.3)
         res = requests.get(url, headers=headers)
         if res:
             data_ = res.json()
