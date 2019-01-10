@@ -44,7 +44,7 @@ def select_stream_start_time(dao, db_url, streamer_id, target_date):
     broad = broad.apply(lambda x : x + pd.Timedelta("9hours"))
     for i in broad:
         if target_date == str(i.date()):
-            return i.time()
+            return str(i.time())
 
 
 def select_data_by_query(db_url, query):

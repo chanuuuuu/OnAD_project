@@ -225,8 +225,9 @@ class OnAd():
         chat_df = load_chatting(target_id=target_id,
             target_date=target_date,
             twitch_chat_dir=self.twitch_chat_dir)
+        print(chat_df)
         
-        chat_df['streamtime'] = pd.to_datetime(chat_df['chat_time'])
+        chat_df['streamtime'] = pd.to_datetime(chat_df.index)
         chat_df.set_index('streamtime', inplace=True)
         pivot_df = chat_df.pivot_table(index=chat_df.index, aggfunc=len, values='chatterer')
         pivot_df.columns = ['cnt_chat']  # 컬럼 이름 할당
@@ -252,7 +253,7 @@ class OnAd():
 
         # 채팅로그 데이터 로드
         chat_df = select_twitch_chat(db_url, streamer_id, target_date)
-        print(chat_df)
+
         # 방송 시작 시간 데이터 로드
         start_time = select_stream_start_time(self.dao, db_url,
             streamer_id, target_date)
@@ -265,10 +266,11 @@ class OnAd():
         return anal_df
 
     # 트위치 채팅 빈도분석하여 편집점 반환
-    def anal_twitch_chat(self, anal_df, target_percentile):
+    def anal_twitch_chat(self, anal_df, target_percentile, anal_type=None):
         from lib.analysis.chat_count import start
         # 1초당 채팅을 바탕으로 한 하이라이트포인트(채팅빈도 다수 지역)
-        result = start(anal_df, target_percentile=target_percentile)
+        result = start(anal_df,
+            target_percentile=target_percentile)
         return result
 
 if __name__ == "__main__":
@@ -681,7 +683,12 @@ if __name__ == "__main__":
                 streamer = sys.argv[2]
                 if sys.argv[3]:
                     target_date = sys.argv[3]
-                    print(onad.set_twitch_chat_db(streamer, target_date))
+                    print("데이터 로드중")
+                    anal_df = onad.set_twitch_chat_db(streamer, target_date)
+                    print("데이터 로드 완료")
+                    print("편집점 분석중")
+                    print(onad.anal_twitch_chat(anal_df, target_percentile=70))
+
 
 
 

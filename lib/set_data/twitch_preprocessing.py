@@ -17,25 +17,24 @@ def load_chatting(target_id='yapyap30', target_date='2018-12-10',
     
     chat_file = "#%s\\%s_#%s.log" % (target_id, target_date, target_id)
     # "#yapyap30\\2018-12-10_#yapyap30.log"
+    print(chat_file)
 
     # 채팅로그 로딩
     with open(twitch_chat_dir + chat_file, 'r', encoding='utf-8') as fp:
         lines = fp.read().split("\n")
     
     # 채팅로그만 찾기
-    ptn = re.compile(r'(\[\d{2}:\d{2}:\d{2}\]) <.+> .*')
+    ptn = re.compile(r'(\[.+\d{2}:\d{2}:\d{2}\]) <.+> .*')
     only_chat_lie = [i for i in lines if ptn.match(i)]
     
     # 시간 데이터만
-    times = [line.split(" ")[0].replace("[", "").replace("]", "") for line in only_chat_lie]
+    times = [ re.search(r'\[.+\]', line).group(0).replace("[", "").replace("]", "")
+        for line in only_chat_lie ]
 
     # 채팅데이터만
     chattings = [line.split('> ')[1] for line in only_chat_lie]
     df = pd.DataFrame(index=times, data=chattings, columns=['chatting'])
-    df['hour'] = [i[:2] for i in df.index]
-
-    
-
+    df['chat_time'] = df.index
     return df
 
 def get_exists_days(target_id='yapyap30', 
@@ -53,6 +52,5 @@ def get_exists_days(target_id='yapyap30',
     import os
 
     target_dir = twitch_live_stream_dir + "#" + target_id
-    
     
     return [file.split("_")[0] for file in  os.listdir(target_dir)]

@@ -37,7 +37,7 @@ def changes_viewer_analysis(self, viewer_count_df, date='2018-12-06', hour=None,
             print("시청자가 없는 시간입니다.")
 
 # 채팅 편집점 알고리듬
-def start(anal_df, target_percentile=60, anal_type=None):
+def start(anal_df, target_percentile=60, anal_type='spot'):
     """
     시청자 수 고려해서 편집점 잡는 것 다시 고려해보기
     지금은 방송을 한 그 당시의 시간을 토대로 분석하는데,
@@ -53,15 +53,14 @@ def start(anal_df, target_percentile=60, anal_type=None):
         채팅 빈도가 갑작스럽게 높아진 구간들
         [(방송시간, 채팅빈도), ...]
     """
+    import numpy as np
+    # 채팅 빈도 기준점 설정
+    threshold = np.percentile(anal_df['cnt_chat'].unique(), target_percentile)
+
     if anal_type.lower() == "section":
+        # 편집점을 기준으로 앞 뒤로 구간을 설정하여 제공
         pass
     
     elif anal_type.lower() == "spot":
-        import numpy as np
-        # 채팅 빈도 기준점 설정
-        threshold = np.percentile(anal_df['cnt_chat'], target_percentile)
         return anal_df[anal_df['cnt_chat'] > threshold]
-    
-    elif anal_type.lower() == "nodb":
-        pass
     

@@ -5,15 +5,16 @@ def set_low_dataset(df, start_time, target_date):
     채팅데이터와 시작시간을 기준으로 시작시간을 00:00:00으로 하여 시작하는
     데이터프레임을 반환해주는 함수
     * input
-        df = 데이터베이스에서 꺼내 온 채팅데이터 원본
-        start_time = 데이터베이스에서 꺼내 온 스트리밍 시작시간
+        df = 데이터베이스에서 꺼내 온 채팅데이터 원본, pd.DataFrame
+        start_time = 데이터베이스에서 꺼내 온 스트리밍 시작시간, str
     * output
         pd.DataFrame
     """
     import pandas as pd
-    print(start_time, df['chat_time'][0])
-    print(df['chat_time'][0])
-    df['streamtime'] = pd.to_datetime(df['chat_time'].apply(lambda x: target_date + " " + x))
+    start_time = pd.to_datetime(target_date + " " + start_time)
+
+    df['streamtime'] = df['chat_time'].apply(lambda x : target_date + " " + x)
+    df['streamtime'] = pd.to_datetime(df['streamtime'])
     df['streamtime'] = df['streamtime'].apply(lambda x : x - start_time)
     df.set_index('streamtime', inplace=True)
 
