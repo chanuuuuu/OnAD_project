@@ -1,20 +1,21 @@
-def start (date, streamer_id, period=7, visit=5):
+def start (date, streamer_id, period=6, visit=5):
     '''
-    date(str) : 'YYYY-MM-DD' 형태로 입력
-    streamer(str) : 스트리머 ID를 정확하게 입력 (닉네임X)
-    period : date를 기준으로 period 동안에 몇 명이 방송에 들어와 채팅을 쳤는지를 알아볼 변수. 일 단위로 입력 (defalut = 7)
+    > 함수 인자 설명
+        - date(str) : 'YYYY-MM-DD' 형태로 입력. 
+        - streamer(str) : 스트리머 ID를 정확하게 입력 (닉네임X)
+        - period : date를 기준으로 period일 전부터 date까지 몇 명이 방송에 들어와 채팅을 쳤는지를 알아볼 변수. 일 단위로 입력 (defalut = 6)
+        !! 주의 !!  date도 전체 기간에 포함되므로, 일주일의 정보를 알고 싶다면 'period=6'으로 설정할 것.``
+        - visit(int) : date를 기준으로 period일 전부터 몇 명이 'visit일'  이상을 방송에 들어와 채팅을 쳤는지를 알아볼 변수. 일 단위로 입력 (defalut = 5)
+        ``(ex) 2018년 12월 26일을 기준으로 일주일 동안 5일 이상 방송에서 채팅을 친 사람의 수를 알고 싶다면?
+        -> start ("2018-12-31", streamer, period=6, visit=5)`` 
 
-    visit(int) : date를 기준으로 period 동안에 몇 명이 'count일' 이상을 방송에 들어와 채팅을 쳤는지를 알아볼 변수. 일 단위로 입력
-                (defalut = 5)
-    
-    (ex) 2018년 12월 26일을 기준으로 일주일 동안 5일 이상 방송에 들어와 채팅을 친 사람의 수를 알고 싶다면?
-     -> start ("2018-12-31", streamer, period=7, visit=5)
-     
-     !! 주의 !! date를 기준으로 period 값에 해당하는 채팅 데이터가 없을 시 결과값을 리턴하지 않음
-            
-    return => [일주일 동안 채팅을 친 사람 수(target_user, int), 
-              일주일 간 count일 동안 꾸준히 들어와 채팅을 친 사람 수(big_fan, int),
-              채팅 데이터가 없는 일자의 로그 이름(list, str)]
+        
+     !! 주의 !! date를 기준으로 period 값에 해당하는 채팅 데이터가 없을 시 결과값이 정확하지 않을 수 있음.
+                
+    >  return : [int, int, [str]]
+    -  설정한 기간 안에 채팅을 친 모든 사람의 수(target_user, int)
+    - 설정한 기간 안에 visit만큼 채팅을 친 사람 수(big_fan, int)
+    -  채팅 데이터가 없는 일자의 로그 이름(list, str) : 빈칸일 경우 정상.
     '''
     
     import re
