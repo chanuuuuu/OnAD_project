@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
     
 
-# 데이터 분석
+# 시청자 수 데이터 분석
 def changes_viewer_analysis(self, viewer_count_df, date='2018-12-06', hour=None,):
     """
     input : 
@@ -36,7 +36,8 @@ def changes_viewer_analysis(self, viewer_count_df, date='2018-12-06', hour=None,
         except TypeError:
             print("시청자가 없는 시간입니다.")
 
-def start(chatting_df, viewer_count_df, target_percentile=70):
+# 채팅 편집점 알고리듬
+def start(anal_df, target_percentile=60, anal_type=None):
     """
     시청자 수 고려해서 편집점 잡는 것 다시 고려해보기
     지금은 방송을 한 그 당시의 시간을 토대로 분석하는데,
@@ -52,58 +53,15 @@ def start(chatting_df, viewer_count_df, target_percentile=70):
         채팅 빈도가 갑작스럽게 높아진 구간들
         [(방송시간, 채팅빈도), ...]
     """
-    def viewer_mean_per_hour(target_hour='00'):
-        return viewer_count_df[
-            viewer_count_df['hour'] == target_hour
-            ]['viewer'].astype(
-                np.int32).values.mean().astype(
-                    np.int32)
-
-    # 시간 정보 00 ~ 24 까지
-    hours = ["0"+str(i) if len(str(i))<=1 else str(i) for i in list(range(0,24))]
-
-    # 방송을 한 날짜들
-    target_date = viewer_count_df['date'].unique()[0]
-
-    viewer_means = {}
-    viewer_means[target_date] = [viewer_mean_per_hour(target_hour=target_hour)
-        for target_hour in hours]
+    if anal_type.lower() == "section":
+        pass
     
-    # 인덱스 값뭉치 생성 "2018-12-10-00" 과 같이
-    date_hour_index = [target_date+ "-" + str(hour) for hour in hours]
-
-    # 00시의 평균 시청자수 데이터프레임
-    target_viewer_df = pd.DataFrame(viewer_means[target_date],
-        index=date_hour_index, columns=['mean_viewer'])
-
-    # 시간별 평균 시청자 수과 그에 대한 총 시청자수 데이터를 병합
-    target_viewer_df['hour'] = [i[-2:] for i in target_viewer_df.index]
-    merged_df = chatting_df.merge(target_viewer_df, on='hour', right_index=True)
-
-    # 시간별(초당) 평균 시청자수평균과 채팅수가 들어있는 데이터프레임
-    chat_frequency_df = merged_df.pivot_table(index=merged_df.index, values='chatting', aggfunc=len)
+    elif anal_type.lower() == "spot":
+        import numpy as np
+        # 채팅 빈도 기준점 설정
+        threshold = np.percentile(anal_df['cnt_chat'], target_percentile)
+        return anal_df[anal_df['cnt_chat'] > threshold]
     
-    # 초당 최다 빈도 순 채팅빈도 리스트
-    chat_frequency_per_sec = sorted(chat_frequency_df['chatting'].unique(), reverse=True)
+    elif anal_type.lower() == "nodb":
+        pass
     
-    # 70% 분위수 - 일단은 70 분위수보다 높은 순간만
-    many_chat_times = [ i for i in chat_frequency_per_sec
-                            if i > np.percentile(chat_frequency_per_sec, target_percentile)]
-
-    # 채팅 시간, 채팅 빈도수의 튜플로 데이터 정리
-    highlight_times = []
-    for highlight in many_chat_times:
-        many_chat_time_df = chat_frequency_df[chat_frequency_df['chatting'] == highlight]
-        for time in many_chat_time_df.index:
-            highlight_times.append(time)
-
-    highlight_times1 = []
-    for highlight in many_chat_times:
-        many_chat_time_df = chat_frequency_df[chat_frequency_df['chatting'] == highlight]
-        for v in many_chat_time_df.values:
-            highlight_times1.append(v[0])  # (채팅 수, hour) 중 0번째
-
-    # 하이라이트 포인트 생성 (방송한 시간, )
-    highlight_point = list(zip(highlight_times , highlight_times1))
-    
-    return sorted(highlight_point)

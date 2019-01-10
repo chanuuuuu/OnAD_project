@@ -261,7 +261,6 @@ def insert_information(dao, target_table, data_dict):
         else:
             print("잘못된 target_table 입력입니다.")
             raise ValueError('plz input right table class')
-    
 
 def update_information(dao, target_table):
     # 필요시 작성
