@@ -59,8 +59,14 @@ def start(anal_df, target_percentile=60, anal_type='spot'):
 
     if anal_type.lower() == "section":
         # 편집점을 기준으로 앞 뒤로 구간을 설정하여 제공
+        point_df = anal_df[anal_df['cnt_chat'] > threshold]
         pass
     
     elif anal_type.lower() == "spot":
         return anal_df[anal_df['cnt_chat'] > threshold]
+
+    elif anal_type.lower() == "ml":
+        # 단순 채팅 편집점이 아닌
+        # 머신러닝을 통한 모델의 편집점 평가
+        pass
     
