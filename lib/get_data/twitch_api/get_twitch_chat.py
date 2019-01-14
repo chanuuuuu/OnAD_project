@@ -30,7 +30,7 @@ def start(streamer_name, broad_date):
                 "streamer_name": streamer_name,
                 "broad_date": broad_date,
                 "chatterer": re.search(r'(<.+>)', line).group(0),
-                "chat_time": line.split(" ")[0].replace("[", "").replace("]", ""),
+                "chat_time": re.search(r' (\d\d:\d\d:\d\d)', line).group(0),
                 "chat_contents": line.split('> ')[1]
             } for line in all_line]
 
