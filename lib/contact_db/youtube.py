@@ -20,7 +20,7 @@ def select_information(dao, target_table):
     """
     if target_table:
         rows = dao.query(target_table).all()
-        dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
+        # dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
         return rows
 
 def select_groupby(dao, target_col, is_live=None):
@@ -28,14 +28,12 @@ def select_groupby(dao, target_col, is_live=None):
         if is_live.upper() == "YES" or is_live.upper() == "Y":
             rows = dao.query(target_col).group_by(target_col).filter_by(is_live="True").all()
             rows = [ row[0] for row in rows]
-            dao.remove()
             return rows
         elif is_live.upper() == "NO" or is_live.upper() == "N":
             rows = dao.query(target_col).group_by(target_col).filter_by(is_live="False").all()
     else:
         rows = dao.query(target_col).group_by(
             target_col).all()
-        dao.remove()
         return rows
 
 def delete_information(dao, target_table, target_data):
@@ -120,8 +118,7 @@ def insert_information(dao, target_table, data_dict):
         insert_information 함수 안에서만 사용
         """
         dao.add(member)
-        dao.commit()
-        dao.remove()
+
     if data_dict:
         if target_table == 'YoutubeChannel':
             from lib.contact_db.member import YoutubeChannel  # 테이블클래스 import

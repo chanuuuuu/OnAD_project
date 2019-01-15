@@ -1,15 +1,25 @@
-from flask import Flask, render_template
+from flask import Flask, request, render_template
 
-'''
-1. 컴퓨터이름 한글로 하면 유니코드 에러남 ㅠㅠ
-2. 서버 충돌시
-   netstat -o -a
-   Taskkill/PID ### /F
-'''
 app = Flask(__name__)
+import json
+yapyap_data = "./static/storage/report_data/yapyap30_190105.json"  # 웹에 올릴 데이터 로드
 
+with open(yapyap_data, 'r', encoding='utf-8') as fp:
+    data = json.loads(fp.read())
+
+cnt_viewer_per_10min = data['data']['cnt_viewer_per_10min']
+print(cnt_viewer_per_10min)
 @app.route('/', methods=['GET', 'POST'])
-def index():
-    return render_template("simson.html")
+def home():
+    import json
+    yapyap_data = "./static/storage/report_data/yapyap30_190105.json"  # 웹에 올릴 데이터 로드
+
+    with open(yapyap_data, 'r', encoding='utf-8') as fp:
+        data = json.loads(fp.read())
+
+    cnt_viewer_per_10min = data['data']['cnt_viewer_per_10min']
+    print(cnt_viewer_per_10min)
+    
+    return render_template("home.html", data=data, mydata=cnt_viewer_per_10min)
 
 app.run(debug=True)

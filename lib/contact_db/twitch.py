@@ -21,7 +21,7 @@ def select_all_information(dao, target_table):
     """
     if target_table:
         rows = dao.query(target_table).all()
-        dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
+        # dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
         return rows
 
 def select_groupby(dao, target_col, target_streamer=None):
@@ -195,6 +195,7 @@ def insert_information(dao, target_table, data_dict):
                     TwitchChannel.streamer_id == data_dict.get('streamer_id')).values(
                         streamer_id=data_dict.get('streamer_id'),
                         streamer_name=data_dict.get('streamer_name'),
+                        streamer_twitch_id=data_dict.get('streamer_twitch_id'),
                         logo=data_dict.get('logo'),
                         homepage=data_dict.get('homepage'),
                     )
@@ -203,8 +204,8 @@ def insert_information(dao, target_table, data_dict):
             # 기존 목록에 없는 경우 삽입
             else:
                 member = TwitchChannel(data_dict.get('streamer_id'),
-                    data_dict.get('streamer_name'), data_dict.get('logo'),
-                    data_dict.get('homepage'))
+                    data_dict.get('streamer_name'), data_dict.get('streamer_tiwtch_id'),
+                    data_dict.get('logo'), data_dict.get('homepage'))
                 insert(member)
                 return 1
         
@@ -260,7 +261,6 @@ def insert_information(dao, target_table, data_dict):
         else:
             print("잘못된 target_table 입력입니다.")
             raise ValueError('plz input right table class')
-    
 
 def update_information(dao, target_table):
     # 필요시 작성

@@ -26,6 +26,7 @@ def start():
             else:
                 if 'next' in data_['_links']:
                     url = data_['_links']['next']
+        print("완료")
 
     inform = [{"game_id": data['game']['_id'],
             "all_viewer": data['viewers'],
