@@ -258,19 +258,23 @@ class OnAd():
         start_time = select_stream_start_time(self.dao, db_url,
             streamer_id, target_date)
 
-        # 방송 시작 시간을 기준으로 한 채팅로그 데이터로 전처리
-        low_df = set_low_dataset(chat_df, start_time, target_date)
+        # 채팅로그 데이터를 빈도기준 피봇테이블로 전처리
+        low_df = set_low_dataset(chat_df, start_time, target_date)  # 이후의 작업 이후
 
         # 시간별 채팅빈도, 특정단어 빈도를 가진 분석용 테이블 생성
         anal_df = set_anal_dataset(low_df)
+
+        # 방송 시작 시간을 기준으로 한
+
         return anal_df
 
     # 트위치 채팅 빈도분석하여 편집점 반환
-    def anal_twitch_chat(self, anal_df, target_percentile, anal_type=None):
-        from lib.analysis.chat_count import start
+    def anal_twitch_chat(self, anal_df, target_percentile,
+        anal_type=None, section_term=None):
+        from lib.analysis.hot_point import start
         # 1초당 채팅을 바탕으로 한 하이라이트포인트(채팅빈도 다수 지역)
-        result = start(anal_df,
-            target_percentile=target_percentile)
+        result = start(anal_df, target_percentile=target_percentile,
+            anal_type=anal_type, section_term=section_term)
         return result
 
 if __name__ == "__main__":
@@ -392,8 +396,11 @@ if __name__ == "__main__":
             date = datetime.datetime.now().strftime("%Y-%m-%d")
             nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             for dr in os.listdir(onad.twitch_chat_dir):
+                print("파일 읽는중")
+                allfiles = os.listdir(onad.twitch_chat_dir + dr)
+                exists_days = [chat.split('_#')[0] for chat in allfiles]
+                print(exists_days)
                 streamer = dr.split("#")[1]  # 스트리머 이름
-                exists_days = onad.get_existdays_chat_data(streamer)  # 존재하는 파일들의 날짜데이터
                 
                 # 스트리머별 이미 적재된 날짜 모으기
                 from lib.contact_db.member import TwitchChat
@@ -678,7 +685,7 @@ if __name__ == "__main__":
                 else: print("타겟 날짜를 입력하세요")
             else: print("스트리머 이름 입력하세요")
         
-        elif sys.argv[1] == "-analtwitch":
+        elif sys.argv[1] == "-pointspot":
             if sys.argv[2]:
                 streamer = sys.argv[2]
                 if sys.argv[3]:
@@ -688,6 +695,25 @@ if __name__ == "__main__":
                     print("데이터 로드 완료")
                     print("편집점 분석중")
                     print(onad.anal_twitch_chat(anal_df, target_percentile=70))
+                else: print("타겟 날짜를 입력하세요")
+            else: print("스트리머 이름을 입력하세요")
+        
+        elif sys.argv[1] == "-pointsection":
+            if sys.argv[2]:
+                streamer = sys.argv[2]
+                if sys.argv[3]:
+                    target_date = sys.argv[3]
+                    if sys.argv[4]:
+                        section_term = sys.argv[4]
+                        print("데이터 로드중")
+                        anal_df = onad.set_twitch_chat_db(streamer, target_date, )
+                        print("데이터 로드 완료")
+                        print("편집점 분석중")
+                        print(onad.anal_twitch_chat(anal_df, target_percentile=70,
+                            anal_type='section', section_term=section_term))
+                    else: print("편집점 구간으로 설정할 초단위를 입력해주세요")
+                else: print("타겟 날짜를 입력하세요")
+            else: print("스트리머 이름을 입력하세요")
 
 
 

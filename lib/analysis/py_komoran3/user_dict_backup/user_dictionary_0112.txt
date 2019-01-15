@@ -1,0 +1,2649 @@
+﻿아이오아이	NNP
+아이오아이	NNP
+각	NNP
+가즈아	NNP
+갓	NNP
+개	NNP
+고고씽	NNP
+ㄱㄱ	NNP
+고인물	NNP
+개인전	NNP
+개인톡	NNP
+관심병	NNP
+귀요미	NNP
+커엽	NNP
+귀차니즘	NNP
+그린라이트	NNP
+급식충	NNP
+기레기	NNP
+김여사	NNP
+까	NNP
+꿀잼	NNP
+끝판왕	NNP
+낫닝겐	NNP
+낚시	NNP
+냥집사	NNP
+노답	NNP
+ㄴㄷ	NNP
+노잼	NNP
+ㄴㅈ	NNP
+ㅆㄴㅈ	NNP
+ㅈㄴㅈ	NNP
+뇌피셜	NNP
+눈팅	NNP
+뉴비	NNP
+늅늅	NNP
+느금마	NNP
+느개비	NNP
+느님	NNP
+누물보	NNP
+네다씹	NNP
+다능	NNP
+덕통사고	NNP
+돋다	NNP
+딸바보	NNP
+떡실신	NNP
+똥꼬충	NNP
+동의?어보감	NNP
+뒷담화	NNP
+뚝배기	NNP
+리즈시절	NNP
+마초맨	NNP
+머글	NNP
+먹튀	NNP
+멍 때리다	NNP
+메퇘지	NNP
+몸짱	NNP
+므흣하다	NNP
+밍아웃	NNP
+반품남	NNP
+반품녀	NNP
+방가요	NNP
+번개	NNP
+볍신	NNP
+보슬아치	NNP
+보이루	NNP
+복돌이	NNP
+부심	NNP
+불곰국	NNP
+뷁	NNP
+뷔페미니즘	NNP
+벅세권	NNP
+빠	NNP
+빡돌다	NNP
+빡세다	NNP
+빡치다	NNP
+빵국	NNP
+빵터지다	NNP
+빵셔틀	NNP
+뽀록	NNP
+뿜다	NNP
+사스가	NNP
+스까	NNP
+스까국	NNP
+신컨	NNP
+쉴드	NNP
+썸	NNP
+사이다	NNP
+성진국	NNP
+썰	NNP
+수치플	NNP
+스브스	NNP
+시발비용	NNP
+신박하다	NNP
+씹다	NNP
+씹덕	NNP
+선비	NNP
+솔까말	NNP
+쌉	NNP
+아몰랑	NNP
+안구 정화	NNP
+안구 테러	NNP
+안 생겨요	NNP
+알못	NNP
+앙 기모띠	NNP
+얀데레	NNP
+어장 관리	NNP
+오나전	NNP
+오덕후	NNP
+오덕	NNP
+ㅗㅜㅑ	NNP
+퍄	NNP
+오크	NNP
+올ㅋ	NNP
+외계어	NNP
+웅앵웅	NNP
+웜퇘지	NNP
+욜로	NNP
+용자	NNP
+이생망	NNP
+인증	NNP
+인정하는 부분	NNP
+일베충	NNP
+일진	NNP
+잉여	NNP
+오뱅알	NNP
+ㅇㅂㅇ	NNP
+왜구루냥	NNP
+잠수	NNP
+작붕	NNP
+저런하다	NNP
+조무사	NNP
+종결자	NNP
+좆문가	NNP
+주작	NNP
+지름신	NNP
+진지충	NNP
+짐승남	NNP
+짐승돌	NNP
+짜지다	NNP
+짱	NNP
+쩐	NNP
+찰지구나	NNP
+창렬	NNP
+총알	NNP
+추카포카	NNP
+천조국	NNP
+츤데레	NNP
+충	NNP
+철컹철컹	NNP
+칼빵	NNP
+캐	NNP
+케미	NNP
+캣맘	NNP
+컴백	NNP
+컴백하다	NNP
+코렁탕	NNP
+콩라인	NNP
+쿰척쿰척	NNP
+쿵푸믹 걸스	NNP
+클라스	NNP
+킹왕짱	NNP
+탕진잼	NNP
+토끼다	NNP
+투더	NNP
+틀딱충	NNP
+품절남	NNP
+품절녀	NNP
+포스	NNP
+파오후	NNP
+파오후 쿰척쿰척	NNP
+품절대란	NNP
+하이루	NNP
+함정	NNP
+헐	NNP
+혜자	NNP
+호갱님	NNP
+호모나게이뭐야	NNP
+호모나 섹상에 게이뭐람	NNP
+호옹이	NNP
+혼모노	NNP
+홋치	NNP
+홍팍	NNP
+후방주의	NNP
+흑역사	NNP
+흑우	NNP
+흙수저	NNP
+흔한	NNP
+흠냐뤼	NNP
+히익	NNP
+훼이크	NNP
+ㄱ	NNP
+ㄱㄱㅅ	NNP
+ㄱㄷ	NNP
+ㄳ	NNP
+ㄱㅅ	NNP
+ㄱㅇㄷ	NNP
+ㄱㅊ	NNP
+ㄲ	NNP
+ㄲㅂ	NNP
+ㄲㅈ	NNP
+ㄴ	NNP
+ㄴㄴ	NNP
+ㄷㄷ	NNP
+ㄷㄷㄷ	NNP
+ㄷㅊ	NNP
+ㅁㄴㅇㄹ	NNP
+ㅁㅊ	NNP
+ㅂㅂ	NNP
+ㅄ	NNP
+ㅂㅅ	NNP
+ㅅㄱ	NNP
+ㅅㅂ	NNP
+ㅆㅂ	NNP
+ㅅㅅ	NNP
+ㅇ	NNP
+ㅇㅇ	NNP
+ㅇㄱㄹㅇ	NNP
+ㅇㄴ	NNP
+ㅇㄷ	NNP
+ㅇㅂ	NNP
+ㅇㅈ	NNP
+ㅇㅋ	NNP
+ㅇㅎ	NNP
+ㅈㄱㄴ	NNP
+ㅈㄴ	NNP
+ㅈㄹ	NNP
+ㅈㅁ	NNP
+ㅈㅅ	NNP
+ㅉㅉ	NNP
+ㅊㅊ	NNP
+ㅊㅋ	NNP
+ㅋㄷ	NNP
+ㅎㅇ	NNP
+ㅎㅎ	NNP
+ㅗ	NNP
+20000	NNP
+갑분싸	NNP
+갑툭튀	NNP
+강전	NNP
+강추	NNP
+강퇴	NNP
+개취	NNP
+갠소	NNP
+갠전	NNP
+광탈	NNP
+겨털	NNP
+게이	NNP
+공구	NNP
+귀척	NNP
+극혐	NNP
+근자감	NNP
+글설리	NNP
+금사빠	NNP
+깜놀	NNP
+깝	NNP
+까비	NNP
+끔살	NNP
+낄끼빠빠	NNP
+알잘딱깔센	NNP
+남사친	NNP
+여사친	NNP
+남친	NNP
+낮져밤이	NNP
+내로남불	NNP
+냉무	NNP
+넘사벽	NNP
+너또다	NNP
+노모	NNP
+눈새	NNP
+닥본사	NNP
+답정너	NNP
+데꿀멍	NNP
+돌싱	NNP
+듣보잡	NNP
+디시	NNP
+딩	NNP
+롯백	NNP
+레기	NNP
+맥날	NNP
+멘붕	NNP
+명존세	NNP
+문상	NNP
+미드	NNP
+미방	NNP
+밀당	NNP
+반반무	NNP
+반반무마니	NNP
+발연기	NNP
+버정	NNP
+버카충	NNP
+본방	NNP
+볼매	NNP
+불금	NNP
+비매	NNP
+빛삭	NNP
+광삭	NNP
+브금	NNP
+뽀샵	NNP
+빨	NNP
+빼박캔트	NNP
+빼박	NNP
+별다줄	NNP
+빠샤	NNP
+사캐	NNP
+사파	NNP
+새등	NNP
+생선	NNP
+생파	NNP
+생얼	NNP
+쌩얼	NNP
+셀카	NNP
+수꼴	NNP
+스포	NNP
+시망	NNP
+신상	NNP
+심쿵	NNP
+썩소	NNP
+아만보	NNP
+아오안	NNP
+악플	NNP
+안물	NNP
+안궁	NNP
+안습	NNP
+야동	NNP
+야필패	NNP
+은꼴사	NNP
+어쩔	NNP
+엄빠주의	NNP
+엄친아	NNP
+엑박	NNP
+여병추	NNP
+여친	NNP
+연덕	NNP
+열공	NNP
+열폭	NNP
+영정	NNP
+오유	NNP
+완소	NNP
+옥희	NNP
+우좀	NNP
+움짤	NNP
+웃대	NNP
+웃프다	NNP
+음마	NNP
+이뭐병	NNP
+일코	NNP
+위꼴사	NNP
+일베	NNP
+자게이	NNP
+자삭	NNP
+잤잤	NNP
+존망	NNP
+좌빨	NNP
+좌좀	NNP
+절친	NNP
+정팅	NNP
+제곧내	NNP
+존잘	NNP
+존예	NNP
+존못	NNP
+주존꼬	NNP
+주존찢	NNP
+즐	NNP
+지못미	NNP
+직찍	NNP
+짝남	NNP
+짝녀	NNP
+짤	NNP
+짤방	NNP
+차도남	NNP
+채금	NNP
+출첵	NNP
+충공깽	NNP
+치맥	NNP
+취존	NNP
+카공족	NNP
+캐붕	NNP
+케바케	NNP
+키배	NNP
+타륵	NNP
+트인낭	NNP
+패완얼	NNP
+프사	NNP
+피꺼솟	NNP
+피방	NNP
+한남	NNP
+현백	NNP
+현시창	NNP
+혐짤	NNP
+흠좀무	NNP
+흑형	NNP
+ASKY	NNP
+CC	NNP
+DDR	NNP
+DTD	NNP
+chABC	NNP
+CUF	NNP
+고나리	NNP
+o미	NNP
+수듄	NNP
+항가항가	NNP
+스빈다	NNP
+젭라	NNP
+말안드뤄	NNP
+개이득	NNP
+ㅆㄱㅇㄷ	NNP
+개피	NNP
+갱	NNP
+광클	NNP
+길막	NNP
+너프	NNP
+다굴	NNP
+득템	NNP
+렙업	NNP
+롤	NNP
+만렙	NNP
+스틸	NNP
+먹자	NNP
+몹	NNP
+물고기방	NNP
+반샷	NNP
+발컨	NNP
+백섭	NNP
+본캐	NNP
+부캐	NNP
+뽀헤	NNP
+샷충	NNP
+순삭	NNP
+앵벌이	NNP
+어그로	NNP
+열렙	NNP
+입롤	NNP
+젠	NNP
+종특	NNP
+주차	NNP
+지지	NNP
+gg	NNP
+ㅈㅈ	NNP
+쩔	NNP
+ㅋㅋ	NNP
+캐리	NNP
+하드캐리	NNP
+캐삭	NNP
+크리	NNP
+킬딸	NNP
+탐	NNP
+테크트리	NNP
+테크	NNP
+트리	NNP
+트롤	NNP
+팀전	NNP
+쿨타임	NNP
+쿨탐	NNP
+ㅌㅌ	NNP
+팀킬	NNP
+Team Kill	NNP
+TeamKill	NNP
+PK	NNP
+PlayerKill	NNP
+Player Kill	NNP
+현질	NNP
+현피	NNP
+작	NNP
+가놈	NNP
+가년	NNP
+개드립	NNP
+갤럼	NNP
+관광	NNP
+고담	NNP
+네덕	NNP
+대첩	NNP
+레알	NNP
+무뇌충	NNP
+병림픽	NNP
+병머금	NNP
+병먹금	NNP
+ㅂㅁㄱ	NNP
+병맛	NNP
+삼일한	NNP
+운지(Unji)	NNP
+유식대장	NNP
+일기방패	NNP
+일기방패튼튼데스네	NNP
+종범	NNP
+클린디시	NNP
+클린야갤	NNP
+탈갤	NNP
+퇴갤	NNP
+ㅍㅌㅊ	NNP
+후새드	NNP
+甲	NNP
+갑	NNP
+대륙	NNP
+떡밥	NNP
+반도	NNP
+발기	NNP
+분탕	NNP
+아재	NNP
+열도	NNP
+오그라들다	NNP
+오글거리다	NNP
+쩔다	NNP
+찌르다	NNP
+하다	NNP
+ㅠ	NNP
+ㅜㅜ	NNP
+TT	NNP
+ㅜ.ㅜ	NNP
+ㅠ.ㅠ	NNP
+T^T	NNP
+T0T	NNP
+ㅜ0ㅜ	NNP
+ㅠ0ㅠ	NNP
+-_-	NNP
+-_-;;	NNP
+ㄱ-	NNP
+ㅡㅡ	NNP
+:(	NNP
+^^	NNP
+:)	NNP
+:-)	NNP
+^o^	NNP
+^-^	NNP
+^_^	NNP
+^v^	NNP
+:D	NNP
+ㅇ-ㅇ	NNP
+ㅇ_ㅇ	NNP
+ㅇㅅㅇ	NNP
+ㅇㅁㅇ	NNP
+OTL	NNP
+orz	NNP
+...	NNP
+^^7	NNP
+깨알같다	NNP
+나만 아니면 돼	NNP
+리얼돋다	NNP
+먹방	NNP
+무한이기주의	NNP
+빵꾸똥꾸	NNP
+옥동자	NNP
+작업	NNP
+좋은가봉가	NNP
+29만원	NNP
+503	NNP
+706	NNP
+간철수	NNP
+가카	NNP
+닭	NNP
+닭근혜	NNP
+더듬어민주당	NNP
+더듬어만진당	NNP
+땅크성님	NNP
+런승만	NNP
+레이디가카	NNP
+맹바기	NNP
+반인반신	NNP
+데미갓	NNP
+슨상님	NNP
+원숭이	NNP
+원조가카	NNP
+저승만	NNP
+재규어	NNP
+쥐박이	NNP
+쩔뚝이	NNP
+전땅크	NNP
+펭귄	NNP
+형보수지	NNP
+홍찍자지	NNP
+MC무현	NNP
+고무통	NNP
+노시개	NNP
+노알라	NNP
+노짱	NNP
+부엉이	NNP
+盧	NNP
+귀걸이아빠	NNP
+달빛기사단	NNP
+대깨문	NNP
+문각기동대	NNP
+문구라	NNP
+문벌구	NNP
+문베충	NNP
+문슬람	NNP
+문유라	NNP
+침착맨	NNP
+펄소리	NNP
+침소리	NNP
+침앤펄	NNP
+타이밍	NNP
+가불기	NNP
+ㅈ망	NNP
+머하냐	NNP
+아닌데	NNP
+빵떡	NNP
+사륜안	NNP
+그치만	NNP
+킹치만	NNP
+서렌	NNP
+가렌	NNP
+갈리오	NNP
+갱플랭크	NNP
+그라가스	NNP
+그레이브즈	NNP
+나르	NNP
+나미	NNP
+나서스	NNP
+노틸러스	NNP
+녹턴	NNP
+누누	NNP
+니달리	NNP
+니코	NNP
+다리우스	NNP
+다이애나	NNP
+드레이븐	NNP
+라이즈	NNP
+라칸	NNP
+람머스	NNP
+럭스	NNP
+럼블	NNP
+레넥톤	NNP
+레오나	NNP
+렉사이	NNP
+렝가	NNP
+루시안	NNP
+룰루	NNP
+르블랑	NNP
+리 신	NNP
+리븐	NNP
+리산드라	NNP
+마스터 이	NNP
+마오카이	NNP
+말자하	NNP
+말파이트	NNP
+모데카이저	NNP
+모르가나	NNP
+문도 박사	NNP
+미스 포츈	NNP
+바드	NNP
+바루스	NNP
+바이	NNP
+베이가	NNP
+베인	NNP
+벨코즈	NNP
+볼리베어	NNP
+브라움	NNP
+브랜드	NNP
+블라디미르	NNP
+블리츠크랭크	NNP
+빅토르	NNP
+뽀삐	NNP
+사이온	NNP
+샤코	NNP
+세주아니	NNP
+소나	NNP
+소라카	NNP
+쉔	NNP
+쉬바나	NNP
+스웨인	NNP
+스카너	NNP
+시비르	NNP
+신 짜오	NNP
+신드라	NNP
+신지드	NNP
+쓰레쉬	NNP
+아리	NNP
+아무무	NNP
+아우렐리온 솔	NNP
+아이번	NNP
+아지르	NNP
+아칼리	NNP
+아트록스	NNP
+알리스타	NNP
+애니	NNP
+애니비아	NNP
+애쉬	NNP
+야스오	NNP
+에코	NNP
+엘리스	NNP
+오공	NNP
+오른	NNP
+오리아나	NNP
+올라프	NNP
+요릭	NNP
+우디르	NNP
+우르곳	NNP
+워윅	NNP
+이렐리아	NNP
+이블린	NNP
+이즈리얼	NNP
+일라오이	NNP
+자르반 4세	NNP
+자야	NNP
+자이라	NNP
+자크	NNP
+잔나	NNP
+잭스	NNP
+제드	NNP
+제라스	NNP
+제이스	NNP
+조이	NNP
+직스	NNP
+질리언	NNP
+징크스	NNP
+초가스	NNP
+카르마	NNP
+카밀	NNP
+카사딘	NNP
+카서스	NNP
+카시오페아	NNP
+카이사	NNP
+카직스	NNP
+카타리나	NNP
+칼리스타	NNP
+케넨	NNP
+케이틀린	NNP
+케일	NNP
+케인	NNP
+코그모	NNP
+코르키	NNP
+퀸	NNP
+클레드	NNP
+킨드레드	NNP
+타릭	NNP
+탈론	NNP
+탈리야	NNP
+탐 켄치	NNP
+트런들	NNP
+트리스타나	NNP
+트린다미어	NNP
+트위스티드 페이트	NNP
+트위치	NNP
+티모	NNP
+판테온	NNP
+피들스틱	NNP
+피오라	NNP
+피즈	NNP
+파이크	NNP
+하이머딩거	NNP
+헤카림	NNP
+에란겔	NNP
+사녹	NNP
+미라마	NNP
+비켄디	NNP
+미드	NNP
+탑	NNP
+봇	NNP
+바텀	NNP
+원딜	NNP
+서폿	NNP
+서포터	NNP
+쌍둥이 타워	NNP
+넥서스	NNP
+칼날부리	NNP
+바론	NNP
+바위게	NNP
+내셔	NNP
+불용	NNP
+화염용	NNP
+바람용	NNP
+대지용	NNP
+바다용	NNP
+화염드래곤	NNP
+갱킹	NNP
+플	NNP
+벽플	NNP
+뻘플	NNP
+텔포	NNP
+돌엄니 멧돼지	NNP
+멀록 약탈꾼	NNP
+부두교 의술사	NNP
+성난비늘 수련사	NNP
+엘프 궁수	NNP
+황금골 보병	NNP
+멀록 바다사냥꾼	NNP
+민물악어	NNP
+붉은늪지랩터	NNP
+산성 늪수액괴물	NNP
+서리늑대 그런트	NNP
+코볼트 흙점쟁이	NNP
+푸른아가미 전사	NNP
+풋내기 기술자	NNP
+가시덩굴 사냥꾼	NNP
+공격대장	NNP
+늑대기수	NNP
+달라란 마법사	NNP
+무너진 태양 성직자	NNP
+무쇠가죽 불곰	NNP
+아이언포지 소총병	NNP
+용암 광전사	NNP
+은빛털고릴라 우두머리	NNP
+기계용 정비사	NNP
+노움 발명가	NNP
+서리바람 설인	NNP
+센진 방패대가	NNP
+스톰윈드 기사	NNP
+오아시스 무쇠턱거북	NNP
+오우거 마법사	NNP
+구루바시 광전사	NNP
+무법항 경호원	NNP
+서리늑대 전쟁군주	NNP
+스톰파이크 특공대	NNP
+암흑칼날	NNP
+어둠비늘 치유사	NNP
+대마법사	NNP
+돌주먹 오우거	NNP
+못 말리는 로켓병	NNP
+투기장의 제왕	NNP
+스톰윈드 용사	NNP
+심장부 사냥개	NNP
+전쟁 골렘	NNP
+위습	NNP
+가혹한 하사관	NNP
+남쪽바다 갑판원	NNP
+늑대인간 침투요원	NNP
+방패병	NNP
+어린 용매	NNP
+오염된 노움	NNP
+은빛십자군 종자	NNP
+광포한 늑대 우두머리	NNP
+붉은해적단 약탈자	NNP
+아마니 광전사	NNP
+요정용	NNP
+전리품 수집가	NNP
+젊은 양조사	NNP
+정신나간 폭격수	NNP
+고통의 수행사제	NNP
+굶주린 식인 구울	NNP
+대지 고리회 선견자	NNP
+무쇠부리 올빼미	NNP
+밀림 표범	NNP
+붉은십자군 성전사	NNP
+스랄마 선견자	NNP
+타우렌 전사	NNP
+허수아비 골렘	NNP
+흉포한 늑대인간	NNP
+검은무쇠 드워프	NNP
+고대의 양조사	NNP
+공포의 해적	NNP
+모구샨 감시자	NNP
+실버문 수호병	NNP
+이교도 지도자	NNP
+주문파괴자	NNP
+가시덤불 호랑이	NNP
+수렁이끼괴물	NNP
+원한 맺힌 대장장이	NNP
+은빛 성기사단 기사	NNP
+투자개발회사 용병	NNP
+냉기 정령	NNP
+성난바람 하피	NNP
+엘룬의 여사제	NNP
+멀록 파도술사	NNP
+붉은해적단 바다사냥꾼	NNP
+비밀지기	NNP
+빛의 감시자	NNP
+젊은 여사제	NNP
+화난 닭	NNP
+검 제작의 대가	NNP
+고대의 감시자	NNP
+광기의 연금술사	NNP
+광기의 화염술사	NNP
+단검 곡예사	NNP
+마나 망령	NNP
+마나 중독자	NNP
+성난태양 파수병	NNP
+자그마한 소환사	NNP
+노움 자동경보기	NNP
+부상당한 검귀	NNP
+비전 골렘	NNP
+시린빛 예언자	NNP
+임프 소환사	NNP
+정신 지배 기술자	NNP
+퀘스트 중인 모험가	NNP
+파괴전차	NNP
+황제 코브라	NNP
+고대의 마법사	NNP
+보랏빛 여교사	NNP
+아르거스의 수호자	NNP
+황혼의 비룡	NNP
+날뛰는 코도	NNP
+누더기골렘	NNP
+가젯잔 경매인	NNP
+은빛십자군 부대장	NNP
+태양길잡이	NNP
+라벤홀트 암살자	NNP
+하늘빛 비룡	NNP
+시린빛 점쟁이	NNP
+굶주린 게	NNP
+파멸의 예언자	NNP
+남쪽바다 선장	NNP
+멀록 전투대장	NNP
+혈기사	NNP
+나 이런 사냥꾼이야	NNP
+얼굴 없는 배후자	NNP
+바다 거인	NNP
+산악 거인	NNP
+선장의 앵무새	NNP
+용암 거인	NNP
+내트 페이글	NNP
+밀하우스 마나스톰	NNP
+전승지기 초	NNP
+혈법사 탈노스	NNP
+밀림의 왕 무클라	NNP
+수석땜장이 오버스파크	NNP
+리로이 젠킨스	NNP
+선장 그린스킨	NNP
+해리슨 존스	NNP
+괴수	NNP
+들창코	NNP
+일리단 스톰레이지	NNP
+케른 블러드후프	NNP
+흑기사	NNP
+남작 게돈	NNP
+그룰	NNP
+노즈도르무	NNP
+말리고스	NNP
+알렉스트라자	NNP
+오닉시아	NNP
+이세라	NNP
+데스윙	NNP
+늙은 거먹눈 멀록	NNP
+정예 타우렌 족장	NNP
+겔빈 멕카토크	NNP
+실바나스 윈드러너	NNP
+불의 군주 라그나로스	NNP
+간식용 좀비	NNP
+장의사	NNP
+네룹아르 그물군주	NNP
+미치광이 과학자	NNP
+불안정한 구울	NNP
+유령 들린 거미	NNP
+돌가죽 가고일	NNP
+춤추는 검	NNP
+유령 기사	NNP
+네루비안 알	NNP
+죽음의 군주	NNP
+울부짖는 영혼	NNP
+썩은위액 누더기골렘	NNP
+고동치는 수액괴물	NNP
+낙스라마스의 망령	NNP
+남작 리븐데어	NNP
+로데브	NNP
+스탈라그	NNP
+퓨진	NNP
+맥스나	NNP
+켈투자드	NNP
+태엽돌이 노움	NNP
+톱니장인	NNP
+가루바위 트로그	NNP
+기계소환로봇	NNP
+길블린 추적자	NNP
+안녕로봇 	NNP
+양 폭탄	NNP
+웅덩이디딤꾼	NNP
+초소형 기계	NNP
+함포	NNP
+거미 전차	NNP
+놈리건 보병	NNP
+땜장이 마을 기술자	NNP
+비행기	NNP
+오우거 투사	NNP
+기계설인	NNP
+길 잃은 타조	NNP
+누군가 조종하는 벌목기	NNP
+힘센 바위턱트로그	NNP
+낡은 치유로봇	NNP
+노련한 뱃사람	NNP
+막강 에너지 전차	NNP
+표적 허수아비	NNP
+고블린 공병	NNP
+광휘의 노움	NNP
+꼬마 퇴마사	NNP
+노움 실험가	NNP
+자동화 마력제거기 X-21	NNP
+지브스	NNP
+케잔 비술사	NNP
+완전히 정신 나간 폭격수	NNP
+폭탄 투척수	NNP
+유전자 재결합사	NNP
+밥통고블린	NNP
+강화로봇	NNP
+작은 마법사	NNP
+고철로봇	NNP
+지옥절단기	NNP
+누군가 조종하는 하늘 골렘	NNP
+태엽돌이 거인	NNP
+미미론의 머리	NNP
+블링트론 3000	NNP
+헤멧 네싱워리	NNP
+가즈로	NNP
+모고르	NNP
+토쉴리	NNP
+대지종결자 트로그조르	NNP
+박사 붐	NNP
+스니드의 낡은 벌목기	NNP
+전투 절단기 4000	NNP
+기계박사 텔마플러그	NNP
+검은날개 기술병	NNP
+굶주린 용	NNP
+용족 마술사	NNP
+검은날개 타락자	NNP
+용기병 분쇄자	NNP
+화산 비룡	NNP
+용의 알	NNP
+험상궂은 손님	NNP
+제왕 타우릿산	NNP
+렌드 블랙핸드	NNP
+크로마구스	NNP
+네파리안	NNP
+청지기 이그젝큐투스	NNP
+가젯잔 창기사	NNP
+마상시합 관중	NNP
+풋내기 종자	NNP
+불꽃 곡예사	NNP
+창 운반꾼	NNP
+해골경비대 부관	NNP
+고요한 기사	NNP
+얼음 광전사	NNP
+용매 기수	NNP
+은빛 성기사단 섭정	NNP
+은빛십자군 기수	NNP
+고약한 야유꾼	NNP
+눈덩이 스노볼트	NNP
+마상시합장 의무관	NNP
+투스카르 행상인	NNP
+호수의 여신	NNP
+구덩이 투사	NNP
+무클라의 용사	NNP
+크발디르 약탈자	NNP
+태엽돌이 기사	NNP
+사로잡힌 요르문가르	NNP
+북해 크라켄	NNP
+부상당한 크발디르	NNP
+은빛십자군 경비병	NNP
+검술 지도자	NNP
+경기장 관리자	NNP
+빛의 용사	NNP
+파괴공작원	NNP
+중무장 전투마	NNP
+모고르의 용사	NNP
+위대한 창기사	NNP
+주둔지 사령관	NNP
+마상시합 진행자	NNP
+마상시합 유명인	NNP
+황혼의 수호자	NNP
+모병관	NNP
+고위 성전사	NNP
+공연장 주문탐식자	NNP
+코도 기수	NNP
+서리 거인	NNP
+아이디스 다크베인	NNP
+피욜라 라이트베인	NNP
+꿰뚫는 자 고르목	NNP
+연합용사 사라아드	NNP
+볼프 램실드	NNP
+심판관 트루하트	NNP
+해골 기사	NNP
+서리아귀	NNP
+하늘선장 크라그	NNP
+얼음울음	NNP
+아기 멀록	NNP
+보석 박힌 딱정벌레	NNP
+왕두꺼비	NNP
+고릴라로봇 A-3	NNP
+무덤 거미	NNP
+아누비사스 파수병	NNP
+화석 데빌사우루스	NNP
+고대의 망령	NNP
+으스스한 석상	NNP
+소환의 돌	NNP
+흔들거리는 소인족	NNP
+서풍의 신령	NNP
+나가 바다 마녀	NNP
+핀리 므르글턴 경	NNP
+브란 브론즈비어드	NNP
+엘리스 스타시커	NNP
+리노 잭슨	NNP
+대도 라팜	NNP
+느조스의 촉수	NNP
+열성적인 수습생	NNP
+뒤틀린 늑대인간	NNP
+맹독비늘 바다사냥꾼	NNP
+악의 신도	NNP
+황혼멧돼지	NNP
+황혼의 풍수사	NNP
+느조스의 피조물	NNP
+스멀거리는 촉수	NNP
+암용 광전사	NNP
+황혼의 장로	NNP
+감염된 타우렌	NNP
+변종 광전사	NNP
+오염된 수집가	NNP
+진화한 코볼트	NNP
+크툰의 추종자	NNP
+광기로봇	NNP
+이교도 약제사	NNP
+네루비안 예언자	NNP
+기괴한 용매	NNP
+늪지이끼괴물	NNP
+기괴한 공포	NNP
+얼굴 없는 괴수	NNP
+우두머리 실리시드	NNP
+크툰의 사도	NNP
+검은바다 해적	NNP
+비밀을 삼키는 자	NNP
+한밤의 비룡	NNP
+오작동하는 치유로봇	NNP
+스케람 이교도	NNP
+타락한 예언자	NNP
+파멸의 사절	NNP
+공포의 안개도깨비	NNP
+얼굴 없는 불가사의	NNP
+황혼의 소환사	NNP
+살아남은 파멸의 예언자	NNP
+실성한 신봉자	NNP
+어둠예언자	NNP
+고대의 선구자	NNP
+비늘 덮인 악몽	NNP
+고대의 존재의 피	NNP
+변신수 제루스	NNP
+어둠의 낚시꾼 내트	NNP
+골짜기의 폭군 무클라	NNP
+쌍둥이 제왕 베클로어	NNP
+엘윈의 파멸 들창코	NNP
+괴물	NNP
+음험한 소고스	NNP
+용족의 군주 데스윙	NNP
+크툰	NNP
+타락자 느조스	NNP
+해방된 분노 이샤라즈	NNP
+희망의 끝 요그사론	NNP
+룬이 새겨진 알	NNP
+비전 변형물	NNP
+거만한 연기자	NNP
+황천의 원령 역사가	NNP
+동물원로봇	NNP
+보랏빛 환영술사	NNP
+식당 거미	NNP
+비전장인	NNP
+박물관 마술사	NNP
+부엉이 파수꾼	NNP
+고룡 독서가	NNP
+해자 잠복꾼	NNP
+비전 거인	NNP
+모로스	NNP
+반즈	NNP
+공작 말체자르	NNP
+전시 관리인	NNP
+수호자 메디브	NNP
+혼합물 전문가	NNP
+가젯잔 귀부인	NNP
+독침아가미 저격수	NNP
+친근한 바텐더	NNP
+고용된 싸움꾼	NNP
+길거리 요술쟁이	NNP
+뒷골목 오염된 노움	NNP
+하수구 독성 수액	NNP
+괴상한 약제사	NNP
+나가 바다약탈자	NNP
+늑대인간 폭주족	NNP
+대담한 기자	NNP
+타나리스 멧돼지단원	NNP
+호젠 치유사	NNP
+뛰어난 수사관	NNP
+붉은 마나 지룡	NNP
+우끼권의 대가	NNP
+꽃의 고대정령	NNP
+범죄계 거물	NNP
+험악한 거리 밀수업자	NNP
+비밀결사 약제사 	NNP
+비취 정령 	NNP
+신참 해적단원	NNP
+험상궂은 문지기	NNP
+덜떨어진 투사	NNP
+멧돼지단 돌격수	NNP
+분신수	NNP
+폭탄 분대	NNP
+험악한 거리 정보통 	NNP
+비밀결사 급사	NNP
+비취 연꽃 요원	NNP
+땅굴 족제비	NNP
+비겁한 밀고자	NNP
+지옥 오크 영혼마귀	NNP
+탐욕스러운 회계사	NNP
+트로그 절도범	NNP
+가죽옷의 멧돼지단 두목	NNP
+데피아즈단 청부업자	NNP
+태엽돌이 강도로봇	NNP
+투기장 전투 주최자	NNP
+해적 패치스	NNP
+경관 샐리	NNP
+경매장 지배인 비어도	NNP
+상어 겐조	NNP
+비성 핀자	NNP
+래시온	NNP
+마님 고야	NNP
+시장 노겐포저	NNP
+카자쿠스	NNP
+아이야 블랙포우 	NNP
+두목 한초	NNP
+반딧불 정령	NNP
+빙하의 정령	NNP
+에메랄드 약탈자	NNP
+바위웅덩이 사냥꾼	NNP
+불안정한 정령	NNP
+어린 라바사우루스	NNP
+완강한 복족이	NNP
+새끼 테러닥스	NNP
+알서리꾼	NNP
+원시지느러미 망꾼	NNP
+잿멍울 괴물	NNP
+천둥도마뱀	NNP
+커다란 말벌	NNP
+화성암 정령	NNP
+불길의 불사조	NNP
+스테고돈	NNP
+둥지를 튼 로크	NNP
+서슬니 호랑이	NNP
+배부른 트레샤돈	NNP
+폭풍감시자	NNP
+거대한 마스토돈	NNP
+울트라사우루스	NNP
+골락카 거대게	NNP
+거대한 칼날잎새	NNP
+데빌사우루스 알	NNP
+바위언덕 수호병	NNP
+흉포한 어린 테러닥스	NNP
+톨비르 바위세공사	NNP
+칼리모스의 시종	NNP
+얼어붙은 분쇄자	NNP
+화산사우루스	NNP
+에메랄드 둥지 여왕	NNP
+걸신들린 수액	NNP
+열의에 찬 정찰대원	NNP
+온순한 메가사우루스	NNP
+거센물결 히드라	NNP
+불길소환사	NNP
+감전된 데빌사우루스	NNP
+태고의 비룡	NNP
+토르톨란 원시술사	NNP
+영혼노래꾼 움브라	NNP
+폭식초	NNP
+원정대장 엘리스	NNP
+밀림 사냥꾼 헤멧	NNP
+오즈룩	NNP
+눈발바닥 펭귄	NNP
+아케루스 정예병	NNP
+죽음비늘 기사	NNP
+흉측한 농사꾼	NNP
+타락한 광신도	NNP
+타락한 태양 성직자	NNP
+투스카르 낚시꾼	NNP
+브리구울	NNP
+죽음예언자	NNP
+힐드니르 서리기수	NNP
+무덤괴물	NNP
+밤의 울음꾼	NNP
+사악한 해골	NNP
+음산한 강령술사	NNP
+맹독술사	NNP
+태양의 자식 발키르	NNP
+푸른비늘혈족 맹독전사	NNP
+피구더기	NNP
+해골술사	NNP
+괴저 외눈깨비	NNP
+주문직공	NNP
+해골마	NNP
+얕은 무덤 도굴꾼	NNP
+정신파괴자	NNP
+행복한 구울	NNP
+사로나이트 광산 노예	NNP
+유령 약탈자	NNP
+째깍거리는 누더기골렘	NNP
+통곡하는 밴시	NNP
+시체생환사	NNP
+해골 비룡	NNP
+드라카리 마법부여사	NNP
+달그락거리는 악동	NNP
+시체수집가	NNP
+시체 수레	NNP
+죽음도끼 응징자	NNP
+무덤 잠복꾼	NNP
+네루비안 해결자	NNP
+엄습하는 외눈깨비	NNP
+용광로화염 거수	NNP
+공작 켈레세스	NNP
+공작 탈다람	NNP
+공작 발라나르	NNP
+멍서스	NNP
+리치 왕	NNP
+밀랍 정령	NNP
+사나운 두더지	NNP
+단단한 딱정벌레	NNP
+덥석 상자	NNP
+돌가죽 바실리스크	NNP
+버섯 마법부여사	NNP
+시궁창 엉금이	NNP
+용사냥꾼	NNP
+코볼트 수습생	NNP
+활기찬 음유시인	NNP
+버섯 물약꾼	NNP
+보물을 지키는 용	NNP
+약삭빠른 악마	NNP
+저주받은 사도	NNP
+곰팡이술사	NNP
+길드 소집관	NNP
+녹색 점액괴물	NNP
+부식성 녹괴물	NNP
+트로그 버섯먹보	NNP
+은빛 선봉대원	NNP
+보랏빛 땅벌레	NNP
+잠꾸러기 용	NNP
+떠버리 야수	NNP
+자갈주둥이 기사	NNP
+전갈로봇	NNP
+고독한 용사	NNP
+비명쟁이 버섯	NNP
+칠흑의 용 대장장이	NNP
+코볼트 수도사	NNP
+펄볼그 이끼결속사	NNP
+굶주린 거인	NNP
+공허 학살자	NNP
+뒤적거리는 코볼트	NNP
+희미하게 빛나는 군마	NNP
+비전 폭군	NNP
+육식 보물상자	NNP
+원한 맺힌 소환사	NNP
+징그러운 지하 벌레	NNP
+고위 기록관	NNP
+용 사육사	NNP
+고르곤 졸라	NNP
+어둠의 존재	NNP
+교활한 마린	NNP
+미궁왕 토그왜글	NNP
+달인 오크하트	NNP
+늪지 거머리	NNP
+늪지용 알	NNP
+길 잃은 영혼	NNP
+주문 전문가	NNP
+흉포한 비늘가죽	NNP
+검은숲 요정	NNP
+까마귀지기	NNP
+습지 비룡	NNP
+얽힌털 비술사	NNP
+짐승단 폭력배	NNP
+호두 요마	NNP
+호박 농사꾼	NNP
+날쌘 전령	NNP
+동력 끊긴 증기로봇	NNP
+지옥 영혼 심문관	NNP
+썩은 사과나무	NNP
+태엽돌이 전투기계	NNP
+고룡 수호병	NNP
+사나운 거인	NNP
+어둠수렁 달빛야수	NNP
+가마솥 정령	NNP
+광기 어린 의사	NNP
+유령 민병대	NNP
+미친 모자 장수	NNP
+비늘벌레	NNP
+피리 부는 사티로스	NNP
+한밤 배회자	NNP
+흡혈충	NNP
+마녀숲 불곰	NNP
+수사반장	NNP
+길니아스 왕실근위병	NNP
+불길한 은행원	NNP
+마녀의 가마솥	NNP
+부두 인형	NNP
+악몽의 융합체	NNP
+모래결속사	NNP
+진흙괴물 사냥꾼	NNP
+이끼투성이 거인	NNP
+늑대인간 누더기골렘	NNP
+갈라지는 고름뿌리	NNP
+인형술사 도리안	NNP
+겐 그레이메인	NNP
+여백작 애쉬모어	NNP
+영혼도둑 아잘리나	NNP
+달을 삼킨 구렁이 바쿠	NNP
+고블린 폭탄	NNP
+스케이트로봇	NNP
+충직한 초롱이	NNP
+캥거루로봇	NNP
+맹독학자	NNP
+빙글라이더	NNP
+업그레이드용 로봇	NNP
+장막비늘 약제사	NNP
+용수철 로켓	NNP
+전기장인	NNP
+청동 문지기	NNP
+초소형 로봇 조종사	NNP
+콰광로봇	NNP
+폭풍머리 과학자	NNP
+강철 광전사	NNP
+구리꼬리 다람쥐로봇	NNP
+누군가 조종하는 수확기	NNP
+폭발 전문가	NNP
+녹슨 청소부	NNP
+전투 기계	NNP
+손상된 스테고트론	NNP
+뿔도저	NNP
+동력 끊긴 투사	NNP
+불꽃 엔진	NNP
+전류 공급기	NNP
+증식하는 위협	NNP
+기계 새끼용	NNP
+미사일 발사기	NNP
+불꽃 드릴	NNP
+비전 발전기	NNP
+깔깔대는 발명가	NNP
+수정 연구원	NNP
+향상된 엘레크	NNP
+오메가 수호자	NNP
+무장한 종이박	NNP
+E.M.P. 비밀요원	NNP
+시포리움 폭격수	NNP
+풀려난 표본	NNP
+홀로그램 기술자	NNP
+천체 관측자	NNP
+선구자 셀레스티아	NNP
+위대한 위즈뱅 님	NNP
+실험체 9호	NNP
+질리악스	NNP
+메카툰	NNP
+구루바시 닭	NNP
+사로나이트 작업반장	NNP
+순진한 새끼 야수	NNP
+꾸벅거리는 저격수	NNP
+딱정벌레 알	NNP
+상어팀 구경꾼	NNP
+약삭빠른 발목깨물이	NNP
+주문 광전사	NNP
+바나나 장사꾼	NNP
+심통난 거북이	NNP
+암표 흥정꾼	NNP
+열렬한 관객	NNP
+장비 수집가	NNP
+재생하는 불량배	NNP
+전율엄니 난투꾼	NNP
+투기장 보물상자	NNP
+눈먼 순찰대원	NNP
+왕년의 최강자	NNP
+용아귀 화염용	NNP
+성깔 있는 문지기	NNP
+아마니 전투곰	NNP
+모쉬오그 집행자	NNP
+무법항 도박사	NNP
+물통 담당	NNP
+방패파괴자	NNP
+뱀의 수호물	NNP
+불나무 의술사	NNP
+수프 상인	NNP
+술 취한 노움	NNP
+요리사 멀록	NNP
+투기장 손님	NNP
+구루바시 공물	NNP
+거친 야수조련사	NNP
+드라카리 요술사	NNP
+복면 쓴 도전자	NNP
+아이스크림 행상인	NNP
+덥석턱 등껍질투사	NNP
+모쉬오그 진행자	NNP
+난동을 피우는 용	NNP
+박살마	NNP
+그립타	NNP
+모조전문가 지히	NNP
+언더테이카	NNP
+운다스타	NNP
+영혼약탈자 학카르	NNP
+전쟁노래 사령관	NNP
+코르크론 정예병	NNP
+잔인한 감독관	NNP
+아라시 무기제작사	NNP
+방어구 제작자	NNP
+거품 무는 광전사	NNP
+그롬마쉬 헬스크림	NNP
+돌진	NNP
+소용돌이	NNP
+마무리 일격	NNP
+영웅의 일격	NNP
+회전베기	NNP
+방패 올리기	NNP
+내면의 분노	NNP
+격돌	NNP
+광란	NNP
+전투 격노	NNP
+강화!	NNP
+지휘의 외침	NNP
+필사의 일격	NNP
+방패 밀쳐내기	NNP
+난투	NNP
+이글거리는 전쟁 도끼	NNP
+아케이나이트 도끼	NNP
+피의 울음소리	NNP
+죽음의 이빨	NNP
+전쟁로봇	NNP
+깡통나사 고물로봇	NNP
+공성 전차	NNP
+방패 여전사	NNP
+강철의 거대괴수	NNP
+날뛰는 톱날	NNP
+으깨기	NNP
+오우거 전쟁망치	NNP
+도끼 투척수	NNP
+복수	NNP
+오그리마 지원자	NNP
+대련 상대	NNP
+알렉스트라자의 용사	NNP
+덩치 큰 마그나타우르	NNP
+바다의 학살자	NNP
+바리안 린	NNP
+고무	NNP
+강타	NNP
+왕의 수호검	NNP
+사나운 원숭이	NNP
+흑요석 파괴자	NNP
+저주받은 검	NNP
+느조스의 일등항해사	NNP
+날뛰는 구울	NNP
+블러드후프 용사	NNP
+붉은해적단 이교도	NNP
+고대의 방패병	NNP
+말코록	NNP
+피에서 수액을	NNP
+피의 전사들	NNP
+뻗어나온 촉수	NNP
+아이언포지 차원문	NNP
+왕을 지켜라!	NNP
+바보의 파멸	NNP
+관선 변호인	NNP
+험악한 기계공	NNP
+험악한 거리 전당포 주인	NNP
+뒷골목 방어구 제작자	NNP
+호바트 그래플해머 	NNP
+일거리가 있다던데	NNP
+도난당한 물품	NNP
+물고기 밥이나 되라고	NNP
+청동 너클	NNP
+성난 공포뿔	NNP
+잿멍울 군주	NNP
+궁지에 몰린 보초	NNP
+새끼 공포뿔	NNP
+폭군 모쉬 	NNP
+무쇠 살갗	NNP
+운고로 탐험	NNP
+갑작스러운 기원	NNP
+불길의 심장	NNP
+녹아내린 칼날	NNP
+살아 움직이는 광전사 	NNP
+발키르 영혼강탈자	NNP
+산불의 방어구	NNP
+죽음의 망령	NNP
+썩은얼굴	NNP
+영혼의 제련소	NNP
+덤벼라!	NNP
+망자의 손패	NNP
+피의 칼날	NNP
+스컬지군주 가로쉬	NNP
+마른수염 방어구 제작자	NNP
+보석 박힌 골렘	NNP
+코볼트 야만용사	NNP
+대지조각가 이프	NNP
+정체 불명의 방패	NNP
+파티 모집	NNP
+하급 미스릴 주문석	NNP
+무모한 난동	NNP
+칼날주먹	NNP
+비통의 가로날도끼	NNP
+광포한 늑대인간 	NNP
+붉은띠 말벌	NNP
+민병대 사령관	NNP
+고름뿌리 거목	NNP
+마을 포고꾼	NNP
+다리우스 크롤리	NNP
+검은울음 포탑	NNP
+출정의 길	NNP
+치명적인 무기고	NNP
+나무꾼의 도끼	NNP
+이터늄 부릉이	NNP
+폭격로봇	NNP
+순찰용 부릉이	NNP
+베릴륨 마력제거기	NNP
+로켓 장화	NNP
+무기 프로젝트	NNP
+오메가 조립 시설	NNP
+붐지옥함선	NNP
+자동충돌망치	NNP
+정신 나간 천재 박사 붐	NNP
+코뿔소의 혼	NNP
+잿불비늘 비룡	NNP
+가시불꽃 창병	NNP
+대장군 분	NNP
+코뿔소 아칼리	NNP
+압도	NNP
+용의 포효	NNP
+헤비메탈!	NNP
+대군주의 채찍	NNP
+술트라제	NNP
+불꽃의 토템	NNP
+바람예언자	NNP
+불의 정령	NNP
+먼지 악령	NNP
+속박 풀린 정령	NNP
+마나 해일 토템	NNP
+대지의 정령	NNP
+바람의 군주 알아키르	NNP
+선인의 치유력	NNP
+토템의 힘	NNP
+냉기 충격	NNP
+대지의 무기	NNP
+질풍	NNP
+사술	NNP
+피의 욕망	NNP
+갈래 번개	NNP
+대지 충격	NNP
+번개 화살	NNP
+고대의 영혼	NNP
+번개 폭풍	NNP
+야수 정령	NNP
+용암 폭발	NNP
+천리안	NNP
+폭풍으로 벼려낸 도끼	NNP
+둠해머	NNP
+윤회	NNP
+회전하는 자동제압로봇	NNP
+활력의 토템	NNP
+모래망치 주술사	NNP
+진흙지느러미 영혼방랑자	NNP
+바다사냥꾼 넵튤론	NNP
+파지직	NNP
+선조의 부름	NNP
+강화 철퇴	NNP
+파괴의 화염수호정령	NNP
+용암 충격	NNP
+토템 골렘	NNP
+투스카르 토템지기	NNP
+드레나이 토템술사	NNP
+썬더 블러프 용맹전사	NNP
+안개소환사	NNP
+선조의 지혜	NNP
+치유의 물결	NNP
+파괴의 정기	NNP
+충전된 망치	NNP
+땅굴 트로그	NNP
+지축을 울리는 정령	NNP
+모든 것이 멋지다옳	NNP
+얼굴 없는 화염투사	NNP
+진화의 대가	NNP
+심연의 괴수	NNP
+영원한 감시자	NNP
+승천한 할라질	NNP
+원시의 힘	NNP
+벼락	NNP
+진화	NNP
+황혼의 망치	NNP
+사악한 마녀	NNP
+혼돈의 소용돌이 차원문	NNP
+영혼 발톱	NNP
+비취 족장	NNP
+진위 물예언자	NNP
+이건 내 거야!	NNP
+연꽃 환영술사	NNP
+백안	NNP
+비취 번개	NNP
+멀록단 출동	NNP
+퇴화	NNP
+비취 발톱	NNP
+바람 정령	NNP
+온천의 수호정령	NNP
+불길의 선구자	NNP
+원시지느러미 토템	NNP
+바위 파수병	NNP
+원시 군주 칼리모스 	NNP
+굽이치는 파도	NNP
+화산	NNP
+영혼의 메아리	NNP
+멀록 집결	NNP
+얼록 	NNP
+드라카리 수호병	NNP
+부두교 사술사	NNP
+눈덩이 거인	NNP
+무라비	NNP
+얼음 낚시	NNP
+눈사태	NNP
+급속 빙결	NNP
+얼음 파괴자	NNP
+사령술사 스랄 	NNP
+코볼트 은둔자	NNP
+메아리치는 정령	NNP
+칼바람 폭풍소환사	NNP
+세계전율자 그럼블 	NNP
+분쇄의 손	NNP
+치유의 비	NNP
+원시의 부적	NNP
+하급 사파이어 주문석	NNP
+불안정한 진화	NNP
+룬의 창 	NNP
+마녀의 수습생	NNP
+유령빛 낚시꾼	NNP
+수렁불꽃 뱀장어	NNP
+토템 먹보	NNP
+수렁주인	NNP
+두억시니	NNP
+찌릿!	NNP
+타오르는 기원	NNP
+대지의 힘	NNP
+마녀 하가사 	NNP
+성난 먹구름	NNP
+폭풍 추적자	NNP
+오메가 의식	NNP
+천둥불꽃	NNP
+엘렉트라 스톰서지	NNP
+비커에 담긴 번개	NNP
+원소반응 	NNP
+볼타 폭발	NNP
+유레카!	NNP
+폭풍 인도기 	NNP
+종양 전염꾼	NNP
+개구리의 혼	NNP
+수렁 첨벙이	NNP
+젠티모	NNP
+개구리 크라그와	NNP
+토템 강타	NNP
+두꺼비 소나기	NNP
+대재앙의 부두술	NNP
+음산한 환영	NNP
+츄르릅 봉	NNP
+데피아즈단 두목	NNP
+SI:7 요원	NNP
+위장의 대가	NNP
+침착한 암살자	NNP
+납치범	NNP
+에드윈 밴클리프	NNP
+기습	NNP
+맹독	NNP
+사악한 일격	NNP
+독칼	NNP
+혼절시키기	NNP
+칼날 부채	NNP
+암살	NNP
+소멸	NNP
+전력 질주	NNP
+그림자 밟기	NNP
+냉혈	NNP
+슬쩍	NNP
+배신	NNP
+절개	NNP
+머리 후려치기	NNP
+폭풍의 칼날	NNP
+마음가짐	NNP
+암살자의 검	NNP
+전멸의 비수	NNP
+은폐	NNP
+아눕아르 복병	NNP
+고블린 자동 이발기	NNP
+외눈박이 사기꾼	NNP
+강철 사부	NNP
+오우거 닌자	NNP
+무역왕 갤리윅스	NNP
+땜장이의 뾰족칼 기름	NNP
+파괴 공작	NNP
+톱니장인의 렌치	NNP
+검은 무쇠 잠복자	NNP
+패거리	NNP
+해적단원	NNP
+언더시티 용맹전사	NNP
+음영파 기수	NNP
+소매치기	NNP
+암거래상	NNP
+아눕아락	NNP
+도둑질	NNP
+땅속의 위협	NNP
+독 묻은 칼	NNP
+구덩이 독사	NNP
+묘실 도굴꾼	NNP
+발굴된 랩터	NNP
+이교도 칼잡이	NNP
+남쪽바다 촉수얼굴	NNP
+언더시티 상인	NNP
+그림자술사	NNP
+크툰의 자객	NNP
+독한 마음의 자릴	NNP
+그림자 일격	NNP
+심연 속으로	NNP
+엉겅퀴 차	NNP
+칼잡이 강도	NNP
+치명적인 포크	NNP
+에테리얼 행상인	NNP
+비취 무리전사	NNP
+어둠 광전사	NNP
+가젯잔 뱃사공	NNP
+그림자 사부	NNP
+연꽃 자객	NNP
+복덩이 찾는 해적단원	NNP
+수집가 샤쿠	NNP
+비취 수리검	NNP
+위조된 동전	NNP
+칼날꽃잎덩굴손	NNP
+야금풀	NNP
+썩은가시 식인꽃	NNP
+시체꽃 셰라진 	NNP
+환상	NNP
+연발 칼날꽃잎	NNP
+독살	NNP
+흉내쟁이 깍지	NNP
+지하 동굴	NNP
+흑요석 파편	NNP
+역병 과학자	NNP
+뼈다귀 남작	NNP
+룬가열로 외눈깨비	NNP
+유령 강탈자	NNP
+릴리안 보스	NNP
+착취 독 	NNP
+뼈개걸윷모	NNP
+부셔메랑	NNP
+그림자칼날	NNP
+환영자객 발리라 	NNP
+동굴 금속탐색꾼	NNP
+엘프 음악가	NNP
+코볼트 환영술사	NNP
+팔도레이 순찰자	NNP
+소냐 섀도댄서 	NNP
+갑작스러운 배신	NNP
+구사일생	NNP
+하급 흑마노 주문석 	NNP
+회피	NNP
+왕의 파멸	NNP
+깜박이 여우	NNP
+흉악한 해적단원	NNP
+안개망령	NNP
+저주받은 조난자	NNP
+얼굴 수집가	NNP
+테스 그레이메인	NNP
+비열한 습격	NNP
+훔치기	NNP
+현상 수배!	NNP
+유령의 커틀라스	NNP
+피험자 모집가	NNP
+미쳐버린 화학자	NNP
+토깽이 콩콩	NNP
+역병분무기	NNP
+마이라 로트스프링	NNP
+보랏빛 연무	NNP
+학술적 첩보	NNP
+네크리움 약병	NNP
+마이라의 불안정한 원소	NNP
+네크리움 단검	NNP
+붉은해적단 호젠	NNP
+상어의 혼	NNP
+구루바시 함성꾼	NNP
+상어 그랄	NNP
+선장 후크터스크	NNP
+훔친 강철	NNP
+판자 위를 걸어라!	NNP
+약탈	NNP
+대포 포화	NNP
+톱니 이빨	NNP
+왕의 수호자	NNP
+여명의 파수병	NNP
+알도르 평화감시단	NNP
+티리온 폴드링	NNP
+겸손	NNP
+보호의 손길	NNP
+힘의 축복	NNP
+성스러운 빛	NNP
+신성화	NNP
+왕의 축복	NNP
+천벌의 망치	NNP
+고귀한 희생	NNP
+구원	NNP
+눈에는 눈 	NNP
+지혜의 축복	NNP
+참회	NNP
+평등	NNP
+신의 은총	NNP
+신의 격노	NNP
+축복받은 용사	NNP
+응징의 격노	NNP
+신의 축복	NNP
+빛의 정의	NNP
+용사의 진은검	NNP
+정의의 칼날	NNP
+앙갚음	NNP
+보호막을 쓴 꼬마로봇	NNP
+붉은십자군 정화자	NNP
+코발트 수호자	NNP
+병참장교	NNP
+볼바르 폴드라곤	NNP
+빛의 문장	NNP
+병력 소집	NNP
+톱니망치	NNP
+용의 배우자	NNP
+엄숙한 애도	NNP
+전투마 조련사	NNP
+멀록 기사	NNP
+투스카르 창기사	NNP
+수수께끼의 도전자	NNP
+성기사 에드릭	NNP
+용사의 문장	NNP
+경쟁심	NNP
+경기장 입장	NNP
+은빛십자군 창	NNP
+울다만의 수호자	NNP
+신성한 시험	NNP
+무엇이든 가능하다옳	NNP
+헌신적인 영웅	NNP
+어둠골 감시대원	NNP
+썩은지느러미 심문관	NNP
+빛의 군주 라그나로스	NNP
+천상의 힘	NNP
+어둠 속의 빛	NNP
+어둠에 맞서리라	NNP
+금단의 치유술	NNP
+집결의 검	NNP
+파멸의 어둠 기사단원	NNP
+상아색 나이트	NNP
+실버문 차원문	NNP
+성난비늘 불량배	NNP
+험악한 거리 만물상	NNP
+험악한 거리 집행자	NNP
+험악한 거리 경호원	NNP
+비열한 거리 치안대장	NNP
+불꽃수염 번브리슬 	NNP
+밀수입자의 일상	NNP
+탈출용 코도	NNP
+신참 고용	NNP
+수문학자	NNP
+빛이 주입된 스테고돈	NNP
+원시지느러미 용사	NNP
+태양지기 타림 	NNP
+길 잃은 신병들	NNP
+적응	NNP
+가시가 돋친 탈것	NNP
+공룡의 몸집	NNP
+마지막 칼라이도사우루스	NNP
+탐험용 넓적칼	NNP
+정의로운 수호자 	NNP
+싸늘칼날 용사	NNP
+울부짖는 사령관	NNP
+오만한 성전사	NNP
+검은경비병	NNP
+불꽃피 볼바르	NNP
+어두운 신념	NNP
+필사적인 저항	NNP
+빛의 슬픔	NNP
+칠흑의 기사단장 우서	NNP
+마른협곡 교도관	NNP
+자애로운 신령	NNP
+수정 사자	NNP
+리네사 선소로우	NNP
+무용의 물약	NNP
+하급 진주 주문석 	NNP
+긴급 소집	NNP
+레벨 업!	NNP
+정체불명의 망치	NNP
+발아니르	NNP
+유령 전투마	NNP
+빛의 용장	NNP
+종탑 보초병	NNP
+성당 가고일	NNP
+유리 기사	NNP
+왕자 리암	NNP
+비난	NNP
+종을 울려라!	NNP
+숨겨진 지식	NNP
+은장검	NNP
+발광로봇	NNP
+기계 알	NNP
+안녕모듈	NNP
+발광석 기술병	NNP
+수정대장장이 칸고르 	NNP
+수정학	NNP
+자동 방어 매트릭스	NNP
+축소 광선	NNP
+분광 렌즈	NNP
+칸고르의 끝없는 군대	NNP
+잔달라 기사단원	NNP
+호랑이의 혼	NNP
+불멸의 정무관	NNP
+대사제 데칼	NNP
+호랑이 시르밸라	NNP
+빛의 섬광	NNP
+잠깐!	NNP
+새로운 도전자	NNP
+피발톱	NNP
+파락키 전투도끼	NNP
+회갈색 늑대	NNP
+사냥개조련사	NNP
+굶주린 대머리수리	NNP
+툰드라 코뿔소	NNP
+청소부 하이에나	NNP
+사바나 사자	NNP
+왕 크루쉬	NNP
+사냥꾼의 징표	NNP
+신비한 사격	NNP
+추적	NNP
+살상 명령	NNP
+야생의 벗	NNP
+일제 사격	NNP
+빙결의 덫	NNP
+저격	NNP
+폭발의 덫	NNP
+개들을 풀어라	NNP
+치명적인 사격	NNP
+눈속임	NNP
+섬광	NNP
+폭발 사격	NNP
+야수의 격노	NNP
+뱀 덫	NNP
+독수리뿔 장궁	NNP
+검투사의 장궁	NNP
+그물거미	NNP
+강철니 표범로봇	NNP
+백수의 왕	NNP
+스팀휘들 저격수	NNP
+가즈릴라	NNP
+코브라 사격	NNP
+야수 부르기	NNP
+죽은척하기	NNP
+수리검포	NNP
+흉포한 심장부 사냥개	NNP
+속사	NNP
+용감한 궁수	NNP
+왕의 엘레크	NNP
+산양 사육사	NNP
+마구간지기	NNP
+공포비늘	NNP
+산성아귀	NNP
+곰 덫	NNP
+강화 사격	NNP
+거미떼	NNP
+실탄 장전	NNP
+사막 낙타	NNP
+화살 덫	NNP
+탐험가의 모자	NNP
+이글거리는 박쥐	NNP
+청소부구더기	NNP
+배신당한 사육사	NNP
+감염된 늑대	NNP
+거대한 모래 벌레	NNP
+공주 후후란	NNP
+사냥 시작	NNP
+감염	NNP
+야생의 부름	NNP
+인자한 할머니	NNP
+망토 두른 여사냥꾼	NNP
+고양이 마술	NNP
+길고양이	NNP
+겁먹은 조직원	NNP
+트로그 야수조련사	NNP
+습격용 코도	NNP
+쥐 떼	NNP
+핵주먹	NNP
+밀수업자의 상자	NNP
+숨겨둔 보관함	NNP
+피라냐 투척기	NNP
+보석 박힌 앵무	NNP
+파지직거리는 무쇠턱 랩터	NNP
+새끼 랩터	NNP
+공포비늘 추적자	NNP
+톨비르 감시자	NNP
+랩터왕 서슬발톱 	NNP
+치명적인 이빨	NNP
+쇄도	NNP
+공룡술	NNP
+늪지의 여왕	NNP
+곰상어	NNP
+기워 붙인 추적자	NNP
+폭발하는 팽창박쥐	NNP
+시체 과부거미	NNP
+누더기골렘 궁병 	NNP
+교수 퓨트리사이드	NNP
+죽은척!	NNP
+독사 덫	NNP
+맹독 화살	NNP
+죽음추적자 렉사르	NNP
+동굴 히드라	NNP
+스며나오는 수액덩어리	NNP
+카트레나 윈터위습	NNP
+측방 강타	NNP
+떠도는 괴물	NNP
+하급 에메랄드 주문석	NNP
+이리 와라!	NNP
+다가오는 벽	NNP
+양초 화살	NNP
+라크델라 	NNP
+사냥용 파수견	NNP
+썩은무리 거미	NNP
+어스름 안식처 사냥꾼	NNP
+썩은숨결 비룡	NNP
+독소 전문가	NNP
+사냥개조련사 쇼	NNP
+에메리스	NNP
+광포한 격노	NNP
+거친 날갯짓	NNP
+쥐덫	NNP
+맹독로봇	NNP
+폭죽 기술자	NNP
+거미 폭탄	NNP
+강령기계공	NNP
+폭발광 플라크 	NNP
+비밀 작전 	NNP
+폭탄 던지기	NNP
+사이버공학 칩	NNP
+고블린의 장난	NNP
+플라크의 붐주카포	NNP
+갈기발 스라소니	NNP
+붉은머리 전략가	NNP
+스라소니의 혼	NNP
+스라소니 할라지	NNP
+미끼용 화살	NNP
+야생의 복수	NNP
+내면의 야수	NNP
+주인의 부름	NNP
+인간사냥꾼의 손도끼	NNP
+줄진	NNP
+무쇠껍질 수호정령	NNP
+발톱의 드루이드	NNP
+숲의 수호자	NNP
+전쟁의 고대정령	NNP
+지식의 고대정령	NNP
+세나리우스	NNP
+달빛 섬광	NNP
+정신 자극	NNP
+할퀴기	NNP
+야생의 징표	NNP
+급속 성장	NNP
+야생의 포효	NNP
+치유의 손길	NNP
+휘둘러치기	NNP
+별빛 섬광	NNP
+자연화	NNP
+야생의 힘	NNP
+천벌	NNP
+자연의 징표	NNP
+숲의 영혼	NNP
+야생성	NNP
+물기	NNP
+별똥별	NNP
+육성	NNP
+자연의 군대	NNP
+독성 씨앗	NNP
+양극 처리 로봇 새끼곰	NNP
+송곳니의 드루이드	NNP
+숲 뜰지기	NNP
+기계표범곰	NNP
+말로른	NNP
+재활용	NNP
+어둠의 속삭임	NNP
+생명의 나무	NNP
+화염의 드루이드	NNP
+화산의 나무정령	NNP
+칼날이빨의 드루이드	NNP
+야생길잡이	NNP
+다르나서스 지원자	NNP
+흉포한 전투원	NNP
+야생의 기사	NNP
+아비아나	NNP
+살아있는 뿌리	NNP
+양분 흡수	NNP
+천공의 교감	NNP
+랩터 탈것	NNP
+밀림 달빛야수	NNP
+까마귀 우상	NNP
+어둠에 물든 아라코아	NNP
+혼란스러운 드루이드	NNP
+수렁의 수호자	NNP
+클락시 호박술사	NNP
+금단의 고대정령	NNP
+판드랄 스태그헬름	NNP
+이샤라즈의 징표	NNP
+야생의 분노	NNP
+고대 신의 위습	NNP
+마력 깃든 까마귀	NNP
+박물관 감시자	NNP
+달숲 차원문	NNP
+비취 괴수	NNP
+천신의 꿈술사	NNP
+토깽 사부	NNP
+잊힌 왕 쿤	NNP
+연꽃의 징표	NNP
+비취꽃	NNP
+비취 우상	NNP
+가로챈 힘	NNP
+달의 계시	NNP
+토르톨란 채집꾼	NNP
+덩치 큰 긴목공룡	NNP
+신록의 긴목공룡	NNP
+껍질술사	NNP
+거대한 아나콘다	NNP
+티란투스 	NNP
+대지의 비늘	NNP
+진화의 포자	NNP
+살아 움직이는 마나	NNP
+밀림의 괴수들	NNP
+지하군주	NNP
+무리의 드루이드	NNP
+튼튼껍질 청소부	NNP
+운명술사	NNP
+하드로녹스 	NNP
+뾰족니	NNP
+거미줄 짜기	NNP
+퍼져나가는 역병	NNP
+궁극의 역병	NNP
+역병의 드루이드 말퓨리온	NNP
+강철나무 골렘 	NNP
+욕심쟁이 요마	NNP
+불곰 수호병	NNP
+천공의 호랑이 	NNP
+곰팡이 군주 익슬리드	NNP
+나무껍질 	NNP
+참나무 소환술	NNP
+하급 벽옥 주문석	NNP
+갈림길	NNP
+세계수의 가지 	NNP
+낫의 드루이드	NNP
+숲 속의 안내자	NNP
+현혹된 수호병	NNP
+어스름 숫사슴	NNP
+황혼 녘의 아비아나 	NNP
+뾰족가지	NNP
+마녀숲 사과	NNP
+흉포한 울음소리	NNP
+마녀의 시간	NNP
+속삭이는 숲	NNP
+수액 살포자	NNP
+수목학자	NNP
+나무를 가꾸는 타우렌	NNP
+우걱전차	NNP
+꿈결꽃잎 원예가	NNP
+푸르딩딩한 플룹	NNP
+생물학 프로젝트	NNP
+조경 작업	NNP
+먹음직스러운 덥석멜론	NNP
+플룹의 수상망측한 수액 	NNP
+야성적인 공격병	NNP
+무쇠가죽 공포뿔	NNP
+랩터의 혼	NNP
+나무예언자	NNP
+전쟁드루이드 로티	NNP
+랩터 공크	NNP
+암습	NNP
+로아의 징표	NNP
+포식자의 본능	NNP
+쇄도의 포효	NNP
+공허방랑자	NNP
+서큐버스	NNP
+공포의 지옥불정령	NNP
+피의 임프	NNP
+화염 임프	NNP
+소환의 문	NNP
+공허의 괴물	NNP
+지옥수호병	NNP
+파멸수호병	NNP
+지옥의 군주	NNP
+군주 자락서스	NNP
+희생의 서약	NNP
+부패	NNP
+영혼의 불꽃	NNP
+필멸의 고리	NNP
+생명력 흡수	NNP
+어둠의 화살	NNP
+지옥의 불길	NNP
+공허의 부름	NNP
+악마의 불꽃	NNP
+악마 감지	NNP
+암흑불길	NNP
+영혼 착취	NNP
+운명의 파멸	NNP
+뒤틀린 황천	NNP
+압도적인 힘	NNP
+공허소환사	NNP
+떠 다니는 감시자	NNP
+고통의 여제	NNP
+지옥 대포	NNP
+령 골렘 	NNP
+말가니스	NNP
+검은폭탄	NNP
+임프 폭발	NNP
+악마의 심장	NNP
+임프 두목	NNP
+악마의 격노	NNP
+격노수호병	NNP
+무시무시한 파멸수호병	NNP
+작고 사악한 창기사	NNP
+공허파괴자	NNP
+공포마	NNP
+윌프레드 피즐뱅	NNP
+악마의 기운	NNP
+자락서스의 주먹	NNP
+어둠의 거래	NNP
+어둠의 행상인	NNP
+성물회 구도자	NNP
+라팜의 저주	NNP
+지배당한 주민	NNP
+어둠골 원로원	NNP
+저승의 안내인	NNP
+어둠골 사서	NNP
+초갈	NNP
+금단의 의식	NNP
+퍼져가는 광기	NNP
+어둠을 등지다	NNP
+파멸!	NNP
+말체자르의 임프	NNP
+식기 골렘	NNP
+카라 카잠!	NNP
+수정술사	NNP
+난폭한 심연불정령	NNP
+바다아귀 쐐기술사	NNP
+돌팔이 연금술사	NNP
+비밀결사 밀매자	NNP
+속박 풀린 크룰	NNP
+폭발성 수정 물약	NNP
+혈폭풍 물약	NNP
+지옥불꽃 물약	NNP
+굶주린 테러닥스	NNP
+락카리 지옥사냥개	NNP
+잿멍울 잠복꾼	NNP
+잔혹한 공룡술사	NNP
+딸깍거리는 실리시드	NNP
+여왕 자바스 	NNP
+부패의 안개	NNP
+포식	NNP
+핏빛꽃	NNP
+락카리 제물	NNP
+핏빛 하객	NNP
+울부짖는 마귀	NNP
+악랄한 공포의 군주	NNP
+노움페라투	NNP
+피의 여왕 라나텔	NNP
+영혼 흡수	NNP
+모독	NNP
+강제된 희생	NNP
+배반	NNP
+핏빛약탈자 굴단	NNP
+코볼트 사서	NNP
+야비한 소악마	NNP
+갈고리 약탈자	NNP
+지배당한 졸개	NNP
+공허군주	NNP
+첫 번째 사도 린	NNP
+어둠의 서약	NNP
+하급 자수정 주문석	NNP
+대격변	NNP
+만아리의 해골	NNP
+마녀숲 임프	NNP
+그늘 박쥐	NNP
+피의 마녀	NNP
+쥐잡이꾼	NNP
+죽음그물 거미	NNP
+글린다 크로우스킨	NNP
+고드프리 경	NNP
+임프 소환진	NNP
+어둠의 빙의	NNP
+무력화 저주	NNP
+마녀숲 임프	NNP
+무력화 저주	NNP
+황천영혼 포병	NNP
+오메가 요원	NNP
+박사 모리건 	NNP
+악마학 프로젝트	NNP
+영혼 폭탄	NNP
+영혼 주입	NNP
+심령술	NNP
+영혼관 	NNP
+무모한 트롤 투사	NNP
+혈트롤 피탐식자	NNP
+박쥐의 혼	NNP
+영혼감시관	NNP
+대여사제 제클릭	NNP
+박쥐 히르이크	NNP
+악마 화살	NNP
+냉혹한 집결	NNP
+비명	NNP
+공허의 서약	NNP
+물의 정령	NNP
+마나 지룡	NNP
+마술사의 수습생	NNP
+키린 토 마법사	NNP
+에테리얼 비전술사	NNP
+대마법사 안토니다스	NNP
+신비한 화살	NNP
+환영 복제	NNP
+신비한 폭발	NNP
+얼음 화살	NNP
+얼음 회오리	NNP
+신비한 지능	NNP
+변이	NNP
+화염구	NNP
+불기둥	NNP
+지식의 고서	NNP
+거울상	NNP
+얼음 보호막	NNP
+냉기 돌풍	NNP
+마법 차단	NNP
+증발시키기	NNP
+눈보라	NNP
+고드름	NNP
+주문왜곡사	NNP
+불덩이 작렬	NNP
+얼음창	NNP
+얼음 방패	NNP
+복제	NNP
+꽁꽁로봇	NNP
+그을음 생성로봇	NNP
+고블린 폭발법사	NNP
+작은 주문차단자	NNP
+거대 화염전차	NNP
+화염포	NNP
+불안정한 차원문	NNP
+메디브의 메아리	NNP
+불꽃꼬리 전사	NNP
+용의 숨결	NNP
+주문사수	NNP
+달라란 지원자	NNP
+영웅의 넋	NNP
+콜다라 비룡	NNP
+로닌	NNP
+화염창	NNP
+변이: 멧돼지	NNP
+인형 의식	NNP
+비전 작렬	NNP
+에테리얼 창조술사	NNP
+살아 움직이는 갑옷	NNP
+잊힌 횃불	NNP
+황혼의 불꽃소환사	NNP
+얼굴 없는 소환사	NNP
+이교도 마법사	NNP
+정신 나간 서리술사 	NNP
+요그사론의 종복	NNP
+아노말루스	NNP
+산산조각	NNP
+금단의 불꽃	NNP
+신비술사의 고서	NNP
+메디브의 하인	NNP
+나불대는 책	NNP
+불의 땅 차원문	NNP
+비밀결사 졸개	NNP
+냉기술사	NNP
+비밀결사 수정배달부	NNP
+이성을 잃은 영혼술사	NNP
+문신사 솔리아	NNP
+혹한의 물약	NNP
+화산 물약	NNP
+변이 물약	NNP
+상급 신비한 화살	NNP
+비전학자	NNP
+흐린빛 폭풍정령	NNP
+쇄도하는 증기 정령	NNP
+불사조 파이로스 	NNP
+화염 분출	NNP
+마나 결속	NNP
+녹아내린 환영	NNP
+태고의 문양	NNP
+유성	NNP
+고대 차원문 개방	NNP
+서리 망령	NNP
+얼음방랑자	NNP
+파멸의 수습생	NNP
+섬뜩한 창조술사	NNP
+신드라고사	NNP
+신드라고사의 숨결	NNP
+얼어붙은 분신	NNP
+모사	NNP
+불가사의한 빙하	NNP
+리치 여왕 제이나	NNP
+비전 기술병	NNP
+까마귀 전령	NNP
+지맥 조작꾼	NNP
+용소환사 알라나	NNP
+변화하는 두루마리	NNP
+하급 루비 주문석	NNP
+폭발의 룬	NNP
+용의 분노	NNP
+신비의 덱	NNP
+알루네스	NNP
+검은 고양이	NNP
+성가신 까마귀	NNP
+골동품 수집가	NNP
+화톳불 정령	NNP
+비전 열쇠공	NNP
+대마법사 아루갈	NNP
+시간땜장이 토키 	NNP
+순간 빙결	NNP
+잿불폭풍	NNP
+악령의 책	NNP
+우주 변형물	NNP
+별빛 사절	NNP
+운석학자	NNP
+점성술사	NNP
+별관찰자 루나 	NNP
+별불꽃	NNP
+연구 프로젝트	NNP
+천공의 균열	NNP
+뜻밖의 결과	NNP
+루나의 휴대용 우주	NNP
+대담한 불놀이꾼	NNP
+비전공룡	NNP
+용매의 혼	NNP
+방화광	NNP
+용매 잔알라이	NNP
+사술 군주 말라크라스	NNP
+정령술 연마	NNP
+불태우기	NNP
+갈라지는 환영	NNP
+화염 폭풍	NNP
+북녘골 성직자	NNP
+빛의 정령	NNP
+사원 집행자	NNP
+빛샘	NNP
+아키나이 영혼사제	NNP
+비밀결사단 어둠사제	NNP
+예언자 벨렌	NNP
+마음의 눈	NNP
+성스러운 일격	NNP
+신의 권능: 보호막	NNP
+어둠의 권능: 고통	NNP
+정신 분열	NNP
+천상의 정신	NNP
+어둠의 권능: 죽음	NNP
+신성한 폭발	NNP
+정신 지배	NNP
+치유의 마법진	NNP
+침묵	NNP
+내면의 열정	NNP
+생각 훔치기	NNP
+대규모 무효화	NNP
+암흑의 광기	NNP
+신성한 불꽃	NNP
+어둠의 형상	NNP
+심리 조작	NNP
+어둠의 이교도	NNP
+축소술사	NNP
+권투로봇	NNP
+업그레이드된 수리 로봇	NNP
+그림자 폭격수	NNP
+볼진	NNP
+벨렌의 선택	NNP
+나루의 빛	NNP
+빛폭탄	NNP
+황혼의 새끼용	NNP
+부활	NNP
+신성한 용사	NNP
+고룡쉼터 요원	NNP
+어둠의 종복	NNP
+어둠의 마귀	NNP
+고해사제 페일트리스	NNP
+순간 치유	NNP
+신의 권능:영광	NNP
+교화	NNP
+혼란	NNP
+박물관 관리인	NNP
+생매장	NNP
+파헤쳐진 악	NNP
+두건 쓴 수행사제	NNP
+어둠골 연금술사	NNP
+변화무쌍한 망령	NNP
+황혼의 암흑치유사	NNP
+사자 볼라즈	NNP
+신의 권능: 촉수	NNP
+어둠의 권능: 공포	NNP
+금단의 창조술	NNP
+어둠을 받아들여라	NNP
+만찬의 사제	NNP
+칠흑색 비숍	NNP
+정화	NNP
+비밀결사 갈퀴사제	NNP
+비밀결사 노래도둑	NNP
+용기병 비밀요원	NNP
+마나 정동석	NNP
+속박된 라자	NNP
+광기의 물약	NNP
+축소 물약	NNP
+상급 치유 물약	NNP
+용숨결 물약	NNP
+광명의 정령	NNP
+토르톨란 껍질방패병	NNP
+수정 예언자	NNP
+신기루 소환사	NNP
+호기심 많은 미명뿌리	NNP
+태양의 후예 라이라	NNP
+결속의 치유	NNP
+호박석 속의 괴수	NNP
+암흑의 환영	NNP
+깨어난 창조주	NNP
+암흑의 승천자	NNP
+고뇌의 수행사제	NNP
+흑요석 석상	NNP
+대주교 베네딕투스	NNP
+영혼 채찍	NNP
+영원한 족쇄	NNP
+생각 삼키기	NNP
+암흑의 정수	NNP
+어둠의 은총	NNP
+암흑사신 안두인	NNP
+금박 가고일	NNP
+황혼파괴자	NNP
+황혼의 수행사제	NNP
+템퍼루스	NNP
+정신 관찰	NNP
+정체불명의 비약	NNP
+황혼의 부름 	NNP
+하급 다이아몬드 주문석 	NNP
+영혼의 절규	NNP
+용의 영혼	NNP
+작은 호박	NNP
+석영 정령	NNP
+관짝 파괴자	NNP
+밤비늘 어미	NNP
+아른거리는 나방	NNP
+카멜레오스	NNP
+유령아씨 	NNP
+천상의 찬가	NNP
+성수	NNP
+생생한 악몽	NNP
+듀금의 인도자	NNP
+실험체	NNP
+오메가 의무병	NNP
+무모한 실험가	NNP
+복제의 대가 제레크	NNP
+발라당 	NNP
+복제 장치	NNP
+여분 팔	NNP
+신의 권능: 복제	NNP
+제레크의 복제품 전시관	NNP
+모래 노역꾼	NNP
+망자의 혼	NNP
+무덤괴수	NNP
+아키나이 환영	NNP
+망자 브원삼디	NNP
+공주 탈란지	NNP
+재생성	NNP
+교령	NNP
+대규모 실성	NNP
+광기에 굴복하라	NNP
+갑자기	NNP
+침투부	NNP
+저번	NNP
+주펄	NNP
+낚임	NNP
+합니다	NNP
+왔니	NNP
+왔나	NNP
+왔어	NNP
+왔다	NNP
+왔노	NNP
+왔대	NNP
+킹치만	NNP

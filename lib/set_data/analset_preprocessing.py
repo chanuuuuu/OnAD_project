@@ -13,13 +13,15 @@ def set_low_dataset(df, start_time, target_date):
     import pandas as pd
     start_time = pd.to_datetime(target_date + " " + start_time)
 
+    df['time'] = df['chat_time'].apply(lambda x : target_date + " " + x)  # 시간 백업
     df['streamtime'] = df['chat_time'].apply(lambda x : target_date + " " + x)
     df['streamtime'] = pd.to_datetime(df['streamtime'])
-    df['streamtime'] = df['streamtime'].apply(lambda x : x - start_time)
     df.set_index('streamtime', inplace=True)
 
     # 시작 시간부터의 채팅로그 데이터 프레임
-    df = df[df.index > "00:00:00"]
+    # df['time'] = df['time'].apply(lambda x : x - start_time)
+    # df.set_index('time', inplace=True)
+    # df = df[df.index > "00:00:00"]
 
     # 필요없는 행 삭제
     del df['chat_id']
