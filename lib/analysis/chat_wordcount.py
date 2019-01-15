@@ -91,21 +91,54 @@ def call_file_list(path) :
     file_list = listdir(path_dir)
     return file_list
 
+# 디렉토리 체크해서 디렉토리 없으면 디렉토리 만들어줌
+def mk_dir(dirpath) : 
+    """
+        dirpath : 체크할 폴더의 상대경로
+    """
+    import os
+    dirname = dirpath
+    if not os.path.isdir(dirname):
+        os.mkdir(dirname)
 
 if __name__ == '__main__' : 
-    file_list = call_file_list('../../data/twitch_live_chat/#zilioner')
-    for file in file_list :
-        log = openlog('#zilioner', file)
-        print('%s로그 불러오기 완료' %file)
-        word_list = preprocessing_chat(log)
-        print('%s로그 전처리 완료'%file)
-        tokens_ko = tokenize(word_list)
-        print('%s로그 토큰화 완료'%file)
-        tokens_ko2 = tokenize_over(tokens_ko)
-        print('2글자 이상 추출')
-        tokens_ko_nltk = nltk_text(tokens_ko2)
-        print('%s로그 자연어처리 완료'%file)
-        top_data = top_words(tokens_ko_nltk)
-        print('%s상위 단어 추출 완료'%file)
-        pickle_data('%s_2글자이상형태소'%file[:-4],'#zilioner',top_data)
-        print("저장 완료")
+    try : 
+        bj_list = call_file_list('../../data/twitch_live_chat')
+        for bj in bj_list : 
+            file_list = call_file_list('../../data/twitch_live_chat/%s'%bj)
+            for file in file_list :
+                log = openlog(bj, file)
+                print('%s로그 불러오기 완료' %file)
+
+                word_list = preprocessing_chat(log)
+                print('%s로그 전처리 완료'%file)
+
+                tokens_ko = tokenize(word_list)
+                print('%s로그 토큰화 완료'%file)
+
+                tokens_ko2 = tokenize_over(tokens_ko)
+                print('2글자 이상 추출')
+
+                tokens_ko_nltk = nltk_text(tokens_ko)
+                print('%s로그 자연어처리 완료'%file)
+                
+                tokens_ko_nltk2 = nltk_text(tokens_ko2)
+                print('%s로그 2글자 이상자연어처리 완료'%file)
+
+                top_data = top_words(tokens_ko_nltk)
+                print('%s상위 단어 추출 완료'%file)
+
+                top_data2 = top_words(tokens_ko_nltk2)
+                print('%s상위 2단어이상 추출 완료'%file)
+
+                mk_dir('./top_words/{}'.format(bj))
+                
+                pickle_data('%s기본형태소'%file[:-4],bj,top_data)
+                print('기본형태소 파일저장')
+
+                pickle_data('%s2글자이상형태소'%file[:-4],bj,top_data2)
+                print('2글자이상형태소 파일저장')
+
+    except Exception as e : 
+            print('stopped due to ', e)
+    print('$$$$$$$$$$$ ALL DONE $$$$$$$$$$$$$$$')
