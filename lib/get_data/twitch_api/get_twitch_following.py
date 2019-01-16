@@ -1,5 +1,5 @@
 
-def start(streamer_list):
+def start(api_key, streamer_list):
     """
     twitch_following 테이블의 데이터를 반환하는 함수
     * output
@@ -11,7 +11,7 @@ def start(streamer_list):
 
     # stream api 파라미터 설정
     url = 'https://api.twitch.tv/helix/users/follows'
-    headers = {'Client-ID' : 'kimne78kx3ncx6brgo4mv6wki5h1ko'}
+    headers = {'Client-ID' : api_key}
 
     total_followers = []
     for i, streamer_id in enumerate(streamer_list):

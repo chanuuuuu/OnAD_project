@@ -3,14 +3,20 @@
 
 # DB매니저 import
 from onad_db import DBManager
+import json
 
-DB_URL = 'onad.cbjjamtlar2t.ap-northeast-2.rds.amazonaws.com'
-DB_USER = 'onad'
-DB_PASSWORD = 'rkdghktn12'
-DB_DATABASE = 'onad'
-DB_CHARSET = 'utf8mb4'
-DB_LOGFLAG  = 'False'
-DB_PORT = 3306
+with open('./resource/config.json', 'r') as conf:
+    config = json.load(conf)
+
+DB_USER = config['DATABASE']['DB_USER']
+DB_PASSWORD = config['DATABASE']['DB_PASSWORD']
+DB_URL = config['DATABASE']['DB_URL']
+DB_PORT = config['DATABASE']['DB_PORT']
+DB_DATABASE = config['DATABASE']['DB_DATABASE']
+DB_CHARSET = config['DATABASE']['DB_CHARSET']
+DB_LOGFLAG = config['DATABASE']['DB_LOGFLAG']
+YOUTUBE_API_KEY = config['APIKEY']['YOUTUBE_API_KEY']
+TWITCH_API_KEY = config['APIKEY']['TWITCH_API_KEY']
 
 db_url = "mysql+pymysql://%s:%s@%s:%s/%s?charset=%s" % (
     DB_USER, DB_PASSWORD,
@@ -32,8 +38,8 @@ class OnAd():
    
     # 멤버변수 선언
     dao = None
-    youtube_api_key = "AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY"
-
+    youtube_api_key = YOUTUBE_API_KEY
+    youtube_api_key = TWITCH_API_KEY
     # 멤버함수 선언
     def __init__(self):
         """db 초기화"""
@@ -65,22 +71,22 @@ class OnAd():
         # api 이용하여 데이터 받아오는 작업
         if table_name == "TwitchStream":
             print("api 요청 시도")
-            list_result = get_twitch_stream.start()[0]  # (메타데이터, 세부데이터) 를 반환함
+            list_result = get_twitch_stream.start(self.twitch_api_key)[0]  # (메타데이터, 세부데이터) 를 반환함
             print("데이터 준비 완료")
 
         if table_name == "TwitchStreamDetail":
             print("api 요청 시도")
-            list_result = get_twitch_stream.start()[1]  # (메타데이터, 세부데이터) 를 반환함
+            list_result = get_twitch_stream.start(self.twitch_api_key)[1]  # (메타데이터, 세부데이터) 를 반환함
             print("데이터 준비 완료")
 
         elif table_name == "TwitchGame":
             print("api 요청 시도")
-            list_result = get_twitch_game.start()
+            list_result = get_twitch_game.start(self.twitch_api_key)
             print("데이터 준비 완료")
         
         elif table_name == "TwitchGameDetail":
             print("api 요청 시도")
-            list_result = get_twitch_game_detail.start()
+            list_result = get_twitch_game_detail.start(self.twitch_api_key)
             print("데이터 준비 완료")
         
         elif table_name == 'TwitchChat':
@@ -94,7 +100,8 @@ class OnAd():
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
             print("api 요청 시도")
-            list_result = get_twitch_channel.start(streamer_ids)[0] # 데이터 요청
+            list_result = get_twitch_channel.start(self.twitch_api_key,
+                streamer_ids)[0] # 데이터 요청
             print("채널 데이터 준비 완료")
 
         elif table_name == 'TwitchChannelDetail':
@@ -102,14 +109,16 @@ class OnAd():
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
             print("api 요청 시도")
-            list_result = get_twitch_channel.start(streamer_ids)[1] # 데이터 요청
+            list_result = get_twitch_channel.start(self.twitch_api_key,
+                streamer_ids)[1] # 데이터 요청
             print("채널 데이터 준비 완료")
         
         elif table_name == "TwitchFollowing":
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
             print("api 요청 시도")
-            list_result = get_twitch_following.start(streamer_ids)
+            list_result = get_twitch_following.start(self.twitch_api_key,
+                streamer_ids)
             print("데이터 준비 완료")
 
         elif table_name == "TwitchClip":
@@ -125,8 +134,8 @@ class OnAd():
                     for streamer in streamer_names]
             print("api 요청 시도")
             print("스트리머 수 : %s" % len(streamer_ids))
-            list_result = get_twitch_clip.start(streamer_ids, \
-                started_at=None, ended_at=None)
+            list_result = get_twitch_clip.start(self.twitch_api_key,
+                streamer_ids, started_at=None, ended_at=None)
             print("클립 수 : %s" % len(list_result))
             print("데이터 준비 완료")
         

@@ -1,6 +1,6 @@
 
 
-def start():
+def start(api_key, ):
     """
     twitch_game_detail 테이블의 데이터를 반환하는 함수
     * output
@@ -11,7 +11,7 @@ def start():
 
     # stream api 파라미터 설정
     url = 'https://api.twitch.tv/kraken/games/top'
-    headers = {'Client-ID' : 'kimne78kx3ncx6brgo4mv6wki5h1ko'}
+    headers = {'Client-ID' : api_key}
 
     total_games = []
     for _ in range(100):
