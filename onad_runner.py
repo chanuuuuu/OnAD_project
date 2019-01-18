@@ -3,14 +3,20 @@
 
 # DB매니저 import
 from onad_db import DBManager
+import json
 
-DB_URL = 'onad.cbjjamtlar2t.ap-northeast-2.rds.amazonaws.com'
-DB_USER = 'onad'
-DB_PASSWORD = 'rkdghktn12'
-DB_DATABASE = 'onad'
-DB_CHARSET = 'utf8mb4'
-DB_LOGFLAG  = 'False'
-DB_PORT = 3306
+with open('./resource/config.json', 'r') as conf:
+    config = json.load(conf)
+
+DB_USER = config['DATABASE']['DB_USER']
+DB_PASSWORD = config['DATABASE']['DB_PASSWORD']
+DB_URL = config['DATABASE']['DB_URL']
+DB_PORT = config['DATABASE']['DB_PORT']
+DB_DATABASE = config['DATABASE']['DB_DATABASE']
+DB_CHARSET = config['DATABASE']['DB_CHARSET']
+DB_LOGFLAG = config['DATABASE']['DB_LOGFLAG']
+YOUTUBE_API_KEY = config['APIKEY']['YOUTUBE_API_KEY']
+TWITCH_API_KEY = config['APIKEY']['TWITCH_API_KEY']
 
 db_url = "mysql+pymysql://%s:%s@%s:%s/%s?charset=%s" % (
     DB_USER, DB_PASSWORD,
@@ -32,14 +38,19 @@ class OnAd():
    
     # 멤버변수 선언
     dao = None
-    youtube_api_key = "AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY"
-
+    preprocessor = None
+    youtube_api_key = YOUTUBE_API_KEY
+    twitch_api_key = TWITCH_API_KEY
     # 멤버함수 선언
     def __init__(self):
         """db 초기화"""
         dao = DBManager.init(db_url, eval(DB_LOGFLAG))
         self.dao = dao
         DBManager.init_db()
+
+        """전처리 클래스의 인스턴스 생성"""
+        from lib.set_data import Preprocessor
+        self.preprocessor = Preprocessor()
 
     # 트위치 데이터 수집기
     def get_data_twitch(self, table_name,
@@ -65,22 +76,22 @@ class OnAd():
         # api 이용하여 데이터 받아오는 작업
         if table_name == "TwitchStream":
             print("api 요청 시도")
-            list_result = get_twitch_stream.start()[0]  # (메타데이터, 세부데이터) 를 반환함
+            list_result = get_twitch_stream.start(self.twitch_api_key)[0]  # (메타데이터, 세부데이터) 를 반환함
             print("데이터 준비 완료")
 
         if table_name == "TwitchStreamDetail":
             print("api 요청 시도")
-            list_result = get_twitch_stream.start()[1]  # (메타데이터, 세부데이터) 를 반환함
+            list_result = get_twitch_stream.start(self.twitch_api_key)[1]  # (메타데이터, 세부데이터) 를 반환함
             print("데이터 준비 완료")
 
         elif table_name == "TwitchGame":
             print("api 요청 시도")
-            list_result = get_twitch_game.start()
+            list_result = get_twitch_game.start(self.twitch_api_key)
             print("데이터 준비 완료")
         
         elif table_name == "TwitchGameDetail":
             print("api 요청 시도")
-            list_result = get_twitch_game_detail.start()
+            list_result = get_twitch_game_detail.start(self.twitch_api_key)
             print("데이터 준비 완료")
         
         elif table_name == 'TwitchChat':
@@ -94,7 +105,8 @@ class OnAd():
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
             print("api 요청 시도")
-            list_result = get_twitch_channel.start(streamer_ids)[0] # 데이터 요청
+            list_result = get_twitch_channel.start(self.twitch_api_key,
+                streamer_ids)[0] # 데이터 요청
             print("채널 데이터 준비 완료")
 
         elif table_name == 'TwitchChannelDetail':
@@ -102,14 +114,16 @@ class OnAd():
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
             print("api 요청 시도")
-            list_result = get_twitch_channel.start(streamer_ids)[1] # 데이터 요청
+            list_result = get_twitch_channel.start(self.twitch_api_key,
+                streamer_ids)[1] # 데이터 요청
             print("채널 데이터 준비 완료")
         
         elif table_name == "TwitchFollowing":
             streamer_ids = select_groupby(self.dao,
                 TwitchStream.streamer_id)
             print("api 요청 시도")
-            list_result = get_twitch_following.start(streamer_ids)
+            list_result = get_twitch_following.start(self.twitch_api_key,
+                streamer_ids)
             print("데이터 준비 완료")
 
         elif table_name == "TwitchClip":
@@ -125,8 +139,8 @@ class OnAd():
                     for streamer in streamer_names]
             print("api 요청 시도")
             print("스트리머 수 : %s" % len(streamer_ids))
-            list_result = get_twitch_clip.start(streamer_ids, \
-                started_at=None, ended_at=None)
+            list_result = get_twitch_clip.start(self.twitch_api_key,
+                streamer_ids, started_at=None, ended_at=None)
             print("클립 수 : %s" % len(list_result))
             print("데이터 준비 완료")
         
@@ -206,68 +220,44 @@ class OnAd():
         self.dao.remove()
         print("완료")
 
-    # 트위치 채팅 데이터 가져오기 (폴더에서)
-    def set_twitch_chat_folder(self, target_id, target_date):
+    # 1차 전처리기
+    def preprocess(self, target_id, target_date,
+        from_folder=True, index_type='kr', word_list=None):
         """
-        채팅 데이터와 스트리밍 데이터를 전처리하여 (chat_df, viewer_df)로 반환
-        * input
-          - target_id : 대상 스트리머 아이디, str
-            "yapyap30"의 형태
-          - target_date : 대상 방송 날짜, str
-            "2018-12-10"의 형태
-        * output
-          - pd.DataFrame
+        분석데이터를 만드는 전처리 함수
+        input
+            - target_id : 스트리머의id ex) "yapyap30"
+            - target_date : 방송날짜 ex) "2018-12-25"
+            - index_type : kr, streamstart 둘중 하나, kr=인덱스가 기본 시간/ streamstart=인덱스가시작시간을기준으로00:00:00
+            - word_list : 빈도 분석을 실행 할 단어들 리스트
+        output
+            pandas.DataFrame, 채팅빈도/특정단어수 시간당 빈도수 데이터프레임
         """
-        from lib.set_data.twitch_preprocessing import load_chatting
-        import pandas as pd
+        pp = self.preprocessor
 
-        # 채팅 데이터 로드
-        chat_df = load_chatting(target_id=target_id,
-            target_date=target_date,
-            twitch_chat_dir=self.twitch_chat_dir)
-        print(chat_df)
+        print("데이터 로드 중")
+        if from_folder:  # 폴더로부터 데이터를 불러오는 경우
+            pp.load_from_folder(target_id, target_date)
+        else:  # 데이터베이스로부터 데이터를 불러오는 경우
+            pp.load_from_db(db_url, target_id, target_date)
+        print("데이터 로드 완료")
+
+        # 시작 시간을 기준으로 stream time 컬럼 생성
+        print("시작시간기준 stream time 컬럼생성 중")
+        pp.set_start_time(self.dao, db_url, pp.chat_df, target_id, target_date)
+        print("컬럼생성완료")
+
+        print("채팅 수 기준 피봇테이블 생성 중")
+        pp.pivotting(pp.chat_df, index_type=index_type)
+        print("피봇테이블 생성 완료")
+
+        if word_list:
+            pp.append_word_count_column(pp.chat_df, pp.pivot_df, word_list)
+        else:
+            pp.append_word_count_column(pp.chat_df, pp.pivot_df)
+
+        return pp.pivot_df
         
-        chat_df['streamtime'] = pd.to_datetime(chat_df.index)
-        chat_df.set_index('streamtime', inplace=True)
-        pivot_df = chat_df.pivot_table(index=chat_df.index, aggfunc=len, values='chatterer')
-        pivot_df.columns = ['cnt_chat']  # 컬럼 이름 할당
-
-        return pivot_df
-
-    # 트위치 채팅데이터가 존재하는 날짜만 가져오기 (db에서)
-    def get_existdays_chat_data(self, target_id):
-        """
-        target_id스트리머의 트위치 채팅 데이터베이스에서 중 존재하는 날짜만 반환
-        target_id : 스트리머의 아이디 ex)yapyap30
-        """
-        from lib.contact_db.anal_data import select_exists_date
-        return select_exists_date(self.dao, target_id)
-    
-    # 트위치 채팅 데이터 가져오기(db에서)
-    def set_twitch_chat_db(self, streamer_id, target_date):
-        from lib.contact_db.anal_data import select_twitch_chat
-        from lib.contact_db.anal_data import select_stream_start_time
-        from lib.contact_db.anal_data import select_streamer_id_by_name
-        from lib.set_data.analset_preprocessing import set_low_dataset
-        from lib.set_data.analset_preprocessing import set_anal_dataset
-
-        # 채팅로그 데이터 로드
-        chat_df = select_twitch_chat(db_url, streamer_id, target_date)
-
-        # 방송 시작 시간 데이터 로드
-        start_time = select_stream_start_time(self.dao, db_url,
-            streamer_id, target_date)
-
-        # 채팅로그 데이터를 빈도기준 피봇테이블로 전처리
-        low_df = set_low_dataset(chat_df, start_time, target_date)  # 이후의 작업 이후
-
-        # 시간별 채팅빈도, 특정단어 빈도를 가진 분석용 테이블 생성
-        anal_df = set_anal_dataset(low_df)
-
-        # 방송 시작 시간을 기준으로 한
-
-        return anal_df
-
     # 트위치 채팅 빈도분석하여 편집점 반환
     def anal_twitch_chat(self, anal_df, target_percentile,
         anal_type=None, section_term=None):
@@ -679,9 +669,10 @@ if __name__ == "__main__":
                     target_date = sys.argv[3]
                     print("분석 작업")
                     # 채팅로그, 시청자수 데이터 로드
-                    chat_df, viewer_df = onad.set_twitch_chat_folder(streamer, target_date)
+                    anal_df = onad.preprocess(streamer, target_date,
+                        from_folder=True, index_type='kr', word_list=None)
                     # 트위치 채팅편집점
-                    print(onad.anal_twitch_chat(chat_df, target_percentile=60))
+                    print(onad.anal_twitch_chat(anal_df, target_percentile=60))
                 else: print("타겟 날짜를 입력하세요")
             else: print("스트리머 이름 입력하세요")
         
@@ -690,9 +681,8 @@ if __name__ == "__main__":
                 streamer = sys.argv[2]
                 if sys.argv[3]:
                     target_date = sys.argv[3]
-                    print("데이터 로드중")
-                    anal_df = onad.set_twitch_chat_db(streamer, target_date)
-                    print("데이터 로드 완료")
+                    anal_df = onad.preprocess(streamer, target_date,
+                        from_folder=False, index_type='kr', word_list=None)
                     print("편집점 분석중")
                     print(onad.anal_twitch_chat(anal_df, target_percentile=70))
                 else: print("타겟 날짜를 입력하세요")
@@ -705,9 +695,8 @@ if __name__ == "__main__":
                     target_date = sys.argv[3]
                     if sys.argv[4]:
                         section_term = sys.argv[4]
-                        print("데이터 로드중")
-                        anal_df = onad.set_twitch_chat_db(streamer, target_date, )
-                        print("데이터 로드 완료")
+                        anal_df = onad.preprocess(streamer, target_date,
+                        from_folder=False, index_type='kr', word_list=None)
                         print("편집점 분석중")
                         print(onad.anal_twitch_chat(anal_df, target_percentile=70,
                             anal_type='section', section_term=section_term))

@@ -1,0 +1,16 @@
+{
+    "DATABASE":{
+        "DB_URL" : "onad.cbjjamtlar2t.ap-northeast-2.rds.amazonaws.com",
+        "DB_USER" : "onad",
+        "DB_PASSWORD" : "rkdghktn12",
+        "DB_DATABASE" : "onad",
+        "DB_CHARSET" : "utf8mb4",
+        "DB_LOGFLAG"  : "False",
+        "DB_PORT" : 3306
+    },
+    "APIKEY":
+    {
+        "YOUTUBE_API_KEY" : "AIzaSyCzerFuw3AJr6o29InSBHBW9Rfy5xzIyTY",
+        "TWITCH_API_KEY": "kimne78kx3ncx6brgo4mv6wki5h1ko"
+    }
+}

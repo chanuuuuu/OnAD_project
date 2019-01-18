@@ -1,5 +1,5 @@
 
-def start(streamer_ids, started_at, ended_at):
+def start(api_key, streamer_ids, started_at, ended_at):
     """
     twitch_clip 테이블의 데이터를 반환하는 함수
     * output
@@ -10,7 +10,7 @@ def start(streamer_ids, started_at, ended_at):
     import time
     # stream api 파라미터 설정
     url = 'https://api.twitch.tv/helix/clips'
-    headers = {'Client-ID' : 'kimne78kx3ncx6brgo4mv6wki5h1ko'}
+    headers = {'Client-ID' : api_key}
 
     total_clips = []  # 총 데이터를 담는 그릇
     for i, streamer_id in enumerate(streamer_ids):

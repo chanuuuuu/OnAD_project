@@ -1,4 +1,4 @@
-def start(list_streamer_id):
+def start(api_key, list_streamer_id):
     """
     twitch_channel과 twitch_channel_detail  테이블의 데이터를 반환하는 함수
     * input
@@ -12,7 +12,7 @@ def start(list_streamer_id):
     import time
     # stream api 파라미터 설정
     headers = {
-            'Client-ID' : 'kimne78kx3ncx6brgo4mv6wki5h1ko',
+            'Client-ID' : api_key,
             'Accept': 'application/vnd.twitchtv.v5+json'
             }
 
