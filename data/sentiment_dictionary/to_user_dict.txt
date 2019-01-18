@@ -1,4 +1,4 @@
-갑니다	NNP
+﻿갑니다	NNP
 방인데	NNP
 했한다	NNP
 깔고	NNP
@@ -21,7 +21,7 @@
 노인	NNP
 써엉	NNP
 와라	NNP
-근딜할	NNP
+근딜	NNP
 드셨	NNP
 셔두여	NNP
 안깐	NNP
@@ -38,7 +38,7 @@
 통해	NNP
 서순틀린	NNP
 십장	NNP
-못본해줘	NNP
+못본척해줘	NNP
 욕에반	NNP
 농뱅	NNP
 돌려서	NNP
@@ -222,7 +222,7 @@
 인강	NNP
 커져라	NNP
 다잉	NNP
-꺄스\	NNP
+꺄스	NNP
 여폰	NNP
 한다	NNP
 주웟	NNP
@@ -3421,3 +3421,7 @@ com	NNP
 롱ㅋ	NNP
 봐야함	NNP
 두당	NNP
+했다는	NNP
+하여라	NNP
+침투부	NNP
+
