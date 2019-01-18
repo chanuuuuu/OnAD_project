@@ -38,7 +38,7 @@ def tokenize_tolist(text_array_flat) :
                 line_list = []
     return tokens_ko_tolist
 
-    # preprocessing_tolist 리턴값과 tokenize_tolist 리턴값 넣으면, 추가되거나 너무 작게
+# preprocessing_tolist 리턴값과 tokenize_tolist 리턴값 넣으면, 추가되거나 너무 작게
 # 쪼개진 형태소와 문장이 튜플로 묶인후, 그 튜플을 모은 리스트가 반환
 def matching(word_array_flat, tokens_ko_tolist) : 
     """
