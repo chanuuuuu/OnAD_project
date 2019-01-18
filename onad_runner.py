@@ -34,6 +34,8 @@ class OnAd():
     twitch_chat_dir = data_dir + "twitch_live_chat/"
     youtube_channel_id_file = data_dir + "youtube_channels/youtube_channels.txt"
     log_dir = "batch/logs/"
+    user_dict_path = "lib/morphs_analyzer/user_dictionary.txt"
+    sentimental_dict_path = "data\\sentiment_dictionary\\sentidict_norm.pickle"
 
    
     # 멤버변수 선언
@@ -221,8 +223,8 @@ class OnAd():
         print("완료")
 
     # 1차 전처리기
-    def preprocess(self, target_id, target_date,
-        from_folder=True, index_type='kr', word_list=None):
+    def preprocess(self, target_id, target_date, from_folder=True,
+        index_type='kr', word_list=None):
         """
         분석데이터를 만드는 전처리 함수
         input
@@ -235,6 +237,7 @@ class OnAd():
         """
         pp = self.preprocessor
 
+        # 데이터 전처리
         print("데이터 로드 중")
         if from_folder:  # 폴더로부터 데이터를 불러오는 경우
             pp.load_from_folder(target_id, target_date)
@@ -242,20 +245,31 @@ class OnAd():
             pp.load_from_db(db_url, target_id, target_date)
         print("데이터 로드 완료")
 
+        # 감성 점수 부여
+        print('감성 분석 중')
+        pp.create_sentimental_score(self.sentimental_dict_path,
+            self.user_dict_path, pp.chat_df)
+        print('감성 분석 완료')
+
         # 시작 시간을 기준으로 stream time 컬럼 생성
         print("시작시간기준 stream time 컬럼생성 중")
         pp.set_start_time(self.dao, db_url, pp.chat_df, target_id, target_date)
-        print("컬럼생성완료")
+        print("컬럼 생성 완료")
 
+        # 빈도기준 피봇테이블 생성
         print("채팅 수 기준 피봇테이블 생성 중")
         pp.pivotting(pp.chat_df, index_type=index_type)
         print("피봇테이블 생성 완료")
 
+        # 단어빈도 기준 컬럼 피봇테이블에 추가
+        print('단어 빈도 추가 중')
         if word_list:
             pp.append_word_count_column(pp.chat_df, pp.pivot_df, word_list)
         else:
             pp.append_word_count_column(pp.chat_df, pp.pivot_df)
+        print('단어 빈도 추가 완료')
 
+        # 반환
         return pp.pivot_df
         
     # 트위치 채팅 빈도분석하여 편집점 반환

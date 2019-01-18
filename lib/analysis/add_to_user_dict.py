@@ -1,5 +1,5 @@
-from chat_wordcount import call_file_list
-from chat_word_catch import cut_filename
+from lib.analysis.chat_wordcount import call_file_list
+from lib.analysis.chat_word_catch import cut_filename
 import pickle
 
 # pickle 불러와서 로드해줌

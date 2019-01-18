@@ -52,6 +52,7 @@ class Preprocessor():
 
         df['chat_time'] = df.index
         df['chat_contents'] = chattings
+        df.index =  df['chat_time'].apply(lambda x : target_date + " " + x).apply(lambda x : pd.to_datetime(x))
 
         # 멤버변수 chat_df 를 이 데이터 프레임으로 설정
         self.chat_df = df
@@ -80,7 +81,7 @@ class Preprocessor():
         del chat_df['broad_date']
 
         # 시간을 인덱스로
-        chat_df.index = chat_df['chat_time']
+        chat_df.index = chat_df['chat_time'].apply(lambda x : target_date + " " + x).apply(lambda x : pd.to_datetime(x))
         self.chat_df = chat_df
 
         return chat_df
@@ -125,6 +126,72 @@ class Preprocessor():
         self.chat_df = chat_df
         return chat_df
 
+    # 감성 분석 컬럼 생성 작업
+    def create_sentimental_score(self, sentimental_dict_path,
+        user_dict_path, chat_df):
+        from lib.morphs_analyzer.komoran3py import KomoranPy
+        import pickle
+
+        ko = KomoranPy()
+
+        # 감성사전 로딩
+        with open(sentimental_dict_path, 'rb') as f:
+            shinjo_dict = pickle.load(f)
+
+        # 감성 사전 추가
+        shinjo_dict['유하'] = 1
+        shinjo_dict['우와'] = 1
+        shinjo_dict['개꿀'] = 1
+        shinjo_dict['개꿀잼'] = 1
+        shinjo_dict['기모띠'] = 1
+        shinjo_dict['꿀잼'] = 1
+        shinjo_dict['재밌네'] = 1
+        shinjo_dict['대박'] = 1
+        shinjo_dict['유하'] = 1
+        shinjo_dict['재밌다'] = 1
+        shinjo_dict['ㄵ'] = -1
+        shinjo_dict['노잼'] = -1
+        shinjo_dict['노답'] = -1
+        shinjo_dict['개노답'] = -1
+        shinjo_dict[';'] = 0
+        a = 'ㅋ'
+        for _ in range(20):
+            shinjo_dict[a] = 1
+            a += 'ㅋ'
+
+        # 사용자 사전 추가
+        ko.set_user_dictionary(user_dict_path)
+        
+        # 형태소 분석한 결과 컬럼 생성
+        chat_df['chat_morphs'] = chat_df['chat_contents'].apply(lambda x : [ i[0] for i in ko.pos(x)])
+
+        # 감성 분석 점수 함수 정의
+        def check(x) : 
+            sentiment_list = []
+            score = 0
+            for i in range(len(x)): 
+                if x[i] in shinjo_dict.keys(): 
+                    sentiment_list.append(shinjo_dict[x[i]])
+                    if i+1 == len(x) :
+                        score = sum(sentiment_list)
+                        return score
+
+                elif x[i] not in shinjo_dict.keys(): 
+                    sentiment_list.append(0)
+                    if i+1 == len(x):
+                        score = sum(sentiment_list)
+                        return score
+
+        # 감성 분석 점수화
+        chat_df['sentiment_score'] = chat_df['chat_morphs'].apply(lambda x : check(x))
+
+        del chat_df['chat_morphs']
+
+        self.chat_df = chat_df
+
+        return chat_df
+
+
     # 빈도를 기준으로 피봇테이블 작업
     def pivotting(self, chat_df, index_type='kr'):
         """
@@ -158,6 +225,10 @@ class Preprocessor():
         output
             - 초당 단어빈도가 추가된 피봇테이블
         """
+        # 감성 점수 추가
+        pivot_df['sentiment_score'] = chat_df.pivot_table(index=chat_df.index,
+            values='sentiment_score', aggfunc=sum)['sentiment_score']
+
         # 초당 특정 단어수 체크하여 변수로 할당
         if word_list:  # 단어리스트를 인자로 넣은 경우 해당 리스트 단어들의 빈도컬럼을 생성
             for word in word_list:
@@ -218,6 +289,5 @@ class Preprocessor():
         return 1
         
 
-class SentimentalPreprocessor():
-    pass
+
 
