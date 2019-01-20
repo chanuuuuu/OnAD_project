@@ -6117,3 +6117,4 @@ com	NNP
 서새봄  NNP
 새봄추  NNP
 김도  NNP
+유하    NNP
