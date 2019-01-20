@@ -1,8 +1,10 @@
 # 분석 데이터 전처리 클래스
 class Preprocessor():
     # 멤버 변수
-    chat_df = None
-    pivot_df = None
+    streamer = None  # 스트리머 이름, str
+    broad_date = None  # 방송 날짜, str
+    chat_df = None  # 채팅로그 데이터, pd.DataFrame
+    pivot_df = None  # 채팅 빈도 피봇 데이터, pd.DataFrame
     
     # 멤버함수
 
@@ -22,6 +24,10 @@ class Preprocessor():
         """
         import re
         import pandas as pd
+
+        # 객체의 속성으로 스트리머 이름, 방송날짜 부여
+        self.streamer = target_id
+        self.broad_date = target_date
         
         # 채팅 로그 파일 설정
         chat_file = "#%s\\%s_#%s.log" % (target_id, target_date, target_id)
@@ -71,6 +77,11 @@ class Preprocessor():
             pandas.DataFrame 객체
         """
         import pandas as pd
+
+        # 객체의 속성으로 스트리머 이름과 방송날짜 부여
+        self.streamer = streamer_id
+        self.broad_date = target_date
+
         query = """select * from twitch_chat where streamer_name = "%s" and broad_date ="%s"
         """ % (streamer_id, target_date)
         
@@ -139,31 +150,37 @@ class Preprocessor():
             shinjo_dict = pickle.load(f)
 
         # 감성 사전 추가
-        shinjo_dict['유하'] = 1
         shinjo_dict['우와'] = 1
+        shinjo_dict['와'] = 1
         shinjo_dict['개꿀'] = 1
-        shinjo_dict['개꿀잼'] = 1
+        shinjo_dict['개꿀잼'] = 1.2
         shinjo_dict['기모띠'] = 1
-        shinjo_dict['꿀잼'] = 1
+        shinjo_dict['꿀잼'] = 1.2
         shinjo_dict['재밌네'] = 1
         shinjo_dict['대박'] = 1
-        shinjo_dict['유하'] = 1
+        shinjo_dict['유하'] = 1.5
         shinjo_dict['재밌다'] = 1
         shinjo_dict['ㄵ'] = -1
         shinjo_dict['노잼'] = -1
         shinjo_dict['노답'] = -1
         shinjo_dict['개노답'] = -1
+        shinjo_dict['ㅅㅂ'] = -1.5
+        shinjo_dict['ㅄ'] = -1
+        shinjo_dict['ㅂㅅ'] = -1
         shinjo_dict[';'] = 0
-        a = 'ㅋ'
+        a = 'ㅋ'  # ㅋ을 감성점수 1점으로 할당
         for _ in range(20):
-            shinjo_dict[a] = 1
+            shinjo_dict[a] = 0.5
             a += 'ㅋ'
 
         # 사용자 사전 추가
         ko.set_user_dictionary(user_dict_path)
         
         # 형태소 분석한 결과 컬럼 생성
+        print("감성 분석 - 형태소 분석 시작")
         chat_df['chat_morphs'] = chat_df['chat_contents'].apply(lambda x : [ i[0] for i in ko.pos(x)])
+        print("감성 분석 - 형태소 분석 완료")
+    
 
         # 감성 분석 점수 함수 정의
         def check(x) : 
@@ -182,15 +199,17 @@ class Preprocessor():
                         score = sum(sentiment_list)
                         return score
 
-        # 감성 분석 점수화
+        # 감성 분석 점수화 (문장당 감성점수 부여 작업)
         chat_df['sentiment_score'] = chat_df['chat_morphs'].apply(lambda x : check(x))
 
-        del chat_df['chat_morphs']
+        del chat_df['chat_morphs']  # 필요없는 컬럼 삭제
 
         self.chat_df = chat_df
 
-        return chat_df
+        # ko 인스턴스 제거 (메모리 확보)
+        del ko
 
+        return chat_df
 
     # 빈도를 기준으로 피봇테이블 작업
     def pivotting(self, chat_df, index_type='kr'):
@@ -230,52 +249,34 @@ class Preprocessor():
             values='sentiment_score', aggfunc=sum)['sentiment_score']
 
         # 초당 특정 단어수 체크하여 변수로 할당
-        if word_list:  # 단어리스트를 인자로 넣은 경우 해당 리스트 단어들의 빈도컬럼을 생성
-            for word in word_list:
-                # 컬럼 이름 설정
-                col = "cnt_" + word
-                
-                # 특정 단어 수 컬럼 생성
-                chat_df[col] = chat_df.chat_contents.apply(lambda x : x.count(word))
+        # 단어리스트를 인자로 넣은 경우 해당 리스트 단어들의 빈도컬럼을 생성
+        # 단어리스트를 넣지 않은 경우 기본 단어리스트 사용
+        if not word_list:
+            word_list = ["ㅋ", "ㄵ", "ㄴㅈ", "오", "와", "유하", "ㅅㅂ"]
 
-                # 해당 초의 특정 단어 빈도 수 컬럼을 pivot_df에 추가
-                pivot_df[col] = chat_df.pivot_table(index = chat_df.index,
-                    aggfunc=sum, values=col)[col]
-
-                # 멤버 변수 피봇테이블에 할당
-                self.pivot_df = pivot_df
-            return pivot_df
-        
-        # word_list를 인자로 넣지 않은 경우
-        else:  
-            # 기본적인 단어들의 빈도 컬럼을 생성
-            chat_df['cnt_ㅋ'] = chat_df.chat_contents.apply(lambda x : x.count("ㅋ"))
-            chat_df['cnt_ㄵ'] = chat_df.chat_contents.apply(lambda x : x.count("ㄵ"))
-            chat_df['cnt_ㄴㅈ'] = chat_df.chat_contents.apply(lambda x : x.count("ㄴㅈ"))
-            chat_df['cnt_오'] = chat_df.chat_contents.apply(lambda x : x.count("오"))
-            chat_df['cnt_와'] = chat_df.chat_contents.apply(lambda x : x.count("와"))
-            chat_df['cnt_유하'] = chat_df.chat_contents.apply(lambda x : x.count("유하"))
-        
-            # 시간당 피봇 테이블에 특정 단어의 빈도를 컬럼으로 하는 피봇 테이블 생성
-            pivot_df["cnt_ㅋ"] = chat_df.pivot_table(index = chat_df.index,aggfunc=sum, values='cnt_ㅋ')['cnt_ㅋ']
-            pivot_df["cnt_ㄵ"] = chat_df.pivot_table(index = chat_df.index, aggfunc=sum, values='cnt_ㄵ')['cnt_ㄵ'] +\
-                                chat_df.pivot_table(index = chat_df.index, aggfunc=sum, values='cnt_ㄴㅈ')['cnt_ㄴㅈ']
-            pivot_df["cnt_오"] = chat_df.pivot_table(index = chat_df.index, aggfunc=sum, values='cnt_오')['cnt_오']
-            pivot_df["cnt_와"] = chat_df.pivot_table(index = chat_df.index, aggfunc=sum, values='cnt_와')['cnt_와']
-            pivot_df["cnt_유하"] = chat_df.pivot_table(index = chat_df.index, aggfunc=sum, values='cnt_유하')['cnt_유하']
+        for word in word_list:
+            # 컬럼 이름 설정
+            col = "cnt_" + word
             
+            # 특정 단어 수 컬럼 생성
+            chat_df[col] = chat_df.chat_contents.apply(lambda x : x.count(word))
+
+            # 해당 초의 특정 단어 빈도 수 컬럼을 pivot_df에 추가
+            pivot_df[col] = chat_df.pivot_table(index = chat_df.index,
+                aggfunc=sum, values=col)[col]
+
             # 멤버 변수 피봇테이블에 할당
             self.pivot_df = pivot_df
-            return pivot_df
- 
+        return pivot_df
+        
     # 피클파일로 피봇된 분석 데이터프레임 저장
-    def save_to_pickle(self, save_path):
+    def save_to_pickle(self, save_file_name):
         """
         pivot_df 를 로컬 저장소에 pickle 파일로 저장하는 함수
         input
             - 데이터프레임 피클파일이 저장될 경로
         """
-        self.pivot_df.to_pickle(save_path)
+        self.pivot_df.to_pickle(save_file_name)
         return 1
     
     # csv 파일로 피봇된 분석 데이터프레임 저장
@@ -288,6 +289,21 @@ class Preprocessor():
         self.pivot_df.to_csv(save_path)
         return 1
         
-
+    # 메모리 초기화
+    def init(self,):
+        """
+        이전 작업으로부터 남아있는 메모리 제거
+        """
+        if self.streamer:
+            del self.streamer
+        
+        if self.broad_date:
+            del self.broad_date
+        
+        if self.chat_df is not None:
+            del self.chat_df
+        
+        if self.pivot_df is not None:
+            del self.pivot_df
 
 
