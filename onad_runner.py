@@ -34,6 +34,9 @@ class OnAd():
     twitch_chat_dir = data_dir + "twitch_live_chat/"
     youtube_channel_id_file = data_dir + "youtube_channels/youtube_channels.txt"
     log_dir = "batch/logs/"
+    user_dict_path = "lib/morphs_analyzer/user_dictionary.txt"
+    sentimental_dict_path = data_dir + "sentiment_dictionary/sentidict_norm.pickle"
+    df_save_path = data_dir +  "preprocessed_dat/"
 
    
     # 멤버변수 선언
@@ -220,9 +223,9 @@ class OnAd():
         self.dao.remove()
         print("완료")
 
-    # 1차 전처리기
-    def preprocess(self, target_id, target_date,
-        from_folder=True, index_type='kr', word_list=None):
+    # 데이터 1차 전처리 하여 데이터 프레임 반환하는 함수
+    def preprocess(self, target_id, target_date, from_folder=True,
+        index_type='kr', word_list=None):
         """
         분석데이터를 만드는 전처리 함수
         input
@@ -233,8 +236,12 @@ class OnAd():
         output
             pandas.DataFrame, 채팅빈도/특정단어수 시간당 빈도수 데이터프레임
         """
-        pp = self.preprocessor
+        pp = self.preprocessor  # 쓰기 쉽게 pp로 할당
+        
+        # 초기화
+        pp.init()
 
+        # 데이터 전처리
         print("데이터 로드 중")
         if from_folder:  # 폴더로부터 데이터를 불러오는 경우
             pp.load_from_folder(target_id, target_date)
@@ -242,22 +249,92 @@ class OnAd():
             pp.load_from_db(db_url, target_id, target_date)
         print("데이터 로드 완료")
 
-        # 시작 시간을 기준으로 stream time 컬럼 생성
-        print("시작시간기준 stream time 컬럼생성 중")
-        pp.set_start_time(self.dao, db_url, pp.chat_df, target_id, target_date)
-        print("컬럼생성완료")
+        # 감성 점수 부여
+        print('감성 분석 중')
+        pp.create_sentimental_score(self.sentimental_dict_path,
+            self.user_dict_path, pp.chat_df)
+        print('감성 분석 완료')
 
+        # 시작 시간을 기준으로 stream time 컬럼 생성
+        if index_type == "streamstart":
+            # 이 작업은 분석시 해야할 듯(생각)
+            print("시작시간기준 stream time 컬럼생성 중")
+            pp.set_start_time(self.dao, db_url, pp.chat_df, target_id, target_date)
+            print("컬럼 생성 완료")
+
+        # 빈도기준 피봇테이블 생성
         print("채팅 수 기준 피봇테이블 생성 중")
         pp.pivotting(pp.chat_df, index_type=index_type)
         print("피봇테이블 생성 완료")
 
+        # 단어빈도 기준 컬럼 피봇테이블에 추가
+        print('단어 빈도 추가 중')
         if word_list:
             pp.append_word_count_column(pp.chat_df, pp.pivot_df, word_list)
         else:
             pp.append_word_count_column(pp.chat_df, pp.pivot_df)
+        print('단어 빈도 추가 완료')
 
+        # 반환
         return pp.pivot_df
+
+    # DB에 존재하는 채팅로그 날짜확인
+    def exists_date_from_db(self, target_id):
+        """
+        해당 스트리머의 채팅로그가 적재된 날짜들과 존재하는 스트리머들을 반환
+        * input
+            target_id : 적재된 날짜를 확인 할 타겟 스트리머
+        """
+        from lib.contact_db.member import TwitchChat
+        from lib.contact_db.twitch import select_groupby
+        days = select_groupby(self.dao, TwitchChat.broad_date, target_streamer=target_id)
         
+        return list(map(lambda x: x[0], days))
+
+    # DB에 존재하는 채팅로그 스트리머들 확인 
+    def exists_streamer_from_db(self):
+        from lib.contact_db.member import TwitchChat
+        from lib.contact_db.twitch import select_groupby
+
+        streamers = select_groupby(self.dao, TwitchChat.streamer_name)
+        return streamers
+    
+    # 전처리된 데이터 프레임 저장 함수
+    def save(self, savefiletype='csv'):
+        import os
+        pp = self.preprocessor
+
+        if savefiletype.lower() == "csv":
+            file_type = "csv"
+        elif savefiletype.lower() == "pkl" or savefiletype.lower() == "pickle":
+            file_type = "pkl"
+
+        # 파일이름 설정
+        file_name = "%s_#%s.%s" % (pp.broad_date, pp.streamer, file_type)
+
+        # 폴더 생성
+        if not os.path.exists(self.df_save_path):
+            os.mkdir(self.df_save_path)
+
+        # 스트리머 당 폴더 생성
+        streamer_folder = self.df_save_path + "#%s/" % pp.streamer
+        if not os.path.exists(streamer_folder):
+            os.mkdir(streamer_folder)
+        
+        # 파일 생성
+        whole_name = streamer_folder + file_name
+        if os.path.exists(whole_name):
+            print("이미 저장됨")
+            return 0
+        else:
+            if savefiletype.lower() == "csv":
+                pp.save_to_csv(streamer_folder + file_name)
+            
+            elif savefiletype.lower() == "pkl" or savefiletype.lower() == "pickle":
+                pp.save_to_pickle(streamer_folder + file_name)
+            print("저장완료")
+            return 1
+    
     # 트위치 채팅 빈도분석하여 편집점 반환
     def anal_twitch_chat(self, anal_df, target_percentile,
         anal_type=None, section_term=None):
@@ -272,6 +349,7 @@ if __name__ == "__main__":
     import sys
     import datetime
     import time
+    import re
 
     onad = OnAd()
     # 데이터 적재
@@ -660,6 +738,53 @@ if __name__ == "__main__":
                     fp.write("datetime:%s runtime:%s result:%s" % (nowtime, runtime, e))
                     fp.write("\n")
 
+        # 전처리
+        if sys.argv[1] == 'fromfolder':
+            print("This app is onad_platform's data preprocessor. this app select data from sql and then make data analyzable.")
+            chat_folder = os.listdir(onad.twitch_chat_dir)
+            for i, streamer in enumerate(chat_folder):
+                # 채팅 폴더안의 모든 데이터를 작업
+                data = os.listdir(onad.twitch_chat_dir + streamer)
+                for j, chat in enumerate(data):
+                    # 파일 이름에서 스트리머 이름과 방송날짜 가져오기
+                    broad_date = re.search(r'\d\d\d\d-\d\d-\d\d', chat).group(0)
+                    streamer_id = chat.split("#")[1].replace(".log", "")
+
+                    if not os.path.exists(onad.df_save_path + "#%s/%s_#%s.csv" % (streamer_id,broad_date, streamer_id)):
+                        # 전처리된 파일이 존재하지 않는 경우
+                        # 전처리 작업 진행
+                        onad.preprocess(streamer_id, broad_date, from_folder=True, index_type='kr')
+                    
+                        # 전처리된 데이터 저장
+                        onad.save()
+                        print("%s %s/%s 완료" % (chat, j+1, len(data)))
+
+                    else: print("이미 존재하는 파일")
+
+                print("%s %s/%s 완료" % (streamer, i+1, len(chat_folder)))
+
+        elif sys.argv[1] == 'fromdb':
+            print("This app is onad_platform's data preprocessor. this app select data from sql and then make data analyzable.")
+            streamers = onad.exists_streamer_from_db()  # DB에 존재하는 스트리머만 불러오기
+            
+            for i, streamer_id in enumerate(streamers):
+                # 디비에 적재된 날짜들 불러오기
+                days = onad.exists_date_from_db(streamer_id)
+                
+                for j, broad_date in enumerate(days):
+                    if not os.path.exists(onad.df_save_path + "#%s/%s_#%s.csv" % (streamer_id, broad_date, streamer_id)): 
+                        # 전처리된 파일이 존재하지 않는 경우
+                        
+                        # 전처리 작업 진행
+                        df = onad.preprocess(streamer_id, broad_date, from_folder=False, index_type='kr')
+                        
+                        # 전처리된 데이터 저장
+                        onad.save()
+                        print("%s %s/%s 완료" % (broad_date, j+1, len(days)))
+
+                    else: print("이미 존재하는 파일")
+                print("%s %s/%s 완료" % (streamer_id, i+1, len(streamers)))
+        
         # 분석
         elif sys.argv[1] == "-analysis":
             # python onad_runner.py -analysis yapyap30 2018-12-13

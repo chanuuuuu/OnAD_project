@@ -1,6 +1,6 @@
 from komoran3py import KomoranPy
 ko = KomoranPy()
-ko.set_user_dictionary('/lib/morphs_analyzer/user_dictionary.txt')
+ko.set_user_dictionary('/home/onAd/OnAD_project/lib/morphs_analyzer/user_dictionary.txt')
 
 
 
