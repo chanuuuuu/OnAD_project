@@ -6,6 +6,83 @@ twitch 데이터베이스 테이블들:
     TwitchChannel, TwitchChannelDetail, TwitchGame, TwitchGameDetail)
 """
 
+def select_information(dao, target_table, **kwargs):
+    """
+    select 구문 함수
+    * input
+      - dao : scoped_session 객체
+      - target_table : 테이블 클래스 명 중 하나
+        (TwitchChat, TwitchStream, TwitchStreamDetail,
+        TwitchChannel, TwitchChannelDetail, TwitchGame, TwitchGameDetail)
+
+    * output
+      selected rows
+
+    """
+    if not kwargs:
+        rows = dao.query(target_table).all()
+        return rows
+    else:
+        if len(kwargs) == 1:
+            for key, value in kwargs.items():
+                if key.lower() == "streamer_id":
+                    rows = dao.query(target_table).filter_by(streamer_id=value).all()
+
+                if key.lower() == "streamer_name":
+                    rows = dao.query(target_table).filter_by(streamer_name=value).all()
+
+                if key.lower() == "stream_id":
+                    rows = dao.query(target_table).filter_by(stream_id=value).all()
+
+                if key.lower() == "broad_date":
+                    rows = dao.query(target_table).filter_by(broad_date=value).all()      
+
+            return rows
+
+        elif len(kwargs) == 2:
+            dic1, dic2 = kwargs.items()
+            key1, value1 = dic1
+            key2, value2 = dic2
+            rows = dao.query(target_table).filter(key1==value1, key2==value2).all()
+
+def select_channel_detail(dao, target_table, broad_date, **kwargs):
+    for key, value in kwargs.items():
+        if key == 'streamer_id':
+            from lib.contact_db.member import TwitchChannelDetail
+            rows = dao.query(target_table).filter(TwitchChannelDetail.date.like(
+                "%{}%".format(broad_date))).filter_by(
+                streamer_id=value).all()
+    return rows
+
+def select_groupby_broad_date(dao, target_col,
+    broad_date=None, streamer_name=None):
+    """
+    select 구문 함수
+    * input
+      - dao : scoped_session 객체
+      - target_col : 그룹으로 묶어 반환 될 클래스(테이블)의 멤버변수(컬럼)
+            ex) TwitchChat.broad_date
+      - target_streamer : 추가적 조건으로 추가할 스트리머이름
+
+    * output
+      selected rows
+    """
+    from lib.contact_db.member import TwitchStream
+    if not broad_date:
+        rows = dao.query(target_col).group_by(target_col).all()
+        rows = [ row[0] for row in rows]  # [(1,), (2,), ...] 의 형식이기에
+        return rows
+    else:
+        """예제 쿼리
+        select * from twitch_stream
+        where streamer_name = "침착맨"
+        and broad_date like "2019-01-14%";
+        """
+        rows = dao.query(target_col).filter(TwitchStream.broad_date.like(
+            "%{}%".format(broad_date))).filter_by(
+                streamer_name=streamer_name).all()
+        return rows
+
 def select_all_information(dao, target_table):
     """
     select 구문 함수

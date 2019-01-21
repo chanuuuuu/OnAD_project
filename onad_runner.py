@@ -335,6 +335,42 @@ class OnAd():
             print("저장완료")
             return 1
     
+    # 메타데이터 전처리
+    def preproc_start(self, broad_date, streamer_name):
+        """
+        메타데이터를 전처리하는 함수 
+        * input
+            broad_date : 메타데이터를 얻고자 하는 날짜
+            streamer_name : 메타데이터를 얻고자 하는 스트리머 이름
+        """
+        from lib.meta_preproc import MetaPreprocessor
+        self.meta_preprocessor = MetaPreprocessor(self.dao)
+        mp = self.meta_preprocessor
+
+        # get strema data
+        mp.get_stream(broad_date, streamer_name)
+
+        # get stream_detail data
+        import time
+        stime = time.time()
+        mp.get_stream_detail()
+        print(time.time() - stime)
+
+        # get channel data
+        stime = time.time()
+        mp.get_channel()
+        print(time.time() - stime)
+
+        # get channel detail data
+        stime = time.time()
+        mp.get_channel_detail()
+        print(time.time() - stime)
+
+        print(mp.streams, '\n')
+        print(mp.stream_details, '\n')
+        print(mp.logo, mp.homepage, mp.twitch_id, '\n')
+        print(mp.channel_details, '\n')
+
     # 트위치 채팅 빈도분석하여 편집점 반환
     def anal_twitch_chat(self, anal_df, target_percentile,
         anal_type=None, section_term=None):
