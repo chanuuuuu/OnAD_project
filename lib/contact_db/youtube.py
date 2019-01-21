@@ -23,17 +23,17 @@ def select_information(dao, target_table):
         # dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
         return rows
 
-def select_groupby(dao, target_col, is_live=None):
+def select_groupby(dao, target_table, group_col, is_live=None):
     if is_live:
         if is_live.upper() == "YES" or is_live.upper() == "Y":
-            rows = dao.query(target_col).group_by(target_col).filter_by(is_live="True").all()
+            rows = dao.query(target_table).group_by(group_col).filter_by(is_live="True").all()
             rows = [ row[0] for row in rows]
             return rows
         elif is_live.upper() == "NO" or is_live.upper() == "N":
-            rows = dao.query(target_col).group_by(target_col).filter_by(is_live="False").all()
+            rows = dao.query(target_table).group_by(group_col).filter_by(is_live="False").all()
     else:
-        rows = dao.query(target_col).group_by(
-            target_col).all()
+        rows = dao.query(target_table).group_by(
+            group_col).all()
         return rows
 
 def delete_information(dao, target_table, target_data):
@@ -122,7 +122,7 @@ def insert_information(dao, target_table, data_dict):
     if data_dict:
         if target_table == 'YoutubeChannel':
             from lib.contact_db.member import YoutubeChannel  # 테이블클래스 import
-            channel_list = select_groupby(dao, YoutubeChannel.channel_id)
+            channel_list = select_groupby(dao, YoutubeChannel, YoutubeChannel.channel_id)
             if not data_dict.get("channel_id") in channel_list:
                 # 기존 데이터베이스에 없는 경우 만들어서 넣음
                 member = YoutubeChannel(data_dict.get('channel_id'), data_dict.get('channel_name'),
@@ -155,7 +155,7 @@ def insert_information(dao, target_table, data_dict):
 
         elif target_table == 'YoutubeVideo':
             from lib.contact_db.member import YoutubeVideo
-            video_list = select_groupby(dao, YoutubeVideo.video_id)
+            video_list = select_groupby(dao, YoutubeChannel, YoutubeChannel.channel_id)
             if not data_dict.get("video_id") in video_list:
                 # 기존 데이터베이스에 없는 경우 만들어서 넣음
                 member = YoutubeVideo(data_dict.get('channel_id'),
@@ -197,7 +197,7 @@ def insert_information(dao, target_table, data_dict):
         
         elif target_table == 'YoutubeReple':
             from lib.contact_db.member import YoutubeReple
-            video_list = select_groupby(dao, YoutubeVideo.video_id)
+            video_list = select_groupby(dao, YoutubeChannel, YoutubeChannel.channel_id)
             if not data_dict.get("video_id") in video_list:
                 # DB의 영상 리스트에 없는 경우만 삽입
                 member = YoutubeReple(data_dict.get('reple_id'),

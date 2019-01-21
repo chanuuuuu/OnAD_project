@@ -112,18 +112,20 @@ class TwitchChannel(Base):
     logo = Column(Text, unique=False)
     homepage = Column(Text, unique=False)
     update_date = Column(TIMESTAMP, default=func.now())
+    youtube_channel = Column(String(50), unique=False)
 
     def __init__(self, streamer_id ,streamer_name,
-        streamer_twitch_id, logo, homepage):
+        streamer_twitch_id, logo, homepage, youtube_channel):
         self.streamer_id = streamer_id
         self.streamer_name = streamer_name
         self.streamer_twitch_id = streamer_twitch_id
         self.logo = logo
         self.homepage = homepage
+        self.youtube_channel = youtube_channel
 
     def __repr__(self):
-        return "%s, %s, %s, %s, %s" % (self.code, self.streamer_id,
-            self.streamer_name, self.logo, self.homepage)
+        return "%s, %s, %s, %s, %s, %s" % (self.code, self.streamer_id,
+            self.streamer_name, self.logo, self.homepage, self.youtube_channel)
 
 
 class TwitchChannelDetail(Base):

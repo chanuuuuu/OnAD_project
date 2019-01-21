@@ -201,14 +201,14 @@ class OnAd():
         
         elif table_name == "YoutubeReple":
             from lib.contact_db.member import YoutubeVideo
-            video_id_list = select_groupby(self.dao, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
+            video_id_list = select_groupby(self.dao, YoutubeVideo, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
             print("api 요청시작")
             list_result = get_youtube_reple.start(self.youtube_api_key, video_id_list)
             print("데이터 준비 완료")
         
         elif table_name == "YoutubeSubscription":
             from lib.contact_db.member import YoutubeVideo
-            video_id_list = select_groupby(self.dao, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
+            video_id_list = select_groupby(self.dao, YoutubeVideo, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
             print("api 요청시작")
             list_result = get_youtube_subscription.start(self.youtube_api_key, video_id_list)
             print("데이터 준비 완료")
