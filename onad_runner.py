@@ -201,14 +201,14 @@ class OnAd():
         
         elif table_name == "YoutubeReple":
             from lib.contact_db.member import YoutubeVideo
-            video_id_list = select_groupby(self.dao, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
+            video_id_list = select_groupby(self.dao, YoutubeVideo, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
             print("api 요청시작")
             list_result = get_youtube_reple.start(self.youtube_api_key, video_id_list)
             print("데이터 준비 완료")
         
         elif table_name == "YoutubeSubscription":
             from lib.contact_db.member import YoutubeVideo
-            video_id_list = select_groupby(self.dao, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
+            video_id_list = select_groupby(self.dao, YoutubeVideo, YoutubeVideo.id)  # 라이브영상이 아닌 비디오 데이터만
             print("api 요청시작")
             list_result = get_youtube_subscription.start(self.youtube_api_key, video_id_list)
             print("데이터 준비 완료")
@@ -334,6 +334,47 @@ class OnAd():
                 pp.save_to_pickle(streamer_folder + file_name)
             print("저장완료")
             return 1
+    
+    # 메타데이터 전처리
+    def preproc_start(self, broad_date, streamer_name):
+        """
+        메타데이터를 전처리하는 함수 
+        * input
+            broad_date : 메타데이터를 얻고자 하는 날짜
+            streamer_name : 메타데이터를 얻고자 하는 스트리머 이름
+        """
+        from lib.meta_preproc import MetaPreprocessor
+        self.meta_preprocessor = MetaPreprocessor(self.dao)
+        mp = self.meta_preprocessor
+
+        # get strema data
+        mp.get_stream(broad_date, streamer_name)
+
+        # get stream_detail data
+        import time
+        stime = time.time()
+        mp.get_stream_detail()
+        print(time.time() - stime)
+
+        # get channel data
+        stime = time.time()
+        mp.get_channel()
+        print(time.time() - stime)
+
+        # get channel detail data
+        stime = time.time()
+        mp.get_channel_detail()
+        print(time.time() - stime)
+
+        # get youtube channel data
+        stime = time.time()
+        mp.get_youtube_channel()
+        print(time.time() - stime)
+
+        # print(mp.streams, '\n')
+        # print(mp.stream_details, '\n')
+        # print(mp.logo, mp.homepage, mp.twitch_id, '\n')
+        # print(mp.channel_details, '\n')
     
     # 트위치 채팅 빈도분석하여 편집점 반환
     def anal_twitch_chat(self, anal_df, target_percentile,
