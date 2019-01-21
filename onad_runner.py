@@ -366,11 +366,16 @@ class OnAd():
         mp.get_channel_detail()
         print(time.time() - stime)
 
-        print(mp.streams, '\n')
-        print(mp.stream_details, '\n')
-        print(mp.logo, mp.homepage, mp.twitch_id, '\n')
-        print(mp.channel_details, '\n')
+        # get youtube channel data
+        stime = time.time()
+        mp.get_youtube_channel()
+        print(time.time() - stime)
 
+        # print(mp.streams, '\n')
+        # print(mp.stream_details, '\n')
+        # print(mp.logo, mp.homepage, mp.twitch_id, '\n')
+        # print(mp.channel_details, '\n')
+    
     # 트위치 채팅 빈도분석하여 편집점 반환
     def anal_twitch_chat(self, anal_df, target_percentile,
         anal_type=None, section_term=None):

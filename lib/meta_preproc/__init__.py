@@ -11,6 +11,7 @@ class MetaPreprocessor():
     homepage = None  # homepage url
     twitch_id = None  # zilioner
     logo = None  # logo url
+    youtube_channel = None  # streamer's youtube channel
 
     streams = None  # twitch_stream data
     stream_details = list()  # twitch_stream_detail data
@@ -128,6 +129,7 @@ class MetaPreprocessor():
         self.twitch_id = row['streamer_twitch_id']
         self.logo = row['logo']
         self.streamer_id = row['streamer_id']
+        self.youtube_channel = row['youtube_channel']
 
         return row
 
@@ -155,7 +157,42 @@ class MetaPreprocessor():
 
         self.channel_details = result
         
+    def get_youtube_channel(self):
+        """
+        twitch_channel 테이블의 youtube_channel 정보를 통해 youtube channel detail 정보를 얻어오는 함수
+        """
+        # Import DB query functions 
+        from lib.contact_db.youtube import select_information
+
+        # Import DB tables
+        from lib.contact_db.member import YoutubeChannelDetail
+
+        # get channel details use contracted streamer's youtube channel id
+        print(self.youtube_channel)
+
+        rows = select_information(self.dao, YoutubeChannelDetail,
+             channel_id=self.youtube_channel, target_date=self.broad_date)
+        print(rows)
+
+        # rows = list(map(lambda x : x.__dict__, rows))
+
+        # result = [{
+        #     'date': rows['date'],
+        #     'follower': rows['follower'],
+        #     'viewer': rows['viewer']
+        # }]
     
+        # print(result)
+
+
+
+
+    # metrics need to make !
+    # 평균시청자수 만들기
+    # 시청자수 최고점 만들기
+    # 팔로잉 변화랑 : 12시간에 한번씩 긁어서 애매
+    # 시청자수 최고점
+
     def jsonify(self):
         # json 파일로 제작
         pass
