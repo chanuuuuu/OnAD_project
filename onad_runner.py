@@ -143,13 +143,16 @@ class OnAd():
                 streamer_twitch_id=streamer_name)[0][0] for streamer_name in streamer_names]
             # [(1,), (1,)] 의 형태
 
-            ended_at = str(datetime.datetime.now().strftime("%Y-%m-%dT%H:%m:%SZ"))
-            print(ended_at)
+            # 오늘시간과 어제시간을 구하여 인자로 할당
+            now = datetime.datetime.now()
+            operation_time = datetime.timedelta(days=20)
+            started_at = str((now - operation_time).strftime("%Y-%m-%dT%H:%m:%SZ"))
+            ended_at = str(now.strftime("%Y-%m-%dT%H:%m:%SZ"))
 
             print("api 요청 시도")
             print("스트리머 수 : %s" % len(streamer_ids))
             list_result = get_twitch_clip.start(self.twitch_api_key,
-                streamer_ids, started_at=None, ended_at=None)
+                streamer_ids, started_at=started_at, ended_at=ended_at)
             print("클립 수 : %s" % len(list_result))
             print("데이터 준비 완료")
         
@@ -160,7 +163,6 @@ class OnAd():
                 # 여기서 수행하여야 적게 함. 
             for i, data_dict in enumerate(list_result):
                 insert_information(self.dao, table_name, data_dict)
-                
                 if (i+1) % 50 == 0:
                     print("%s/%s 인서트 완료" % (i + 1, len(list_result)))
 

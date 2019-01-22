@@ -17,8 +17,8 @@ def start(api_key, streamer_ids, started_at, ended_at):
         print(streamer_id)
         cursor = None  # 커서 초기화
         params = {
-            'started_at': '2018-12-01T00:00:01Z', # 최초 한번 이후 수정
-            'ended_at': '2018-12-31T23:59:59Z',
+            'started_at': started_at, # 최초 한번 이후 수정
+            'ended_at': ended_at,
             'broadcaster_id': streamer_id,
             'first': 100,
             'after': cursor
@@ -30,7 +30,7 @@ def start(api_key, streamer_ids, started_at, ended_at):
             total_clips.extend(data)
 
             # 조회수 500 이상인 경우만
-            total_clips = [clip for clip in total_clips if clip['view_count'] > 500]
+            total_clips = [clip for clip in total_clips if clip['view_count'] > 100]
 
         # 받아온 데이터 [{...}, {...}]형태로 만들기
         inform = []  # dict 데이터를 담는 그릇

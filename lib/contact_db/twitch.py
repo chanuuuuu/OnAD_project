@@ -128,6 +128,11 @@ def select_groupby(dao, target_col, **kwargs):
                         target_col).filter_by(
                             streamer_name=value).all()
                     return rows
+                elif key == "streamer_id":
+                    rows = dao.query(target_col).group_by(
+                        target_col).filter_by(
+                            streamer_id=value).all()
+                    return rows
 
 def delete_information(dao, target_table, target_data):
     """
@@ -325,8 +330,13 @@ def insert_information(dao, target_table, data_dict):
 
         elif target_table == 'TwitchClip':
             from lib.contact_db.member import TwitchClip
-            # 기존의 데이터 불러오기
-            clip_list = select_groupby(dao, TwitchClip.clip_id)
+            # 중복인지 비교하기위해 기존의 데이터 불러오기
+            clip_list = select_groupby(dao, TwitchClip.clip_id,
+                streamer_id=data_dict.get('streamer_id'))
+            
+            # [(1,), (2,), ...] 의 형식이므로
+            clip_list = list(map(lambda x : x[0], clip_list))
+
             # 기존 목록에 있는 경우 업데이트
             if data_dict.get('clip_id') in clip_list:  #update
                 update(TwitchClip).where(  # 업데이트

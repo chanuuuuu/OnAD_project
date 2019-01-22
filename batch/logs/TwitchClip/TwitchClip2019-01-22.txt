@@ -70,3 +70,21 @@ datetime:12:41:15 runtime:35.52335071563721 result:success
 datetime:12:42:55 runtime:31.243050813674927 result:success
 datetime:12:43:47 runtime:25.356327295303345 result:success
 datetime:12:45:19 runtime:0 result:(pymysql.err.OperationalError) (1213, 'Deadlock found when trying to get lock; try restarting transaction') [SQL: 'INSERT INTO twitch_clip (streamer_name, streamer_id, clip_id, user_id, created_at, title, url, viewer_count, thumbnail) VALUES (%(streamer_name)s, %(streamer_id)s, %(clip_id)s, %(user_id)s, %(created_at)s, %(title)s, %(url)s, %(viewer_count)s, %(thumbnail)s)'] [parameters: {'streamer_name': '피유', 'streamer_id': '103865116', 'clip_id': 'GloriousElegantSnakeShazBotstix', 'user_id': '155033421', 'created_at': '2018-12-21T09:46:33Z', 'title': '순수악이 또', 'url': 'https://clips.twitch.tv/GloriousElegantSnakeShazBotstix', 'viewer_count': 48999, 'thumbnail': 'https://clips-media-assets2.twitch.tv/AT-cm%7C363935440-preview-480x272.jpg'}] (Background on this error at: http://sqlalche.me/e/e3q8)
+datetime:12:46:49 runtime:44.16707944869995 result:success
+datetime:12:48:02 runtime:40.411561727523804 result:success
+datetime:12:51:27 runtime:0 result:(pymysql.err.IntegrityError) (1062, "Duplicate entry 'GloriousElegantSnakeShazBotstix' for key 'clip_id'") [SQL: 'INSERT INTO twitch_clip (streamer_name, streamer_id, clip_id, user_id, created_at, title, url, viewer_count, thumbnail) VALUES (%(streamer_name)s, %(streamer_id)s, %(clip_id)s, %(user_id)s, %(created_at)s, %(title)s, %(url)s, %(viewer_count)s, %(thumbnail)s)'] [parameters: {'streamer_name': '피유', 'streamer_id': '103865116', 'clip_id': 'GloriousElegantSnakeShazBotstix', 'user_id': '155033421', 'created_at': '2018-12-21T09:46:33Z', 'title': '순수악이 또', 'url': 'https://clips.twitch.tv/GloriousElegantSnakeShazBotstix', 'viewer_count': 48999, 'thumbnail': 'https://clips-media-assets2.twitch.tv/AT-cm%7C363935440-preview-480x272.jpg'}] (Background on this error at: http://sqlalche.me/e/gkpj)
+datetime:13:03:07 runtime:38.251946687698364 result:success
+datetime:13:06:19 runtime:0 result:(pymysql.err.InternalError) (1054, "Unknown column 'streamer_name' in 'field list'") [SQL: 'INSERT INTO twitch_clip (streamer_name, streamer_id, clip_id, user_id, created_at, title, url, viewer_count, thumbnail) VALUES (%(streamer_name)s, %(streamer_id)s, %(clip_id)s, %(user_id)s, %(created_at)s, %(title)s, %(url)s, %(viewer_count)s, %(thumbnail)s)'] [parameters: {'streamer_name': '피유', 'streamer_id': '103865116', 'clip_id': 'GloriousElegantSnakeShazBotstix', 'user_id': '155033421', 'created_at': '2018-12-21T09:46:33Z', 'title': '순수악이 또', 'url': 'https://clips.twitch.tv/GloriousElegantSnakeShazBotstix', 'viewer_count': 48999, 'thumbnail': 'https://clips-media-assets2.twitch.tv/AT-cm%7C363935440-preview-480x272.jpg'}] (Background on this error at: http://sqlalche.me/e/2j85)
+datetime:13:07:28 runtime:33.11919546127319 result:success
+datetime:13:11:41 runtime:0 result:attribute 'day' of 'datetime.date' objects is not writable
+datetime:13:13:39 runtime:0 result:'datetime.timedelta' object has no attribute 'strftime'
+datetime:13:15:01 runtime:0 result:'datetime.timedelta' object has no attribute 'strftime'
+datetime:13:16:10 runtime:0 result:'datetime.timedelta' object has no attribute 'strftime'
+datetime:13:16:38 runtime:0 result:'datetime.timedelta' object has no attribute 'strftime'
+datetime:13:18:00 runtime:37.67655563354492 result:success
+datetime:13:21:09 runtime:5.99799370765686 result:success
+datetime:13:22:02 runtime:6.156335830688477 result:success
+datetime:13:22:42 runtime:5.8124871253967285 result:success
+datetime:13:23:04 runtime:30.07703447341919 result:success
+datetime:13:23:38 runtime:21.226642370224 result:success
+datetime:13:24:34 runtime:27.415653228759766 result:success
