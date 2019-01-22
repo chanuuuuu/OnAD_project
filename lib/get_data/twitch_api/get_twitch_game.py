@@ -24,6 +24,6 @@ def start(api_key, ):
                 cursor = data_['pagination']['cursor']
             else : break
 
-    total_games = [ {"game_id": i['id'], "game_name": i['name']} for i in data]
+    total_games = [ {"game_id": i['id'], "game_name": i['name'], "thumbnail": i['box_art_url']} for i in data]
 
     return total_games

@@ -38,7 +38,13 @@ def select_information(dao, target_table, **kwargs):
                     rows = dao.query(target_table).filter_by(broad_date=value).all()
 
                 if key.lower() == "streamer_twitch_id":
-                    rows = dao.query(target_table).filter_by(streamer_twitch_id=value).all()      
+                    rows = dao.query(target_table).filter_by(streamer_twitch_id=value).all()   
+
+                if key.lower() == "game_id":
+                    rows = dao.query(target_table).filter_by(game_id=value).first()      
+
+                if key.lower() == "game_name":
+                    rows = dao.query(target_table).filter_by(game_name=value).first()   
 
             return rows
 
@@ -317,7 +323,7 @@ def insert_information(dao, target_table, data_dict):
                 return 1
             else:  # 없다면 그냥 삽입
                 member = TwitchGame(data_dict.get('game_id'),
-                data_dict.get('game_name'))
+                data_dict.get('game_name'), data_dict.get('thumbnail'),)
                 insert(member)
                 return 1
         

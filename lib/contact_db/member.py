@@ -165,14 +165,17 @@ class TwitchGame(Base):
     code = Column(Integer, primary_key=True, autoincrement=True)
     game_id = Column(String(50), unique=False)
     game_name = Column(String(100), unique=False)
+    thumbnail = Column(String(100), unique=False)
     date = Column(TIMESTAMP(100), default=func.now(), unique=False)
 
-    def __init__(self, game_id, game_name):
+    def __init__(self, game_id, game_name, thumbnail):
         self.game_id = game_id
         self.game_name = game_name
+        self.thumbnail = thumbnail
 
     def __repr__(self):
-        return "%s, %s" % (self.game_id, self.game_name)
+        return "%s, %s, %s" % (self.game_id,
+            self.game_name, self.thumbnail)
 
 
 class TwitchGameDetail(Base):

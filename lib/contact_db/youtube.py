@@ -5,7 +5,7 @@ youtube 데이터베이스 테이블들:
  - YoutubeChannel, YoutubeChannelDetail
  - YoutubeVideo, YoutubeChat, YoutubeReple
 """
-def select_information(dao, target_table):
+def select_information(dao, target_table, channel_id=None, target_date=None):
     """
     select 구문 함수
     * input
@@ -18,10 +18,21 @@ def select_information(dao, target_table):
       selected rows
 
     """
-    if target_table:
+    if not channel_id and target_date:
         rows = dao.query(target_table).all()
         # dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
         return rows
+    elif channel_id:
+        if not target_date:
+            rows = dao.query(target_table).filter_by(channel_id=channel_id).all()
+
+        else:
+            from lib.contact_db.member import YoutubeChannelDetail
+            rows = dao.query(target_table).filter(
+                YoutubeChannelDetail.date.like(
+                    "%{}%".format(target_date))).filter_by(channel_id=channel_id).all()
+            return rows
+
 
 def select_groupby(dao, target_table, group_col, is_live=None):
     if is_live:
