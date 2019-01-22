@@ -115,7 +115,7 @@ class TwitchChannel(Base):
     youtube_channel = Column(String(50), unique=False)
 
     def __init__(self, streamer_id ,streamer_name,
-        streamer_twitch_id, logo, homepage, youtube_channel):
+        streamer_twitch_id, logo, homepage, youtube_channel=None):
         self.streamer_id = streamer_id
         self.streamer_name = streamer_name
         self.streamer_twitch_id = streamer_twitch_id
@@ -233,6 +233,7 @@ class TwitchClip(Base):
     """
     트위치 클립 데이터를 담아놓는 테이블
     
+    streamer_name: 클립영상의 방송인의 닉네임
     streamer_id: 클립영상의 방송인의 고유 ID
     clip_id: 클립영상의 고유 id
     user_id: 클립 생성자의 고유 ID
@@ -244,6 +245,7 @@ class TwitchClip(Base):
     """
     __tablename__ = "twitch_clip"
     code = Column(Integer, primary_key=True, autoincrement=True)
+    streamer_name = Column(String(50), unique=False)
     streamer_id = Column(String(50), unique=False)
     clip_id = Column(String(150), unique=False)
     user_id = Column(String(50), unique=False)
@@ -253,9 +255,10 @@ class TwitchClip(Base):
     viewer_count = Column(String(50), unique=False)
     thumbnail = Column(Text, unique=False)
 
-    def __init__(self, streamer_id, clip_id,
+    def __init__(self, streamer_name, streamer_id, clip_id,
         user_id, created_at, title, url,
         viewer_count, thumbnail):
+        self.streamer_name = streamer_name
         self.streamer_id = streamer_id
         self.clip_id = clip_id
         self.user_id = user_id
@@ -266,9 +269,10 @@ class TwitchClip(Base):
         self.thumbnail = thumbnail
 
     def __repr__(self):
-        return "%s, %s, %s, %s, %s, %s, %s" % (self.streamer_id,
-            self.clip_id, self.user_id, self.created_at, self.title,
-            self.url, self.viewer_count)
+        return "%s, %s, %s, %s, %s, %s, %s, %s, %s" % (self.streamer_name,
+            self.streamer_id, self.clip_id, self.user_id,
+            self.created_at, self.title,
+            self.url, self.viewer_count, self.thumbnail)
 
 # 모델 버전관리
 class ModelVersion(Base):

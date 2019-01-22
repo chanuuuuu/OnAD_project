@@ -35,7 +35,10 @@ def select_information(dao, target_table, **kwargs):
                     rows = dao.query(target_table).filter_by(stream_id=value).all()
 
                 if key.lower() == "broad_date":
-                    rows = dao.query(target_table).filter_by(broad_date=value).all()      
+                    rows = dao.query(target_table).filter_by(broad_date=value).all()
+
+                if key.lower() == "streamer_twitch_id":
+                    rows = dao.query(target_table).filter_by(streamer_twitch_id=value).all()      
 
             return rows
 
@@ -101,7 +104,7 @@ def select_all_information(dao, target_table):
         # dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
         return rows
 
-def select_groupby(dao, target_col, target_streamer=None):
+def select_groupby(dao, target_col, **kwargs):
     """
     select 구문 함수
     * input
@@ -113,15 +116,18 @@ def select_groupby(dao, target_col, target_streamer=None):
     * output
       selected rows
     """
-    if not target_streamer:
+    if not kwargs:
         rows = dao.query(target_col).group_by(target_col).all()
         rows = [ row[0] for row in rows]  # [(1,), (2,), ...] 의 형식이기에
         return rows
     else:
-        rows = dao.query(target_col).group_by(
-            target_col).filter_by(
-                streamer_name=target_streamer).all()
-        return rows
+        if len(kwargs) == 1:
+            for key, value in kwargs.items():
+                if key == "streamer_name":
+                    rows = dao.query(target_col).group_by(
+                        target_col).filter_by(
+                            streamer_name=value).all()
+                    return rows
 
 def delete_information(dao, target_table, target_data):
     """
@@ -319,13 +325,31 @@ def insert_information(dao, target_table, data_dict):
 
         elif target_table == 'TwitchClip':
             from lib.contact_db.member import TwitchClip
-            member = TwitchClip(data_dict.get('user_id'),
-                data_dict.get('clip_id'), data_dict.get('user_id'),
-                data_dict.get('created_at'), data_dict.get('title'),
-                data_dict.get('url'), data_dict.get('viewer_count'),
-                data_dict.get('thumbnail'))
-            insert(member)
-            return 1
+            # 기존의 데이터 불러오기
+            clip_list = select_groupby(dao, TwitchClip.clip_id)
+            # 기존 목록에 있는 경우 업데이트
+            if data_dict.get('clip_id') in clip_list:  #update
+                update(TwitchClip).where(  # 업데이트
+                    TwitchClip.clip_id == data_dict.get('clip_id')).values(
+                        streamer_name=data_dict.get('streamer_name'),
+                        streamer_id=data_dict.get('streamer_id'),
+                        clip_id=data_dict.get('clip_id'),
+                        user_id=data_dict.get('user_id'),
+                        created_at=data_dict.get('created_at'),
+                        title=data_dict.get('title'),
+                        url=data_dict.get('url'),
+                        viewer_count=data_dict.get('viewer_count'),
+                        thumbnail=data_dict.get('thumbnail'),
+                    )
+                return 1
+            else:  # insert
+                member = TwitchClip(data_dict.get('streamer_name'),
+                    data_dict.get('streamer_id'), data_dict.get('clip_id'),data_dict.get('user_id'),
+                    data_dict.get('created_at'), data_dict.get('title'),
+                    data_dict.get('url'), data_dict.get('viewer_count'),
+                    data_dict.get('thumbnail'))
+                insert(member)
+                return 1
         
         elif target_table == 'TwitchFollowing':
             from lib.contact_db.member import TwitchFollowing

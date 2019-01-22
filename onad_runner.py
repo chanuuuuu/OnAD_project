@@ -73,6 +73,7 @@ class OnAd():
         from lib.get_data.twitch_api import get_twitch_clip
         from lib.contact_db.twitch import insert_information
         from lib.contact_db.twitch import select_groupby
+        from lib.contact_db.twitch import select_information
 
         list_result = None
 
@@ -132,14 +133,19 @@ class OnAd():
         elif table_name == "TwitchClip":
             from lib.contact_db.member import TwitchChat
             from lib.contact_db.member import TwitchStream
+            from lib.contact_db.member import TwitchChannel
             # 채팅로그를 모으는 스트리머만 가져오기
             streamer_names = select_groupby(self.dao,
                 TwitchChat.streamer_name)
-            # 스트리머 고유 id 가져오기
-            streamer_ids = [ select_groupby(self.dao,
-                    TwitchStream.streamer_id,
-                    target_streamer=streamer)
-                    for streamer in streamer_names]
+
+            # 스트리머 이름을 바탕으로 스트리머 고유 id 가져오기
+            streamer_ids = [select_information(self.dao, TwitchChannel.streamer_id,
+                streamer_twitch_id=streamer_name)[0][0] for streamer_name in streamer_names]
+            # [(1,), (1,)] 의 형태
+
+            ended_at = str(datetime.datetime.now().strftime("%Y-%m-%dT%H:%m:%SZ"))
+            print(ended_at)
+
             print("api 요청 시도")
             print("스트리머 수 : %s" % len(streamer_ids))
             list_result = get_twitch_clip.start(self.twitch_api_key,
@@ -154,6 +160,7 @@ class OnAd():
                 # 여기서 수행하여야 적게 함. 
             for i, data_dict in enumerate(list_result):
                 insert_information(self.dao, table_name, data_dict)
+                
                 if (i+1) % 50 == 0:
                     print("%s/%s 인서트 완료" % (i + 1, len(list_result)))
 
@@ -287,7 +294,7 @@ class OnAd():
         """
         from lib.contact_db.member import TwitchChat
         from lib.contact_db.twitch import select_groupby
-        days = select_groupby(self.dao, TwitchChat.broad_date, target_streamer=target_id)
+        days = select_groupby(self.dao, TwitchChat.broad_date, streamer_name=target_id)
         
         return list(map(lambda x: x[0], days))
 
@@ -515,7 +522,7 @@ if __name__ == "__main__":
                 from lib.contact_db.member import TwitchChat
                 from lib.contact_db.twitch import select_groupby
                 db_existday = select_groupby(onad.dao, TwitchChat.broad_date,
-                    target_streamer=streamer)
+                    streamer_name=streamer)
                 # 튜플안에 있는 항목을 밖으로 빼 튜플 제거 [(1,), (2,), ..]
                 db_existday = [i[0] for i in db_existday]  
                 
@@ -619,7 +626,9 @@ if __name__ == "__main__":
             date = datetime.datetime.now().strftime("%Y-%m-%d")
             nowtime = datetime.datetime.now().strftime("%H:%M:%S")
             try:
+                print('트위치클립시작')
                 onad.get_data_twitch("TwitchClip")
+                print('트위치클립완료')
                 
                 runtime = time.time() - stime
                 print("소요시간 : %.4s" % (time.time() - stime))
@@ -627,6 +636,8 @@ if __name__ == "__main__":
                     fp.write("datetime:%s runtime:%s result:%s" % (nowtime, runtime, "success"))
                     fp.write("\n")
             except Exception as e:
+                print(e)
+                runtime = 0
                 with open(log_dir + "TwitchClip" + date + ".txt", 'a') as fp:
                     fp.write("datetime:%s runtime:%s result:%s" % (nowtime, runtime, e))
                     fp.write("\n")

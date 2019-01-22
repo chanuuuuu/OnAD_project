@@ -1,0 +1,72 @@
+datetime:10:08:30 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:08:53 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:09:04 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:09:25 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:10:00 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:10:28 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:10:49 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:11:29 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:11:49 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:17:43 runtime:0 result:EOL while scanning string literal (twitch.py, line 128)
+datetime:10:17:56 runtime:0 result:EOL while scanning string literal (twitch.py, line 128)
+datetime:10:18:10 runtime:0 result:EOL while scanning string literal (twitch.py, line 128)
+datetime:10:18:18 runtime:0 result:EOL while scanning string literal (twitch.py, line 128)
+datetime:10:19:16 runtime:0 result:EOL while scanning string literal (twitch.py, line 128)
+datetime:10:20:11 runtime:0 result:EOL while scanning string literal (twitch.py, line 128)
+datetime:10:20:54 runtime:0 result:EOL while scanning string literal (twitch.py, line 128)
+datetime:10:21:07 runtime:0 result:EOL while scanning string literal (twitch.py, line 128)
+datetime:10:22:22 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:22:52 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:24:33 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:25:31 runtime:0 result:expected an indented block (twitch.py, line 130)
+datetime:10:25:48 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:26:38 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:29:43 runtime:0 result:local variable 'data_dict' referenced before assignment
+datetime:10:32:03 runtime:0 result:local variable 'rows' referenced before assignment
+datetime:10:32:41 runtime:0 result:local variable 'rows' referenced before assignment
+datetime:10:33:15 runtime:0 result:Entity '<class 'lib.contact_db.member.TwitchChannel'>' has no property 'twitch_streamer_id'
+datetime:10:33:29 runtime:0 result:Entity '<class 'lib.contact_db.member.TwitchChannel'>' has no property 'twitch_streamer_id'
+datetime:10:33:52 runtime:0 result:Entity '<class 'lib.contact_db.member.TwitchChannel'>' has no property 'twitch_streamer_id'
+datetime:10:34:38 runtime:0 result:'TwitchChannel' object has no attribute 'translate'
+datetime:10:35:43 runtime:0 result:'str' object has no attribute 'get'
+datetime:10:37:42 runtime:0 result:object of type 'NoneType' has no len()
+datetime:10:39:36 runtime:0 result:object of type 'NoneType' has no len()
+datetime:10:40:48 runtime:0 result:object of type 'NoneType' has no len()
+datetime:10:41:11 runtime:0 result:object of type 'NoneType' has no len()
+datetime:10:41:24 runtime:0 result:object of type 'NoneType' has no len()
+datetime:10:41:37 runtime:0 result:object of type 'NoneType' has no len()
+datetime:10:42:26 runtime:0 result:object of type 'NoneType' has no len()
+datetime:10:43:08 runtime:15.698389053344727 result:success
+datetime:10:46:15 runtime:19.91166663169861 result:success
+datetime:10:53:19 runtime:5.634255886077881 result:success
+datetime:10:54:00 runtime:4.597620964050293 result:success
+datetime:10:54:43 runtime:0 result:'result' object has no attribute 'translate'
+datetime:10:57:16 runtime:0 result:'result' object has no attribute 'translate'
+datetime:11:01:18 runtime:0 result:'result' object has no attribute 'translate'
+datetime:11:08:35 runtime:0 result:list index out of range
+datetime:11:12:40 runtime:0 result:'result' object has no attribute 'translate'
+datetime:11:14:22 runtime:0 result:invalid syntax (twitch.py, line 344)
+datetime:11:14:33 runtime:0 result:unexpected indent (twitch.py, line 345)
+datetime:11:14:37 runtime:0 result:unexpected indent (twitch.py, line 345)
+datetime:11:14:45 runtime:0 result:'result' object has no attribute 'translate'
+datetime:11:18:08 runtime:0 result:'result' object has no attribute 'translate'
+datetime:11:18:30 runtime:27.85655426979065 result:success
+datetime:11:19:20 runtime:0 result:local variable 'TwitchChannel' referenced before assignment
+datetime:11:21:03 runtime:27.07451319694519 result:success
+datetime:11:22:07 runtime:4.382818937301636 result:success
+datetime:11:22:22 runtime:51.4451208114624 result:success
+datetime:11:27:49 runtime:0 result:'streamer_name'
+datetime:11:29:28 runtime:0 result:function missing required argument 'year' (pos 1)
+datetime:11:29:58 runtime:0 result:function missing required argument 'month' (pos 2)
+datetime:11:30:16 runtime:0 result:function missing required argument 'year' (pos 1)
+datetime:11:30:24 runtime:49.454102754592896 result:success
+datetime:11:32:01 runtime:0 result:Invalid format string
+datetime:11:32:17 runtime:0 result:__init__() missing 1 required positional argument: 'thumbnail'
+datetime:11:33:16 runtime:31.00359582901001 result:success
+datetime:11:35:42 runtime:58.32421255111694 result:success
+datetime:11:38:55 runtime:29.872256755828857 result:success
+datetime:12:37:54 runtime:28.46282649040222 result:success
+datetime:12:41:15 runtime:35.52335071563721 result:success
+datetime:12:42:55 runtime:31.243050813674927 result:success
+datetime:12:43:47 runtime:25.356327295303345 result:success
+datetime:12:45:19 runtime:0 result:(pymysql.err.OperationalError) (1213, 'Deadlock found when trying to get lock; try restarting transaction') [SQL: 'INSERT INTO twitch_clip (streamer_name, streamer_id, clip_id, user_id, created_at, title, url, viewer_count, thumbnail) VALUES (%(streamer_name)s, %(streamer_id)s, %(clip_id)s, %(user_id)s, %(created_at)s, %(title)s, %(url)s, %(viewer_count)s, %(thumbnail)s)'] [parameters: {'streamer_name': '피유', 'streamer_id': '103865116', 'clip_id': 'GloriousElegantSnakeShazBotstix', 'user_id': '155033421', 'created_at': '2018-12-21T09:46:33Z', 'title': '순수악이 또', 'url': 'https://clips.twitch.tv/GloriousElegantSnakeShazBotstix', 'viewer_count': 48999, 'thumbnail': 'https://clips-media-assets2.twitch.tv/AT-cm%7C363935440-preview-480x272.jpg'}] (Background on this error at: http://sqlalche.me/e/e3q8)
