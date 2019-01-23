@@ -5,6 +5,33 @@ twitch 데이터베이스 테이블들:
     (TwitchCaht, TwitchStream, TwitchStreamDetail,
     TwitchChannel, TwitchChannelDetail, TwitchGame, TwitchGameDetail)
 """
+def select_clip(dao, target_table, broad_date, **kwargs):
+    for key, value in kwargs.items():
+        if key == 'streamer_id':
+            from lib.contact_db.member import TwitchClip
+            rows = dao.query(target_table).filter(TwitchClip.date.like(
+                "%{}%".format(broad_date))).filter_by(
+                streamer_id=value).all()
+                
+        if key == 'streamer_name':
+            from lib.contact_db.member import TwitchClip
+            rows = dao.query(target_table).filter(TwitchClip.created_at.like(
+                "%{}%".format(broad_date))).filter_by(
+                streamer_name=value).limit(10).all()
+    return rows
+
+def select_days_information_by_stream_id(dao, target_table, a_month_ago, **kwargs):
+    for key, value in kwargs.items():
+        if key == "stream_id":
+            rows = dao.query(target_table).filter_by(stream_id=value)\
+            .filter(target_table.time >= a_month_ago).all()
+            return rows
+
+def select_days_information(dao, target_table, streamer_id, a_month_ago):
+    if a_month_ago:
+        rows = dao.query(target_table).filter_by(streamer_id=streamer_id)\
+        .filter(target_table.date >= a_month_ago).all()
+        return rows
 
 def select_information(dao, target_table, **kwargs):
     """
@@ -36,15 +63,15 @@ def select_information(dao, target_table, **kwargs):
 
                 if key.lower() == "broad_date":
                     rows = dao.query(target_table).filter_by(broad_date=value).all()
-
-                if key.lower() == "streamer_twitch_id":
-                    rows = dao.query(target_table).filter_by(streamer_twitch_id=value).all()   
-
+                
                 if key.lower() == "game_id":
                     rows = dao.query(target_table).filter_by(game_id=value).first()      
 
                 if key.lower() == "game_name":
-                    rows = dao.query(target_table).filter_by(game_name=value).first()   
+                    rows = dao.query(target_table).filter_by(game_name=value).first()
+
+                if key.lower() == "streamer_twitch_id":
+                    rows = dao.query(target_table).filter_by(streamer_twitch_id=value).all()    
 
             return rows
 
@@ -110,7 +137,7 @@ def select_all_information(dao, target_table):
         # dao.remove()  # 세션을 제거(많은 db 사용에 의해 커넥션 지속적으로 유지되어 종료되지 않게 하기 위함)
         return rows
 
-def select_groupby(dao, target_col, **kwargs):
+def select_groupby(dao, target_col, group_col, **kwargs):
     """
     select 구문 함수
     * input
@@ -123,7 +150,7 @@ def select_groupby(dao, target_col, **kwargs):
       selected rows
     """
     if not kwargs:
-        rows = dao.query(target_col).group_by(target_col).all()
+        rows = dao.query(target_col).group_by(group_col).all()
         rows = [ row[0] for row in rows]  # [(1,), (2,), ...] 의 형식이기에
         return rows
     else:
@@ -131,12 +158,12 @@ def select_groupby(dao, target_col, **kwargs):
             for key, value in kwargs.items():
                 if key == "streamer_name":
                     rows = dao.query(target_col).group_by(
-                        target_col).filter_by(
+                        group_col).filter_by(
                             streamer_name=value).all()
                     return rows
                 elif key == "streamer_id":
                     rows = dao.query(target_col).group_by(
-                        target_col).filter_by(
+                        group_col).filter_by(
                             streamer_id=value).all()
                     return rows
 
@@ -261,7 +288,7 @@ def insert_information(dao, target_table, data_dict):
         
         elif target_table == 'TwitchStream':
             from lib.contact_db.member import TwitchStream
-            stream_list = select_groupby(dao, TwitchStream.stream_id)
+            stream_list = select_groupby(dao, TwitchStream.stream_id, TwitchStream.stream_id)
             if data_dict.get('stream_id') in stream_list:  # 기존 목록에 같은것이 있으면 넣지 않음
                 return 
             else:  # 없으면 테이블 객체로 만들어 넣음
@@ -281,7 +308,7 @@ def insert_information(dao, target_table, data_dict):
         elif target_table == 'TwitchChannel':
             from lib.contact_db.member import TwitchChannel
             # 기존 목록 불러오기
-            streamer_list = select_groupby(dao, TwitchChannel.streamer_id)
+            streamer_list = select_groupby(dao, TwitchChannel.streamer_id, TwitchChannel.streamer_id)
 
             # 기존 목록에 있는 경우 업데이트
             if data_dict.get('streamer_id') in streamer_list:
@@ -312,7 +339,7 @@ def insert_information(dao, target_table, data_dict):
 
         elif target_table == 'TwitchGame':
             from lib.contact_db.member import TwitchGame
-            game_list = select_groupby(dao, TwitchGame.game_id)
+            game_list = select_groupby(dao, TwitchGame.game_id, TwitchGame.game_id)
             
             if data_dict.get('game_id') in game_list:
                 update(TwitchGame).where(  # 업데이트
@@ -337,7 +364,7 @@ def insert_information(dao, target_table, data_dict):
         elif target_table == 'TwitchClip':
             from lib.contact_db.member import TwitchClip
             # 중복인지 비교하기위해 기존의 데이터 불러오기
-            clip_list = select_groupby(dao, TwitchClip.clip_id,
+            clip_list = select_groupby(dao, TwitchClip.clip_id, TwitchClip.clip_id,
                 streamer_id=data_dict.get('streamer_id'))
             
             # [(1,), (2,), ...] 의 형식이므로

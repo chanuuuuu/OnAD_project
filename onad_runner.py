@@ -37,13 +37,16 @@ class OnAd():
     user_dict_path = "lib/morphs_analyzer/user_dictionary.txt"
     sentimental_dict_path = data_dir + "sentiment_dictionary/sentidict_norm.pickle"
     df_save_path = data_dir +  "preprocessed_dat/"
-
+    one_day_json_dir =  data_dir + "one_day/"
+    one_month_json_dir =  data_dir + "one_month/"
+    total_broad_json_dir =  data_dir + "total_broad/"
    
     # 멤버변수 선언
     dao = None
     preprocessor = None
     youtube_api_key = YOUTUBE_API_KEY
     twitch_api_key = TWITCH_API_KEY
+
     # 멤버함수 선언
     def __init__(self):
         """db 초기화"""
@@ -54,6 +57,10 @@ class OnAd():
         """전처리 클래스의 인스턴스 생성"""
         from lib.set_data import Preprocessor
         self.preprocessor = Preprocessor()
+
+        """메타데이터 전처리 클래스 인스턴스 생성"""
+        from lib.meta_preproc import MetaPreprocessor
+        self.meta_preprocessor = MetaPreprocessor(self.dao)
 
     # 트위치 데이터 수집기
     def get_data_twitch(self, table_name,
@@ -107,7 +114,7 @@ class OnAd():
         elif table_name == 'TwitchChannel':
             from lib.contact_db.member import TwitchStream
             streamer_ids = select_groupby(self.dao,
-                TwitchStream.streamer_id)
+                TwitchStream.streamer_id, TwitchStream.streamer_id)
             print("api 요청 시도")
             list_result = get_twitch_channel.start(self.twitch_api_key,
                 streamer_ids)[0] # 데이터 요청
@@ -116,7 +123,7 @@ class OnAd():
         elif table_name == 'TwitchChannelDetail':
             from lib.contact_db.member import TwitchStream
             streamer_ids = select_groupby(self.dao,
-                TwitchStream.streamer_id)
+                TwitchStream.streamer_id, TwitchStream.streamer_id)
             print("api 요청 시도")
             list_result = get_twitch_channel.start(self.twitch_api_key,
                 streamer_ids)[1] # 데이터 요청
@@ -124,7 +131,7 @@ class OnAd():
         
         elif table_name == "TwitchFollowing":
             streamer_ids = select_groupby(self.dao,
-                TwitchStream.streamer_id)
+                TwitchStream.streamer_id, TwitchStream.streamer_id)
             print("api 요청 시도")
             list_result = get_twitch_following.start(self.twitch_api_key,
                 streamer_ids)
@@ -136,7 +143,7 @@ class OnAd():
             from lib.contact_db.member import TwitchChannel
             # 채팅로그를 모으는 스트리머만 가져오기
             streamer_names = select_groupby(self.dao,
-                TwitchChat.streamer_name)
+                TwitchChat.streamer_name, TwitchChat.streamer_name)
 
             # 스트리머 이름을 바탕으로 스트리머 고유 id 가져오기
             streamer_ids = [select_information(self.dao, TwitchChannel.streamer_id,
@@ -296,7 +303,8 @@ class OnAd():
         """
         from lib.contact_db.member import TwitchChat
         from lib.contact_db.twitch import select_groupby
-        days = select_groupby(self.dao, TwitchChat.broad_date, streamer_name=target_id)
+        days = select_groupby(self.dao, TwitchChat.broad_date, 
+            TwitchChat.broad_date, streamer_name=target_id)
         
         return list(map(lambda x: x[0], days))
 
@@ -305,7 +313,8 @@ class OnAd():
         from lib.contact_db.member import TwitchChat
         from lib.contact_db.twitch import select_groupby
 
-        streamers = select_groupby(self.dao, TwitchChat.streamer_name)
+        streamers = select_groupby(self.dao,
+            TwitchChat.streamer_name, TwitchChat.streamer_name)
         return streamers
     
     # 전처리된 데이터 프레임 저장 함수
@@ -344,8 +353,144 @@ class OnAd():
             print("저장완료")
             return 1
     
-    # 메타데이터 전처리
-    def preproc_start(self, broad_date, streamer_name):
+    # 오늘 스트리밍 메타 데이터 가져오기
+    def today_preproc_start(self, broad_date, streamer_name):
+        """
+        하루의 스트리밍에 대한 메타데이터를 전처리하는 함수 
+        * input
+            broad_date : 메타데이터를 얻고자 하는 날짜
+            streamer_name : 메타데이터를 얻고자 하는 스트리머 이름
+        """
+        mp = self.meta_preprocessor
+        import time
+
+        # get strema data
+        stime = time.time()
+        mp.get_stream(broad_date, streamer_name)
+        print(time.time() - stime)
+
+        # get stream_detail data
+        stime = time.time()
+        mp.get_stream_detail()
+        print(time.time() - stime)
+
+        # get channel data
+        stime = time.time()
+        mp.get_channel()
+        print(time.time() - stime)
+
+        # get channel detail data
+        stime = time.time()
+        mp.get_channel_detail()
+        print(time.time() - stime)
+
+        # get youtube channel data
+        stime = time.time()
+        mp.get_youtube_channel()
+        print(time.time() - stime)
+
+        # make a new metrics
+        stime = time.time()
+        mp.get_stream_other_metrics()
+        print(time.time() - stime)
+        
+        # show data
+        # print(mp.streams, '\n')
+        # print(mp.stream_details, '\n')
+        # print(mp.logo, mp.homepage, mp.twitch_id, '\n')
+        # print(mp.channel_details, '\n')
+        # print(mp.youtube_channel_details, '\n')
+        # print(mp.stream_avr_viewer_cnts, '\n')
+        # print(mp.stream_viewer_highest, '\n')
+        # print(mp.stream_contents, '\n')
+        # print(mp.stream_contents_thumbnail, '\n')
+
+    # 일주일간 스트리밍 메타 데이터 가져오기
+    def month_preproc_start(self, streamer_name):
+        """
+        메타데이터를 전처리하는 함수 
+        * input
+            broad_date : 메타데이터를 얻고자 하는 날짜
+            streamer_name : 메타데이터를 얻고자 하는 스트리머 이름
+        """
+        mp = self.meta_preprocessor
+
+        # make a new metrics for week
+        stime = time.time()
+        mp.get_month_other_metrics(streamer_name)
+        print(time.time() - stime)
+
+    # 지금껏의 모든 방송의 스트리밍 메타 데이터 가져오기
+    def total_preproc_start(self, streamer_name):
+        mp = self.meta_preprocessor
+        
+        # make total contents rate
+        stime = time.time()
+        mp.get_all_broad_other_metrics(streamer_name)
+        print(time.time() - stime)
+
+        # show data
+        # print(mp.total_contents_unique, '\n')
+        # print(mp.total_contents_rate, '\n')
+        # print(mp.total_contents_thumbnails, '\n')
+
+    # 오늘 스트리밍 메타데이터 json으로 만들기
+    def make_one_day_json(self):
+        mp = self.meta_preprocessor
+
+        mp.one_day_jsonify()
+        mp.save_one_day_json(self.one_day_json_dir)
+
+    # 한달 메타데이터 json으로 만들기
+    def make_month_json(self):
+        mp = self.meta_preprocessor
+        mp.one_month_jsonify()
+        mp.save_month_json(self.one_month_json_dir)
+
+    # 지금껏의 모든 방송 메타데이터 json으로 만들기
+    def make_total_broad_json(self):
+        mp = self.meta_preprocessor
+
+        mp.total_broad_jsonify()
+        mp.save_total_broad_json(self.total_broad_json_dir)
+
+    # 모든 데이터 json으로 만들기
+    def meta_preproc_start_all(self):
+        from lib.contact_db.twitch import select_groupby
+        from lib.contact_db.twitch import select_information
+
+        from lib.contact_db.member import TwitchStream
+        from lib.contact_db.member import TwitchChat
+        from lib.contact_db.member import TwitchChannel
+
+
+        stime = time.time()
+        # 스트리머 이름 가져오기
+        streams = select_groupby(self.dao, TwitchChannel, TwitchChannel.streamer_twitch_id)
+        streamer_names = [stream.__dict__['streamer_name']
+            for stream in streams
+            if stream.__dict__['streamer_twitch_id'] is not None]
+        
+        for streamer_name in streamer_names:
+            # 한 스트리머당 돌기
+
+            # 그 스트리머의 db에 쌓여있는 방송날짜가져오기
+            broad_dates = select_information(self.dao,
+                TwitchStream.broad_date, streamer_name=streamer_name)
+            broad_dates = list(map(lambda x: x[0].split('T')[0], broad_dates))
+            
+            for broad_date in broad_dates:
+                # 날짜마다 방송당 json 생성
+                self.today_preproc_start(broad_date, streamer_name)
+                self.make_one_day_json()
+            
+            # 총 방송의 json 생성
+            self.total_preproc_start(streamer_name)
+            self.make_total_broad_json()
+
+            
+        print(time.time() - stime)
+
         """
         메타데이터를 전처리하는 함수 
         * input
@@ -524,7 +669,7 @@ if __name__ == "__main__":
                 from lib.contact_db.member import TwitchChat
                 from lib.contact_db.twitch import select_groupby
                 db_existday = select_groupby(onad.dao, TwitchChat.broad_date,
-                    streamer_name=streamer)
+                    TwitchChat.broad_date, streamer_name=streamer)
                 # 튜플안에 있는 항목을 밖으로 빼 튜플 제거 [(1,), (2,), ..]
                 db_existday = [i[0] for i in db_existday]  
                 
@@ -792,7 +937,7 @@ if __name__ == "__main__":
                     fp.write("datetime:%s runtime:%s result:%s" % (nowtime, runtime, e))
                     fp.write("\n")
 
-        # 전처리
+        # 분석 데이터 전처리
         if sys.argv[1] == 'fromfolder':
             print("This app is onad_platform's data preprocessor. this app select data from sql and then make data analyzable.")
             chat_folder = os.listdir(onad.twitch_chat_dir)
@@ -839,6 +984,30 @@ if __name__ == "__main__":
                     else: print("이미 존재하는 파일")
                 print("%s %s/%s 완료" % (streamer_id, i+1, len(streamers)))
         
+        # 메타 데이터 전처리
+        if sys.argv[1] == "metastreams":
+                streamer_name = sys.argv[2]
+                broad_date = sys.argv[3]
+
+                # 오늘 방송의 메타데이터
+                onad.today_preproc_start(broad_date=broad_date, streamer_name=streamer_name)
+                onad.make_one_day_json()
+
+        elif sys.argv[1] == "month":
+                streamer_name = sys.argv[2]
+
+                # 한달 또는 15일 메타데이터
+                onad.month_preproc_start(streamer_name=streamer_name)
+                onad.make_month_json()
+
+        elif sys.argv[1] == "totalbroad":
+            streamer_name = sys.argv[2]
+
+            # 지금껏의 모든 방송의 메타데이터
+            onad.total_preproc_start(streamer_name=streamer_name)
+            onad.make_total_broad_json()
+
+
         # 분석
         elif sys.argv[1] == "-analysis":
             # python onad_runner.py -analysis yapyap30 2018-12-13

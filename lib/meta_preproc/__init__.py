@@ -20,15 +20,21 @@ class MetaPreprocessor():
     total_contents_unique = None  # total day unique contents
     total_contents_thumbnails = None  # total contents's thumbnail images
     total_contents_rate = None  # total day contents rate
+    popular_clips = None  # popular clips for a month
+    follower_period = None  # follower of certain period
 
     streams = None  # twitch_stream data
     stream_details = list()  # twitch_stream_detail data
     channel_details = list()  # twitch_channel_detail data
 
+    one_day_json = None  # 결과
+    total_broad_json = None  # 결과
+
     # 멤버 함수
     def __init__(self, dao):
         self.dao = dao
 
+    # 스트리밍 데이터
     def get_stream(self, broad_date, streamer_name):
         """
         twitch_stream db에서 데이터를 받아온다
@@ -36,10 +42,11 @@ class MetaPreprocessor():
             broad_date : 방송 날짜
             streamer_name : 스트리머 이름
         * output
-            [{'broad_date': 'yyyy-mm-dd',
+            [{'broad_date': 'yyyy-mm-dd', 
             'streamer_name': 'streamer1',
             'stream_id': '12345678789',
-            'stream_start': '2019-01-08T01:57:26Z'}, {}, {}, ... ], list
+            'stream_start': '2019-01-08 01:57:26'}, {}, {}, ... ] # 시간바꿀 필요 있음(세계기준시 +9H)
+            list
         """
         # allocate data to member variables
         self.broad_date = broad_date
@@ -52,17 +59,25 @@ class MetaPreprocessor():
         from lib.contact_db.member import TwitchChannel
         from lib.contact_db.member import TwitchStream
 
+        # import time things
+        import datetime
+        from dateutil.parser import parse
+
         # get stream data
         streams = select_groupby_broad_date(self.dao, TwitchStream,
             broad_date=broad_date, streamer_name=streamer_name)
         streams = list(map(lambda x : x.__dict__, streams))
+
+        # adjust time data which is UTC timezone, but we need seoul timeznoe, +9Hours
+        seoul_time_zone = datetime.timedelta(seconds=3600 * 9)
         
         # create new dict for return
         self.streams = [{
             'broad_date': broad_date,
             'streamer_name': stream['streamer_name'],
             'stream_id': stream['stream_id'],
-            'stream_start': stream['broad_date'],
+            'stream_start':(parse(stream['broad_date'].replace("T"," ").replace("Z", "")) \
+                            + seoul_time_zone).strftime("%Y-%m-%d %H:%M:%S"),
             } for stream in streams]
         
         # extinct unuseable variable
@@ -71,6 +86,7 @@ class MetaPreprocessor():
         # return value
         return self.streams
 
+    # 스트리밍 세부사항
     def get_stream_detail(self):
         """
         get_stream 함수를 통해 얻은 stream_id 를 이용하여 해당 스트리밍의 세부 데이터를 가져오는 함수
@@ -89,45 +105,50 @@ class MetaPreprocessor():
         from lib.contact_db.member import TwitchStreamDetail
         from lib.contact_db.member import TwitchGame
 
+        self.stream_details = list()
         # Get stream details using stream_id
         for stream in self.streams:
             # for today's streams
             stream_id = stream['stream_id']
             rows = select_information(self.dao,
                 TwitchStreamDetail, stream_id=stream_id)
+            if rows:
+                # Preprocess selected data
+                details = [stream_detail.__dict__
+                    for stream_detail in rows
+                    if stream_detail.__dict__['time'] is not None]
 
-            # Preprocess selected data
-            details = [stream_detail.__dict__ for stream_detail in rows]
+                times = [ detail['time'].strftime("%Y-%m-%d %H:%M:%S") for detail in details]
+                title = [ detail['title'] for detail in details]
+                viewer = [ detail['viewer'] for detail in details]
+                played_game_id = [ detail['game_id'] for detail in details]
 
-            times = [ detail['time'] for detail in details]
-            title = [ detail['title'] for detail in details]
-            viewer = [ detail['viewer'] for detail in details]
-            played_game_id = [ detail['game_id'] for detail in details]
+                # get game names use game id
+                unique_game_id = list(set(played_game_id))
 
-            # get game names use game id
-            unique_game_id = list(set(played_game_id))
+                # query to get game names
+                game_names = {game_id: select_information(self.dao,
+                        TwitchGame, game_id=game_id).__dict__['game_name']
+                        for game_id in unique_game_id
+                        if select_information(self.dao, TwitchGame, game_id=game_id)}
 
-            # query to get game names
-            game_names = {game_id: select_information(self.dao,
-                    TwitchGame, game_id=game_id).__dict__['game_name'] for game_id in unique_game_id}
+                # allocate data to member variable
+                self.stream_contents = list(game_names.values())
 
-            # allocate data to member variable
-            self.stream_contents = list(game_names.values())
+                played_game = list(map(lambda x: game_names.get(x), played_game_id))
 
-            played_game = list(map(lambda x: game_names[x], played_game_id))
-
-            data = {
-                'time': times,
-                'title': title,
-                'viewer': viewer,
-                'game_id': played_game,
-            }
-
-            # append preprocessed data to member variable
-            self.stream_details.append(data)
+                data = {
+                    'time': times,
+                    'title': title,
+                    'viewer': viewer,
+                    'game_id': played_game,
+                }
+                # append preprocessed data to member variable
+                self.stream_details.append(data)
 
         return self.stream_details
 
+    # 트위치 채널 데이터
     def get_channel(self):
         """
         streamer_name을 이용하여 twitch_channel 정보를 가져오는 함수
@@ -155,6 +176,7 @@ class MetaPreprocessor():
 
         return row
 
+    # 트위치 채널 세부사항 데이터
     def get_channel_detail(self):
         """
         streamer_id 를 통해 twitch_channel_detail 데이터 가져오는 함수
@@ -172,13 +194,14 @@ class MetaPreprocessor():
         details = list(map(lambda x : x.__dict__, rows))
 
         result = [{
-            'time': detail['date'],
+            'time': detail['date'].strftime("%Y-%m-%d %H:%M:%S"),
             'viewer': detail['viewer'],
             'follower': detail['follower'],
         } for detail in details]
 
         self.channel_details = result
-        
+
+    # 유튜브 채널 데이터      
     def get_youtube_channel(self):
         """
         twitch_channel 테이블의 youtube_channel 정보를 통해 youtube channel detail 정보를 얻어오는 함수
@@ -197,7 +220,7 @@ class MetaPreprocessor():
 
         # preprocess data
         hit_cnts = [row.get('hit_cnt') for row in rows]
-        times = [row.get('date') for row in rows]
+        times = [row.get('date').strftime("%Y-%m-%d %H:%M:%S") for row in rows]
         subscribe_cnts = [row.get('subscribe_cnt') for row in rows]
         total_video_cnts = [row.get('total_video_cnt') for row in rows]
 
@@ -211,6 +234,7 @@ class MetaPreprocessor():
 
         return self.youtube_channel_details
 
+    # 하루의 스트림데이터로 만들어내는 데이터
     def get_stream_other_metrics(self):
         """
         오늘 방송에 대한 만들어 내야 하는 지표를 만들어 주는 함수
@@ -225,13 +249,11 @@ class MetaPreprocessor():
 
         import numpy as np
         
-        details = [detail for detail in self.stream_details]
-
         # 1. make today's viewer average count
-        self.stream_avr_viewer_cnts = [np.around(np.mean(detail.get("viewer"))) for detail in details]
+        self.stream_avr_viewer_cnts = [int(np.around(np.mean(detail.get("viewer")))) for detail in self.stream_details]
 
         # 2. make today's viewer highest point
-        self.stream_viewer_highest = [np.max(detail.get("viewer")) for detail in details]
+        self.stream_viewer_highest = [int(np.max(detail.get("viewer"))) for detail in self.stream_details]
 
         # 3 -> function of analysis module
 
@@ -242,25 +264,92 @@ class MetaPreprocessor():
             TwitchGame, game_name=game_name).__dict__['thumbnail']
             for game_name in self.stream_contents]
 
-    def get_week_other_metrics(self):
+    # 한달 데이터로 만들어내는 데이터
+    def get_month_other_metrics(self, streamer_name):
         """
-        1주간 방송에 대한 지표 만들어 주는 함수
-        1. 1주 간 자주하는 컨텐츠(트위치 카테고리) - 1일 단위
-        2. 1주 간 팔로워 증가  - 1일 단위
-        3. 1주 간 유튜브 구독자 증가  - 1일 단위
-        4. 1주 간 유튜브 영상 증가  - 1일 단위
-        5. 1주 간 평균 시청자수  - 1일 단위
-        6. 1주 간의 모든 컨텐츠 썸네일
+        한달 간 방송에 대한 지표 만들어 주는 함수
+        2. 팔로워 증가  
+        3. 평균 시청자수  - 1일 단위  **
+
+        # 고려해 볼 지표
+        4. 유튜브 구독자 증가  - 1일 단위
+        5. 유튜브 영상 수 증가  - 1일 단위
+        6. 모든 컨텐츠 썸네일
         """
+        from lib.contact_db.twitch import select_days_information
+        from lib.contact_db.twitch import select_days_information_by_stream_id
         from lib.contact_db.twitch import select_information
-        from lib.contact_db.member import TwitchGame
+
+        from lib.contact_db.member import TwitchChannelDetail
+        from lib.contact_db.member import TwitchChannel
+        from lib.contact_db.member import TwitchStream
+        from lib.contact_db.member import TwitchStreamDetail
 
         import numpy as np
+        import pandas as pd
+        import datetime
+        from dateutil import parser
 
-        # 1. get data for a week
+        # 멤버 변수로 할당
+        self.streamer_name = streamer_name
 
-        # function should be appended later
+        now = datetime.datetime.now()
+        a_month_ago = (now - datetime.timedelta(days=15))
+        
+        # 기간동안의 팔로워 수
+        streamer_id = select_information(self.dao, TwitchChannel.streamer_id, streamer_name=streamer_name)
+        if streamer_id:
+            streamer_id = list(map(lambda x : x[0], streamer_id))
 
+            details = select_days_information(self.dao, TwitchChannelDetail,
+                streamer_id=streamer_id, a_month_ago=a_month_ago.strftime("%Y-%m-%d"))
+            
+            details = list(map(lambda x: x.__dict__, details))
+
+            follower = list(map(lambda x: x.get('follower'), details))
+            date = list(map(lambda x: x.get('date').strftime("%Y-%m-%d %H:%M:%S"), details))
+            viewer = list(map(lambda x: x.get('viewer'), details))
+
+            self.follower_period = {
+                "date": date,
+                "follower": follower ,
+                "channel_viewer": viewer}
+            
+        # stream_id 구하기
+        streams = select_information(self.dao, TwitchStream, streamer_name=streamer_name)
+        if streams:
+            streams = list(map(lambda x: x.__dict__, streams))
+
+            streams = list(map(lambda x: {
+                "stream_id": x.get('stream_id'),
+                "broad_date": x.get('broad_date').split("T")[0]
+            }, streams))
+            
+            # stream_id
+            stream_ids = [ stream.get("stream_id")
+                for stream in streams
+                if parser.parse(stream.get('broad_date')) >= a_month_ago ]
+
+        # 평균 시청자수
+        month_stream_details = [i.__dict__ for stream_id in stream_ids
+            for i in select_days_information_by_stream_id(self.dao,
+            TwitchStreamDetail, a_month_ago=a_month_ago, stream_id=stream_id)]
+
+        times = [x.get('time').strftime("%Y-%m-%d") for x in month_stream_details]
+        viewers = [x.get('viewer') for x in month_stream_details]
+        
+        df = pd.DataFrame(viewers, index=times, columns=['viewers'])
+        df = df.pivot_table(index=df.index)
+
+        times = list(df.index)
+        viewers = [int(i[0]) for i in df.values]
+
+        self.month_viewer_cnt = {
+            "date": times,
+            "viewer_avr": viewers,
+            }
+
+    # 모든 방송을 토대로 만들어내는 데이터
     def get_all_broad_other_metrics(self, streamer_name):
         """
         지금껏의 모든 방송에 대한 지표를 만들어 주는 함수
@@ -274,8 +363,10 @@ class MetaPreprocessor():
         from lib.contact_db.member import TwitchStream
         from lib.contact_db.member import TwitchStreamDetail
         from lib.contact_db.member import TwitchGame
+        from lib.contact_db.member import TwitchClip
 
         import numpy as np
+        import datetime
 
         self.streamer_name = streamer_name
 
@@ -314,21 +405,38 @@ class MetaPreprocessor():
         cnt_contents = [total_played_contents.count(i) for i in self.total_contents_unique]
 
         # 1. played contents rate
-        self.total_contents_rate = [ np.round(i/len(cnt_contents)) for i in cnt_contents]
+        self.total_contents_rate = [ float(np.round(i/len(cnt_contents))) for i in cnt_contents]
 
         # 4. total contents's thumbnails 
         self.total_contents_thumbnails = [select_information(self.dao,
             TwitchGame, game_name=game_name).__dict__['thumbnail']
             for game_name in self.total_contents_unique]
 
-    def jsonify(self):
+        # 2. popular clips in this month
+        from lib.contact_db.twitch import select_clip
+        
+        thismonth = datetime.datetime.now().date().strftime("%Y-%m")
+
+        clips = select_clip(self.dao,
+            TwitchClip, thismonth, streamer_name=self.streamer_name)
+
+        self.popular_clips = [{
+            'title': clip.__dict__['title'],
+            'created_at': clip.__dict__['created_at'],
+            'clip_id': clip.__dict__['clip_id'],
+            'url': clip.__dict__['url'],
+            'thumbnail': clip.__dict__['thumbnail'],
+            'viewer_count': clip.__dict__['viewer_count']} for clip in clips]
+
+    # 하루의 메타 데이터 json화
+    def one_day_jsonify(self):
         """
-        모든 메타 데이터를 json으로 변환하여 반환
+        한 방송 정보 데이터를 json으로 변환하여 반환
         """
         import json
 
         # 한 방송의 정보
-        oneday_dict = {
+        one_day_dict = {
             "meta":{
                 "streamer_name": self.streamer_name,
                 "twitch_id": self.twitch_id,
@@ -346,20 +454,68 @@ class MetaPreprocessor():
             "twitch_channel_details": self.channel_details,
             "youtube_channel_details": self.youtube_channel_details,
         }
-        print(oneday_dict)
+        self.one_day_json = (json.dumps(one_day_dict, ensure_ascii=False, indent='\t'))
 
+    # 한달 메타 데이터 json화
+    def one_month_jsonify(self):
+        import json
+        month_dic = {
+            "follower_growups": self.follower_period,
+            "viewer_avr": self.month_viewer_cnt
+        }
+        self.one_month_json = json.dumps(month_dic, ensure_ascii=False, indent="\t")
+        
+        # 1 주일간의 방송 정보
+        # append later
+
+    # 모든 방송의 메타 데이터 json화
+    def total_broad_jsonify(self):
+        """
+        지금껏의 모든 방송 정보 데이터를 json으로 변환하여 반환
+        """
+        import json
         # 지금껏 모든 방송의 정보
         total_broad_dict = {
             "streamer_name": self.streamer_name,
             "broaded_contents": self.total_contents_unique,
             "contents_thumbnails": self.total_contents_thumbnails,
-            "broaded_contents_rate": self.total_contents_rate
+            "broaded_contents_rate": self.total_contents_rate,
+            "popular_clips": self.popular_clips
         }
-        print(total_broad_dict)
+        self.total_broad_json = (json.dumps(total_broad_dict, ensure_ascii=False, indent='\t'))
 
-        # datetime.datetime 객체는 json으로 만들지 못하므로 strftime() 사용해야 할 듯
+    # 하루데이터 json 저장
+    def save_one_day_json(self, folder_path):
+        """
+        하루 방송의 데이터를 json 파일로 저장
+        """
+        import json
+        # json 파일을 저장한다
+        with open(folder_path + self.streamer_name + "_" + self.broad_date + ".json",
+            "w", encoding="utf-8") as fp:
+            fp.write(self.one_day_json)
+    
+    # 한달 데이터 json 저장
+    def save_month_json(self, folder_path):
+        """
+        일주일 데이터를 json 파일로 저장
+        """
+        import json
+        import datetime
+        # json 파일을 저장한다
+        with open(folder_path + self.streamer_name + "_" +
+            datetime.datetime.now().strftime("%Y-%m-%d") + ".json",
+            "w", encoding="utf-8") as fp:
+            fp.write(self.one_month_json)
 
-
-    def send_json(self):
-        # json 파일을 보낸다
-        pass
+    # 모든 방송 메타 데이터 json 저장
+    def save_total_broad_json(self, folder_path):
+        """
+        지금껏 모든 방송의 메타 데이터를 json 파일로 저장
+        """
+        import json
+        # json 파일을 저장한다
+        with open(folder_path + self.streamer_name + "_" +
+            datetime.datetime.now().strftime("%Y-%m-%d") + ".json",
+            "w", encoding="utf-8") as fp:
+            fp.write(self.total_broad_json)
