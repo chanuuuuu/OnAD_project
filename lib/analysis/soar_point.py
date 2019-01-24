@@ -75,57 +75,69 @@ def model_maker():
 
     return anal_data, clf
 
-anal, model = model_maker()
 
-df = pd.read_csv("yapyap_2018_12_10.csv")
-df = df.set_index(keys=df.columns[0])
-df.index = pd.to_datetime(df.index)
-df = df.sort_index()
+def soar_point(n):
+    '''
+    n (int or float)
+    어떤 구간의 채팅빈도수 x와 x의 바로 직전 구간의 채팅빈도수 y 가 x > y * n 일 때 x의 구간을 '급상승'이라고 정의
 
-df_data = df.iloc[:,:-1]
-df_label = df.iloc[:, -1]
+    matplotlib을 통해 입력한 n의 급상승 구간을 검은색 선으로 표시함
 
-scaler = StandardScaler()
-df_data = scaler.fit(df_data).transform(df_data)
+    return soar_point (pandas.Dataframe)
+    '''
+    anal, model = model_maker()
 
-pre = model.predict(df_data)
-df["pre"] = pre
-predict  = df[df.pre == 1]
+    df = pd.read_csv("yapyap_2018_12_10.csv")
+    df = df.set_index(keys=df.columns[0])
+    df.index = pd.to_datetime(df.index)
+    df = df.sort_index()
 
+    df_data = df.iloc[:,:-1]
+    df_label = df.iloc[:, -1]
 
-##################################################
-# 예측 기준
+    scaler = StandardScaler()
+    df_data = scaler.fit(df_data).transform(df_data)
 
-count = 0
-index = []
-data = []
-for x in predict.index:
-    if count * 3 < predict["cnt_chat"][x] and predict["cnt_chat"][x] > 12 :
-        index.append(x)
-        data.append(predict["cnt_chat"][x])
-    count = predict["cnt_chat"][x]
-tmp = pd.DataFrame(data=data, index=index, columns=["soar"])
-
-#######################################################################
-
-validation_ = df[df.validation == 1]
-validation = df[df.validation == 0]
-
-pre_1 = df[df.pre == 1]
-pre_0 = df[df.pre == 0]
+    pre = model.predict(df_data)
+    df["pre"] = pre
+    predict  = df[df.pre == 1]
 
 
-plt.figure(figsize=(16,8))
+    ##################################################
+    # 예측 기준
 
-plt.plot(validation.index, validation['cnt_chat'], color="green")
-plt.plot(pre_1.index, pre_1["cnt_chat"], color="y")
-plt.plot(validation_.index, validation_['cnt_chat'], color="red")
-plt.plot(tmp.index, tmp["soar"], color="black")
+    count = 0
+    index = []
+    data = []
+    for x in predict.index:
+        if count * n < predict["cnt_chat"][x] and predict["cnt_chat"][x] > 12 :
+            index.append(x)
+            data.append(predict["cnt_chat"][x])
+        count = predict["cnt_chat"][x]
+    soar_point = pd.DataFrame(data=data, index=index, columns=["soar"])
+
+    #######################################################################
+
+    validation_ = df[df.validation == 1]
+    validation = df[df.validation == 0]
+
+    pre_1 = df[df.pre == 1]
+    pre_0 = df[df.pre == 0]
+
+
+    plt.figure(figsize=(16,8))
+
+    plt.plot(validation.index, validation['cnt_chat'], color="green")
+    plt.plot(pre_1.index, pre_1["cnt_chat"], color="y")
+    plt.plot(validation_.index, validation_['cnt_chat'], color="red")
+    plt.plot(soar_point.index, soar_point["soar"], color="black")
 
 
 
-plt.legend(["총 스트리밍 시간 중 'ㅋ' 빈도수", "예측치","실제 유튜브 업로드 구간", "급상승 포인트"],fontsize="15")
+    plt.legend(["총 스트리밍 시간 중 'ㅋ' 빈도수", "예측치","실제 유튜브 업로드 구간", "급상승 포인트"],fontsize="15")
 
-plt.show()
+    plt.show()
+
+    return soar_point
 
 #########################################################

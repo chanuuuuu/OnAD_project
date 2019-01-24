@@ -7,7 +7,7 @@ def start (date, streamer_id, period=6, visit=5):
         !! 주의 !!  date도 전체 기간에 포함되므로, 일주일의 정보를 알고 싶다면 'period=6'으로 설정할 것.``
         - visit(int) : date를 기준으로 period일 전부터 몇 명이 'visit일'  이상을 방송에 들어와 채팅을 쳤는지를 알아볼 변수. 일 단위로 입력 (defalut = 5)
         ``(ex) 2018년 12월 26일을 기준으로 일주일 동안 5일 이상 방송에서 채팅을 친 사람의 수를 알고 싶다면?
-        -> start ("2018-12-31", streamer, period=6, visit=5)`` 
+            -> start ("2018-12-31", streamer, period=6, visit=5)`` 
 
         
      !! 주의 !! date를 기준으로 period 값에 해당하는 채팅 데이터가 없을 시 결과값이 정확하지 않을 수 있음.
