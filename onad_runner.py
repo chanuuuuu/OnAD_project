@@ -483,6 +483,10 @@ class OnAd():
                 # 날짜마다 방송당 json 생성
                 self.today_preproc_start(broad_date, streamer_name)
                 self.make_one_day_json()
+
+            # 한달 간의 
+            self.month_preproc_start(streamer_name)
+            self.make_month_json()
             
             # 총 방송의 json 생성
             self.total_preproc_start(streamer_name)
@@ -491,45 +495,6 @@ class OnAd():
             
         print(time.time() - stime)
 
-        """
-        메타데이터를 전처리하는 함수 
-        * input
-            broad_date : 메타데이터를 얻고자 하는 날짜
-            streamer_name : 메타데이터를 얻고자 하는 스트리머 이름
-        """
-        from lib.meta_preproc import MetaPreprocessor
-        self.meta_preprocessor = MetaPreprocessor(self.dao)
-        mp = self.meta_preprocessor
-
-        # get strema data
-        mp.get_stream(broad_date, streamer_name)
-
-        # get stream_detail data
-        import time
-        stime = time.time()
-        mp.get_stream_detail()
-        print(time.time() - stime)
-
-        # get channel data
-        stime = time.time()
-        mp.get_channel()
-        print(time.time() - stime)
-
-        # get channel detail data
-        stime = time.time()
-        mp.get_channel_detail()
-        print(time.time() - stime)
-
-        # get youtube channel data
-        stime = time.time()
-        mp.get_youtube_channel()
-        print(time.time() - stime)
-
-        # print(mp.streams, '\n')
-        # print(mp.stream_details, '\n')
-        # print(mp.logo, mp.homepage, mp.twitch_id, '\n')
-        # print(mp.channel_details, '\n')
-    
     # 트위치 채팅 빈도분석하여 편집점 반환
     def anal_twitch_chat(self, anal_df, target_percentile,
         anal_type=None, section_term=None):
@@ -1007,7 +972,9 @@ if __name__ == "__main__":
             onad.total_preproc_start(streamer_name=streamer_name)
             onad.make_total_broad_json()
 
-
+        elif sys.argv[1] == "all":
+                onad.meta_preproc_start_all()
+        
         # 분석
         elif sys.argv[1] == "-analysis":
             # python onad_runner.py -analysis yapyap30 2018-12-13
