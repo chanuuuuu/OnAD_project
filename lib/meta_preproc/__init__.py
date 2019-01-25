@@ -330,24 +330,25 @@ class MetaPreprocessor():
                 for stream in streams
                 if parser.parse(stream.get('broad_date')) >= a_month_ago ]
 
-        # 평균 시청자수
-        month_stream_details = [i.__dict__ for stream_id in stream_ids
-            for i in select_days_information_by_stream_id(self.dao,
-            TwitchStreamDetail, a_month_ago=a_month_ago, stream_id=stream_id)]
+            if stream_ids:
+                # 평균 시청자수
+                month_stream_details = [i.__dict__ for stream_id in stream_ids
+                    for i in select_days_information_by_stream_id(self.dao,
+                    TwitchStreamDetail, a_month_ago=a_month_ago, stream_id=stream_id)]
 
-        times = [x.get('time').strftime("%Y-%m-%d") for x in month_stream_details]
-        viewers = [x.get('viewer') for x in month_stream_details]
-        
-        df = pd.DataFrame(viewers, index=times, columns=['viewers'])
-        df = df.pivot_table(index=df.index)
+                times = [x.get('time').strftime("%Y-%m-%d") for x in month_stream_details]
+                viewers = [x.get('viewer') for x in month_stream_details]
+                
+                df = pd.DataFrame(viewers, index=times, columns=['viewers'])
+                df = df.pivot_table(index=df.index)
 
-        times = list(df.index)
-        viewers = [int(i[0]) for i in df.values]
+                times = list(df.index)
+                viewers = [int(i[0]) for i in df.values]
 
-        self.month_viewer_cnt = {
-            "date": times,
-            "viewer_avr": viewers,
-            }
+                self.month_viewer_cnt = {
+                    "date": times,
+                    "viewer_avr": viewers,
+                    }
 
     # 모든 방송을 토대로 만들어내는 데이터
     def get_all_broad_other_metrics(self, streamer_name):
@@ -405,7 +406,7 @@ class MetaPreprocessor():
         cnt_contents = [total_played_contents.count(i) for i in self.total_contents_unique]
 
         # 1. played contents rate
-        self.total_contents_rate = [ float(np.round(i/len(cnt_contents))) for i in cnt_contents]
+        self.total_contents_rate = [ float(np.round(i / sum(cnt_contents) * 100 )) for i in cnt_contents]
 
         # 4. total contents's thumbnails 
         self.total_contents_thumbnails = [select_information(self.dao,
@@ -514,6 +515,7 @@ class MetaPreprocessor():
         지금껏 모든 방송의 메타 데이터를 json 파일로 저장
         """
         import json
+        import datetime
         # json 파일을 저장한다
         with open(folder_path + self.streamer_name + "_" +
             datetime.datetime.now().strftime("%Y-%m-%d") + ".json",
