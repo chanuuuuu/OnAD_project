@@ -1,23 +1,4 @@
-import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
-from matplotlib import pyplot as plt
-from sklearn.naive_bayes import GaussianNB
-from sklearn.preprocessing import StandardScaler
-from sklearn import model_selection, svm, metrics
-from sklearn.metrics import f1_score
-import platform
-from matplotlib import font_manager, rc
 
-plt.rcParams['axes.unicode_minus'] = False
-if platform.system() == 'Darwin':    # 맥
-    rc( 'font', family='AppleGothic' )
-elif platform.system() == 'Windows': # 윈도우
-    # 폰트 차후 확인
-    fontPath = 'c:/Windows/Fonts/malgun.ttf'
-    fontName = font_manager.FontProperties( fname=fontPath ).get_name()
-    rc( 'font', family=fontName )
-else:
-    print('알수없는 시스템. 미적용')
 
 
 def model_maker():
@@ -36,8 +17,8 @@ def model_maker():
     from sklearn.naive_bayes import GaussianNB
     from sklearn.metrics import f1_score
     
-    
-    chat_data = os.listdir("./data")[1:]
+    print(os.getcwd())
+    chat_data = os.listdir("../lib/analysis/data")[1:]
     datas = []
     print(chat_data)
     for data in chat_data:
@@ -81,10 +62,33 @@ def soar_point(n):
     n (int or float)
     어떤 구간의 채팅빈도수 x와 x의 바로 직전 구간의 채팅빈도수 y 가 x > y * n 일 때 x의 구간을 '급상승'이라고 정의
 
-    matplotlib을 통해 입력한 n의 급상승 구간을 검은색 선으로 표시함
+    matplotlib을 통해 입력한 n에 따른 급상승 구간이 검은색 선으로 표시됨
 
     return soar_point (pandas.Dataframe)
     '''
+
+
+    import pandas as pd
+
+    from sklearn.naive_bayes import GaussianNB
+    from sklearn.preprocessing import StandardScaler
+    from sklearn import model_selection, svm, metrics
+    from sklearn.metrics import f1_score
+    
+    from matplotlib import pyplot as plt
+    from matplotlib import font_manager, rc
+    import platform
+    plt.rcParams['axes.unicode_minus'] = False
+    if platform.system() == 'Darwin':    # 맥
+        rc( 'font', family='AppleGothic' )
+    elif platform.system() == 'Windows': # 윈도우
+        # 폰트 차후 확인
+        fontPath = 'c:/Windows/Fonts/malgun.ttf'
+        fontName = font_manager.FontProperties( fname=fontPath ).get_name()
+        rc( 'font', family=fontName )
+    else:
+        print('알수없는 시스템. 미적용')
+
     anal, model = model_maker()
 
     df = pd.read_csv("yapyap_2018_12_10.csv")
@@ -108,14 +112,14 @@ def soar_point(n):
 
     count = 0
     index = []
-    data = []
+    data_set = {"soar":[], "upload":[]}
     for x in predict.index:
-        if count * n < predict["cnt_chat"][x] and predict["cnt_chat"][x] > 12 :
+        if count * 1.5 < predict["cnt_chat"][x] and predict["cnt_chat"][x] > 12 :
             index.append(x)
-            data.append(predict["cnt_chat"][x])
+            data_set["soar"].append(predict["cnt_chat"][x])
+            data_set["upload"].append(predict["validation"][x])
         count = predict["cnt_chat"][x]
-    soar_point = pd.DataFrame(data=data, index=index, columns=["soar"])
-
+    tmp = pd.DataFrame(data=data_set, index=index)
     #######################################################################
 
     validation_ = df[df.validation == 1]
@@ -141,3 +145,5 @@ def soar_point(n):
     return soar_point
 
 #########################################################
+
+soar_point(1.8)
